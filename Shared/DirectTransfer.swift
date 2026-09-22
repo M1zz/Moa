@@ -57,9 +57,9 @@ enum DirectTransferError: LocalizedError {
     }
 }
 
-/// What the host's QR encodes. Rides on Apple's default App Clip link
-/// (`https://appclip.apple.com/id?p=<clip bundle ID>`), so no domain or server is needed;
-/// `p` belongs to Apple, the rest are ours.
+/// What the host's QR encodes: the App Clip invocation URL (`AppConfig.directInvitationBaseURL`)
+/// with the host's address and a one-time key as query items. Nothing goes through the domain;
+/// it only tells iOS which App Clip to open.
 struct DirectInvitation: Hashable, Sendable {
     let host: String
     let port: UInt16

@@ -4,9 +4,11 @@ import Foundation
 enum AppConfig {
     static let clipBundleID = "com.leeo.moa.Clip"
 
-    /// Apple's default App Clip link (iOS 17+). Works without a domain or server of our own once
-    /// the App Clip is set up in App Store Connect; before that, register it as a Local Experience.
+    /// App Clip invocation URL on the shared GitHub Pages domain (same setup as FindMe).
+    /// `m1zz.github.io/.well-known/apple-app-site-association` lists this App Clip, and
+    /// `/moa/c` serves a landing page for browsers. Unlike Apple's default `appclip.apple.com`
+    /// link, a domain we own can be registered as a Local Experience before release.
     static var directInvitationBaseURL: URL {
-        URL(string: "https://appclip.apple.com/id?p=\(clipBundleID)")!
+        URL(string: "https://m1zz.github.io/moa/c")!
     }
 }

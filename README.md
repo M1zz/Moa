@@ -14,7 +14,7 @@ Apple Developer Program 멤버십 말고는 드는 비용이 없어요.
 | 구성 요소 | 쓰는 것 | 비용 |
 |---|---|---|
 | 게스트 앱 | App Clip (설치 없이 실행) | 무료 |
-| QR 링크 | Apple 기본 App Clip 링크 `appclip.apple.com` | 무료, 도메인 필요 없음 |
+| QR 링크 | GitHub Pages `m1zz.github.io/moa/c` (FindMe와 같은 도메인) | 무료 |
 | 전송 | 같은 Wi-Fi(또는 개인용 핫스팟) 안의 TCP 직접 연결 | 무료, 서버 없음 |
 | 저장 | 호스트의 사진 보관함 → iCloud 사진 | 호스트의 기존 iCloud 용량 |
 
@@ -31,7 +31,9 @@ Xcode 16 이상의 폴더 동기화 그룹을 쓰기 때문에, 폴더에 파일
 
 ## 동작 방식
 
-- QR은 `https://appclip.apple.com/id?p=com.leeo.moa.Clip&host=…&port=…&key=…` 이에요. `p`는 Apple이 쓰고 나머지는 앱이 써요.
+- QR은 `https://m1zz.github.io/moa/c?host=…&port=…&key=…&name=…` 이에요. 사진은 이 도메인을 거치지 않아요. iOS가 어떤 App Clip을 열지 아는 데만 써요.
+- 도메인 연결은 FindMe와 같은 방식이에요. [m1zz.github.io](https://github.com/M1zz/m1zz.github.io) 레포의 `.well-known/apple-app-site-association`에 있는 `appclips.apps`에 `QGAQ3AY3R3.com.leeo.moa.Clip`이 들어 있고, `/moa/c/index.html`은 브라우저로 열었을 때 보이는 안내 페이지예요.
+- 처음에는 Apple 기본 링크(`appclip.apple.com`)를 썼어요. 그런데 출시 전에는 카메라로 찍으면 "This App Clip is not currently available in your country"가 떠서 자체 도메인으로 바꿨어요.
 - App Clip에서는 Bonjour를 쓸 수 없어서, QR에 호스트의 IP·포트·일회용 키를 담아요. 화면을 다시 열면 키가 바뀌어요.
 - 전송 형식과 규칙은 `Shared/DirectTransfer.swift` 맨 위에 있어요.
 
@@ -41,13 +43,14 @@ Xcode 16 이상의 폴더 동기화 그룹을 쓰기 때문에, 폴더에 파일
 2. 호스트 iPhone에서 `Moa` 스킴을 실행하고 이벤트를 만든 뒤 그 이벤트를 열어요. 사진 권한과 로컬 네트워크 권한을 허용하면 QR이 나와요.
 3. **테스트용 링크 공유**로 URL을 Mac에 보내요.
 4. 게스트 iPhone에서 `MoaClip` 스킴 → Edit Scheme → Run → Environment Variables에 `_XCAppClipURL` = 그 URL을 넣고 실행해요. 로컬 네트워크 권한을 허용한 뒤 사진을 보내요.
-   - 카메라로 QR을 찍는 흐름을 보려면 설정 → 개발자 → App Clips Testing → Local Experiences에 URL 접두사 `https://appclip.apple.com/id?p=com.leeo.moa.Clip`을 등록해 보세요. Apple 도메인도 로컬 등록이 되는지는 아직 확인하지 않았어요.
+   - 카메라로 QR을 찍는 흐름: 게스트 iPhone에 `MoaClip`을 한 번 설치한 뒤, 설정 → 개발자 → App Clips Testing → Local Experiences → Register에서 URL 접두사 `https://m1zz.github.io/moa/c`, Bundle ID `com.leeo.moa.Clip`을 등록하고 QR을 찍어요.
    - TestFlight에 올리면 App Clip 호출 URL을 등록해 두고 테스터가 TestFlight 앱에서 App Clip을 실행해 볼 수 있어요.
 5. 확인할 것: 호스트 화면의 숫자가 올라가는지, 사진 앱의 이벤트 앨범에 **촬영 날짜 자리**로 들어갔는지, Live Photo가 살아 있는지.
 
 ## 출시 전 체크리스트
 
-- App Store Connect에서 App Clip **기본 경험**을 설정해요. 그래야 `appclip.apple.com` 링크와 QR이 일반 사용자 기기에서 App Clip 카드를 띄워요. 고급 경험이나 자체 도메인은 필요 없어요.
+- App Store Connect에서 App Clip **고급 경험**을 추가해요. URL은 `https://m1zz.github.io/moa/c`예요. 도메인 검증은 위 AASA 파일로 통과해요.
+- 가격 및 사용 가능 여부에서 **대한민국**이 들어 있는지 확인해요. 빠져 있으면 출시한 뒤에도 "your country"에서 사용할 수 없다는 메시지가 떠요.
 - 앱 심사 메모에 "두 기기가 같은 Wi-Fi에 있어야 동작함"과 테스트 방법을 적어 두세요.
 
 ## 설계 메모
