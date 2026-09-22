@@ -6,17 +6,20 @@ struct EventDetailView: View {
     let eventID: String
 
     @State private var receiver = DirectReceiver()
+    @State private var gallery = AlbumGallery()
 
     var body: some View {
         if let event = store.event(id: eventID) {
             content(for: event)
                 .task(id: event.id) {
                     receiver.onImport = { [store] in store.recordImport(eventID: eventID) }
+                    gallery.start(albumIdentifier: event.albumIdentifier)
                     await receiver.start(name: event.name, albumIdentifier: event.albumIdentifier)
                 }
                 .onAppear { UIApplication.shared.isIdleTimerDisabled = true }
                 .onDisappear {
                     receiver.stop()
+                    gallery.stop()
                     UIApplication.shared.isIdleTimerDisabled = false
                 }
         } else {
@@ -40,6 +43,10 @@ struct EventDetailView: View {
                 case let .listening(invitation, interface):
                     listening(event: event, invitation: invitation, interface: interface)
                 }
+
+                Divider()
+
+                ReceivedPhotosView(assets: gallery.assets)
             }
             .padding()
         }

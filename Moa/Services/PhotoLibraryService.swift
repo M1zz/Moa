@@ -86,6 +86,20 @@ enum PhotoLibraryService {
     }
 }
 
+extension PhotoLibraryService {
+    /// Photos shows its own confirmation. Returns false when the user cancels it.
+    static func delete(assets: [PHAsset]) async -> Bool {
+        do {
+            try await PHPhotoLibrary.shared().performChanges {
+                PHAssetChangeRequest.deleteAssets(assets as NSArray)
+            }
+            return true
+        } catch {
+            return false
+        }
+    }
+}
+
 #if DEBUG
 extension PhotoLibraryService {
     /// One line about the newest asset of an album, for checking imports from the console.
