@@ -14,7 +14,9 @@ struct EventDetailView: View {
         if let event = store.event(id: eventID) {
             content(for: event)
                 .task(id: event.id) {
-                    receiver.onImport = { [store] in store.recordImport(eventID: eventID) }
+                    receiver.onImport = { [store] assetID, uploader in
+                        store.recordImport(eventID: eventID, assetID: assetID, uploader: uploader)
+                    }
                     gallery.start(albumIdentifier: event.albumIdentifier)
                     await receiver.start(
                         name: event.name,
@@ -53,7 +55,7 @@ struct EventDetailView: View {
 
                 Divider()
 
-                ReceivedPhotosView(assets: gallery.assets)
+                ReceivedPhotosView(assets: gallery.assets, uploaders: event.uploaders ?? [:])
             }
             .padding()
         }
@@ -129,10 +131,12 @@ struct EventDetailView: View {
                     invitationKey: invitation.key,
                     albumIdentifier: event.albumIdentifier
                 )
-                for _ in 0..<result.imported { store.recordImport(eventID: event.id) }
-                if result.imported > 0 {
+                for item in result.imported {
+                    store.recordImport(eventID: event.id, assetID: item.assetID, uploader: item.uploader)
+                }
+                if !result.imported.isEmpty {
                     let who = result.lastUploader.map { "\($0) 님 외 " } ?? ""
-                    remoteMessage = "\(who)\(result.imported)개 가져왔어요"
+                    remoteMessage = "\(who)\(result.imported.count)개 가져왔어요"
                     gallery.reload()
                 } else if result.failed > 0 {
                     remoteMessage = "\(result.failed)개 실패"

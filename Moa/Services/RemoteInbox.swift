@@ -9,9 +9,11 @@ enum RemoteInbox {
     static var isConfigured: Bool { RemoteTransfer.isConfigured }
 
     struct FetchResult {
-        var imported = 0
+        /// Photos asset id and who sent it, for each item imported in this pass.
+        var imported: [(assetID: String?, uploader: String?)] = []
         var failed = 0
-        var lastUploader: String?
+
+        var lastUploader: String? { imported.last?.uploader }
     }
 
     static func fetch(
@@ -25,9 +27,8 @@ enum RemoteInbox {
 
         for item in try await list(eventID: eventID, key: key) {
             do {
-                try await importItem(item, key: key, albumIdentifier: albumIdentifier)
-                result.imported += 1
-                result.lastUploader = item.meta.uploader
+                let assetID = try await importItem(item, key: key, albumIdentifier: albumIdentifier)
+                result.imported.append((assetID: assetID, uploader: item.meta.uploader))
                 // Only delete once it is safely in Photos.
                 try? await delete(recordName: item.recordName)
             } catch {
@@ -82,7 +83,7 @@ enum RemoteInbox {
         _ item: RemoteTransfer.RemoteItem,
         key: SymmetricKey,
         albumIdentifier: String?
-    ) async throws {
+    ) async throws -> String? {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("remote-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -101,7 +102,7 @@ enum RemoteInbox {
             files[resource.kind] = url
         }
 
-        try await PhotoLibraryService.importAsset(
+        return try await PhotoLibraryService.importAsset(
             photo: files[.photo],
             pairedVideo: files[.pairedVideo],
             video: files[.video],

@@ -18,8 +18,9 @@ final class DirectReceiver {
     private(set) var receivedCount = 0
     private(set) var failedCount = 0
     private(set) var lastMessage: String?
-    /// Called on the main actor after each item lands in Photos.
-    var onImport: (() -> Void)?
+    /// Called on the main actor after each item lands in Photos, with the new asset's id and
+    /// who sent it, so the host can show the sender next to the photo later.
+    var onImport: ((_ assetID: String?, _ uploader: String?) -> Void)?
 
     private var listener: NWListener?
     private var albumIdentifier: String?
@@ -103,7 +104,7 @@ final class DirectReceiver {
                 defer { watchdog.stop() }
                 let item = try await Self.receiveItem(from: connection, key: key, watchdog: watchdog)
                 defer { item.cleanUp() }
-                try await PhotoLibraryService.importAsset(
+                let assetID = try await PhotoLibraryService.importAsset(
                     photo: item.files[.photo],
                     pairedVideo: item.files[.pairedVideo],
                     video: item.files[.video],
@@ -116,7 +117,7 @@ final class DirectReceiver {
                 #if DEBUG
                 NSLog("[moa] imported: \(await PhotoLibraryService.debugDescribeLatest(albumIdentifier: albumIdentifier))")
                 #endif
-                onImport?()
+                onImport?(assetID, item.uploader)
                 lastMessage = item.uploader.map { "\($0) 님이 보낸 사진을 넣었어요." } ?? "사진을 하나 넣었어요."
             } catch DirectTransferError.rejected {
                 // Wrong key: someone else on the network. Don't count it as a failed photo.

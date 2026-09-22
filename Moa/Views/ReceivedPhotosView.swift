@@ -4,6 +4,8 @@ import SwiftUI
 /// Grid of everything the event has received, read from its Photos album.
 struct ReceivedPhotosView: View {
     let assets: [PHAsset]
+    /// Photos asset id → who sent it. Photos itself has no field for this, so the app keeps it.
+    let uploaders: [String: String]
 
     @State private var opened: OpenedAsset?
 
@@ -25,7 +27,7 @@ struct ReceivedPhotosView: View {
                         Button {
                             opened = OpenedAsset(index: index)
                         } label: {
-                            AssetThumbnail(asset: asset)
+                            AssetThumbnail(asset: asset, uploader: uploaders[asset.localIdentifier])
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel(label(for: asset))
@@ -35,13 +37,15 @@ struct ReceivedPhotosView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .fullScreenCover(item: $opened) { opened in
-            AssetPagerView(assets: assets, startIndex: opened.index)
+            AssetPagerView(assets: assets, uploaders: uploaders, startIndex: opened.index)
         }
     }
 
     private func label(for asset: PHAsset) -> String {
         let when = asset.creationDate?.formatted(date: .abbreviated, time: .shortened) ?? "촬영 시각 모름"
-        return asset.mediaType == .video ? "동영상, \(when)" : "사진, \(when)"
+        let kind = asset.mediaType == .video ? "동영상" : "사진"
+        guard let uploader = uploaders[asset.localIdentifier] else { return "\(kind), \(when)" }
+        return "\(uploader) 님이 보낸 \(kind), \(when)"
     }
 }
 
@@ -52,6 +56,7 @@ private struct OpenedAsset: Identifiable {
 
 struct AssetThumbnail: View {
     let asset: PHAsset
+    var uploader: String?
 
     @State private var image: UIImage?
 
@@ -70,6 +75,18 @@ struct AssetThumbnail: View {
                     badge("livephoto")
                 } else if asset.mediaType == .video {
                     badge("video.fill")
+                }
+            }
+            .overlay(alignment: .bottom) {
+                if let uploader {
+                    Text(uploader)
+                        .font(.caption)
+                        .lineLimit(1)
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 3)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(.black.opacity(0.45))
                 }
             }
             .clipped()
@@ -95,14 +112,16 @@ struct AssetThumbnail: View {
 /// Full-screen viewer with swipe between photos.
 struct AssetPagerView: View {
     let assets: [PHAsset]
+    let uploaders: [String: String]
     let startIndex: Int
 
     @Environment(\.dismiss) private var dismiss
     @State private var index: Int
     @State private var isDeleting = false
 
-    init(assets: [PHAsset], startIndex: Int) {
+    init(assets: [PHAsset], uploaders: [String: String], startIndex: Int) {
         self.assets = assets
+        self.uploaders = uploaders
         self.startIndex = startIndex
         _index = State(initialValue: startIndex)
     }
@@ -117,6 +136,16 @@ struct AssetPagerView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .background(Color.black)
+            .safeAreaInset(edge: .bottom) {
+                if let sender {
+                    Text("\(sender) 님이 보냈어요")
+                        .font(.body)
+                        .foregroundStyle(.white)
+                        .padding(.vertical, 12)
+                        .frame(maxWidth: .infinity)
+                        .background(.black)
+                }
+            }
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
@@ -140,6 +169,11 @@ struct AssetPagerView: View {
     private var title: String {
         guard assets.indices.contains(index) else { return "" }
         return assets[index].creationDate?.formatted(date: .abbreviated, time: .shortened) ?? ""
+    }
+
+    private var sender: String? {
+        guard assets.indices.contains(index) else { return nil }
+        return uploaders[assets[index].localIdentifier]
     }
 
     private func delete() async {

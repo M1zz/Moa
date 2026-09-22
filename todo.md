@@ -9,6 +9,8 @@
 
 - [x] 근거리 실패 시 iCloud(CloudKit 공개 DB)로 자동 전환, 파일·메타데이터 암호화
 
+- [x] 받은 사진마다 보낸 사람 이름 표시 (격자·전체 화면)
+
 ## 다음
 - [ ] CloudKit Console에서 컨테이너·서버 키 만들고 `Shared/CloudKitConfig.swift` 채우기 (사람이 직접)
 - [ ] `MoaItem.eventID`를 Queryable로 표시하고, 실제 원거리 전송 한 번 검증

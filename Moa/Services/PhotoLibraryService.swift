@@ -50,13 +50,14 @@ enum PhotoLibraryService {
         capturedAt: Date?,
         location: CaptureLocation?,
         albumIdentifier: String?
-    ) async throws {
+    ) async throws -> String? {
         guard photo != nil || video != nil else { throw PhotoLibraryError.noResources }
 
         let album = albumIdentifier.flatMap {
             PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [$0], options: nil).firstObject
         }
 
+        let box = PlaceholderBox()
         try await PHPhotoLibrary.shared().performChanges {
             let request = PHAssetCreationRequest.forAsset()
             let options = PHAssetResourceCreationOptions()
@@ -77,12 +78,15 @@ enum PhotoLibraryService {
                 request.location = CLLocation(latitude: location.latitude, longitude: location.longitude)
             }
 
+            box.placeholder = request.placeholderForCreatedAsset
             if let album,
                let placeholder = request.placeholderForCreatedAsset,
                let albumRequest = PHAssetCollectionChangeRequest(for: album) {
                 albumRequest.addAssets([placeholder] as NSArray)
             }
         }
+        // Photos has no field for "who sent this", so the app remembers it by asset id.
+        return box.placeholder?.localIdentifier
     }
 }
 

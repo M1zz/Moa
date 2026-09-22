@@ -10,4 +10,6 @@ struct HostedEvent: Codable, Identifiable, Hashable {
     var albumIdentifier: String?
     var receivedCount: Int
     var lastReceivedAt: Date?
+    /// Photos asset id → who sent it. Optional so events saved before this existed still load.
+    var uploaders: [String: String]?
 }

@@ -33,7 +33,8 @@ final class EventStore {
             createdAt: .now,
             albumIdentifier: albumID,
             receivedCount: 0,
-            lastReceivedAt: nil
+            lastReceivedAt: nil,
+            uploaders: [:]
         )
         events.insert(event, at: 0)
         save()
@@ -48,10 +49,15 @@ final class EventStore {
         save()
     }
 
-    func recordImport(eventID: String) {
+    func recordImport(eventID: String, assetID: String?, uploader: String?) {
         guard let index = events.firstIndex(where: { $0.id == eventID }) else { return }
         events[index].receivedCount += 1
         events[index].lastReceivedAt = .now
+        if let assetID, let uploader, !uploader.isEmpty {
+            var uploaders = events[index].uploaders ?? [:]
+            uploaders[assetID] = uploader
+            events[index].uploaders = uploaders
+        }
         save()
     }
 
