@@ -87,7 +87,11 @@ private struct UploadView: View {
                     if model.isUploading {
                         Text("다 보낼 때까지 이 화면을 켜 두세요.")
                     } else if model.doneCount == model.items.count {
-                        Text("모두 보냈어요. 고마워요!")
+                        if model.sentRemotelyCount > 0 {
+                            Text("모두 보냈어요. 고마워요! 가까이 있지 않아서 iCloud로 전달했고, 호스트가 앱을 열면 사진 앱에 들어가요.")
+                        } else {
+                            Text("모두 보냈어요. 고마워요!")
+                        }
                     }
                 }
             }
@@ -118,10 +122,10 @@ private struct UploadRow: View {
         case .waiting:
             Image(systemName: "clock")
                 .foregroundStyle(.secondary)
-        case .preparing, .uploading:
+        case .preparing, .uploading, .uploadingRemotely:
             ProgressView()
-        case .done:
-            Image(systemName: "checkmark.circle.fill")
+        case .done(let remote):
+            Image(systemName: remote ? "checkmark.icloud.fill" : "checkmark.circle.fill")
                 .foregroundStyle(.green)
         case .failed:
             Image(systemName: "exclamationmark.circle.fill")
@@ -134,7 +138,8 @@ private struct UploadRow: View {
         case .waiting: return "대기 중"
         case .preparing: return "원본 준비 중"
         case .uploading: return "보내는 중"
-        case .done: return "완료"
+        case .uploadingRemotely: return "가까이 없어서 iCloud로 보내는 중"
+        case .done(let remote): return remote ? "완료 (iCloud로 전달)" : "완료"
         case .failed(let message): return "실패: \(message)"
         }
     }

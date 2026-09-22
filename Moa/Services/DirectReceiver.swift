@@ -25,7 +25,7 @@ final class DirectReceiver {
     private var albumIdentifier: String?
     private let queue = DispatchQueue(label: "moa.direct.receiver")
 
-    func start(name: String?, albumIdentifier: String?) async {
+    func start(name: String?, eventID: String, albumIdentifier: String?) async {
         guard listener == nil else { return }
         state = .starting
 
@@ -58,7 +58,9 @@ final class DirectReceiver {
                 switch newState {
                 case .ready:
                     guard let port = listener.port?.rawValue else { return }
-                    let invitation = DirectInvitation(host: address.ip, port: port, key: key, name: name)
+                    let invitation = DirectInvitation(
+                        host: address.ip, port: port, key: key, name: name, eventID: eventID
+                    )
                     self.state = .listening(invitation, interface: address.interface)
                     #if DEBUG
                     NSLog("[moa] listening \(address.interface) \(invitation.url.absoluteString)")

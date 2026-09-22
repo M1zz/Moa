@@ -65,6 +65,8 @@ struct DirectInvitation: Hashable, Sendable {
     let port: UInt16
     let key: String
     let name: String?
+    /// Identifies the event in the remote (iCloud) mailbox, and stays the same across screens.
+    let eventID: String
 
     var url: URL {
         var components = URLComponents(url: AppConfig.directInvitationBaseURL, resolvingAgainstBaseURL: false)!
@@ -72,16 +74,18 @@ struct DirectInvitation: Hashable, Sendable {
         items.append(URLQueryItem(name: "host", value: host))
         items.append(URLQueryItem(name: "port", value: String(port)))
         items.append(URLQueryItem(name: "key", value: key))
+        items.append(URLQueryItem(name: "eid", value: eventID))
         if let name { items.append(URLQueryItem(name: "name", value: name)) }
         components.queryItems = items
         return components.url!
     }
 
-    init(host: String, port: UInt16, key: String, name: String?) {
+    init(host: String, port: UInt16, key: String, name: String?, eventID: String) {
         self.host = host
         self.port = port
         self.key = key
         self.name = name
+        self.eventID = eventID
     }
 
     init?(url: URL) {
@@ -89,8 +93,9 @@ struct DirectInvitation: Hashable, Sendable {
         func value(_ name: String) -> String? { items.first { $0.name == name }?.value }
         guard let host = value("host"), !host.isEmpty,
               let port = value("port").flatMap(UInt16.init),
-              let key = value("key"), !key.isEmpty else { return nil }
-        self.init(host: host, port: port, key: key, name: value("name"))
+              let key = value("key"), !key.isEmpty,
+              let eventID = value("eid"), !eventID.isEmpty else { return nil }
+        self.init(host: host, port: port, key: key, name: value("name"), eventID: eventID)
     }
 }
 

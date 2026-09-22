@@ -2,3 +2,6 @@ xcuserdata/
 DerivedData/
 *.xcuserstate
 .DS_Store
+
+# Server-to-server key — copy from Config/CloudKitConfig.example.swift
+Shared/CloudKitConfig.swift

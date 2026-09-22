@@ -7,6 +7,8 @@ struct EventDetailView: View {
 
     @State private var receiver = DirectReceiver()
     @State private var gallery = AlbumGallery()
+    @State private var remoteMessage: String?
+    @State private var isCheckingRemote = false
 
     var body: some View {
         if let event = store.event(id: eventID) {
@@ -14,7 +16,12 @@ struct EventDetailView: View {
                 .task(id: event.id) {
                     receiver.onImport = { [store] in store.recordImport(eventID: eventID) }
                     gallery.start(albumIdentifier: event.albumIdentifier)
-                    await receiver.start(name: event.name, albumIdentifier: event.albumIdentifier)
+                    await receiver.start(
+                        name: event.name,
+                        eventID: event.id,
+                        albumIdentifier: event.albumIdentifier
+                    )
+                    await pollRemote(event: event)
                 }
                 .onAppear { UIApplication.shared.isIdleTimerDisabled = true }
                 .onDisappear {
@@ -82,6 +89,16 @@ struct EventDetailView: View {
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
+                if RemoteInbox.isConfigured {
+                    Divider()
+                    LabeledContent("멀리서 보낸 사진") {
+                        if isCheckingRemote {
+                            ProgressView()
+                        } else {
+                            Text(remoteMessage ?? "확인했어요")
+                        }
+                    }
+                }
             }
         }
 
@@ -94,5 +111,42 @@ struct EventDetailView: View {
             .font(.footnote)
             .foregroundStyle(.secondary)
             .multilineTextAlignment(.center)
+    }
+
+    /// Guests who weren't on the same Wi-Fi leave their photos in iCloud. Check on open and
+    /// every 30 seconds after that, so they land in the same album as the local ones.
+    private func pollRemote(event: HostedEvent) async {
+        guard RemoteInbox.isConfigured else { return }
+        while !Task.isCancelled {
+            guard case let .listening(invitation, _) = receiver.state else {
+                try? await Task.sleep(for: .seconds(2))
+                continue
+            }
+            isCheckingRemote = true
+            do {
+                let result = try await RemoteInbox.fetch(
+                    eventID: event.id,
+                    invitationKey: invitation.key,
+                    albumIdentifier: event.albumIdentifier
+                )
+                for _ in 0..<result.imported { store.recordImport(eventID: event.id) }
+                if result.imported > 0 {
+                    let who = result.lastUploader.map { "\($0) 님 외 " } ?? ""
+                    remoteMessage = "\(who)\(result.imported)개 가져왔어요"
+                    gallery.reload()
+                } else if result.failed > 0 {
+                    remoteMessage = "\(result.failed)개 실패"
+                } else if remoteMessage == nil {
+                    remoteMessage = "없어요"
+                }
+            } catch {
+                remoteMessage = "확인 실패"
+                #if DEBUG
+                NSLog("[moa] remote poll failed: \(error)")
+                #endif
+            }
+            isCheckingRemote = false
+            try? await Task.sleep(for: .seconds(30))
+        }
     }
 }

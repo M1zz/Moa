@@ -17,7 +17,9 @@ final class UploadModel {
             case waiting
             case preparing
             case uploading
-            case done
+            /// Local network didn't work; going through iCloud instead.
+            case uploadingRemotely
+            case done(remote: Bool)
             case failed(String)
         }
 
@@ -31,6 +33,8 @@ final class UploadModel {
     var uploaderName: String
 
     private var invitation: DirectInvitation?
+    /// nil until checked. Whether this guest can reach the host's iCloud mailbox.
+    private(set) var canSendRemotely: Bool?
     private static let uploaderNameKey = "uploaderName"
 
     init() {
@@ -40,13 +44,19 @@ final class UploadModel {
     var isUploading: Bool {
         items.contains { item in
             switch item.status {
-            case .waiting, .preparing, .uploading: return true
+            case .waiting, .preparing, .uploading, .uploadingRemotely: return true
             case .done, .failed: return false
             }
         }
     }
 
-    var doneCount: Int { items.filter { $0.status == .done }.count }
+    var doneCount: Int {
+        items.filter { if case .done = $0.status { return true } else { return false } }.count
+    }
+
+    var sentRemotelyCount: Int {
+        items.filter { $0.status == .done(remote: true) }.count
+    }
 
     // MARK: Invocation
 
@@ -59,6 +69,9 @@ final class UploadModel {
         self.invitation = invitation
         eventName = invitation.name ?? "호스트에게 바로 보내기"
         phase = .ready
+        // Answer "can this go through iCloud?" before it is needed, so the first failed
+        // local attempt doesn't stall behind a second network round trip.
+        Task { canSendRemotely = await RemoteSender.isReachable() }
     }
 
     // MARK: Upload
@@ -90,8 +103,16 @@ final class UploadModel {
                 let media = try await MediaExporter.export(provider)
                 defer { media.cleanUp() }
                 setStatus(.uploading, for: localID)
-                try await DirectSender.send(media, uploader: uploader, to: invitation)
-                setStatus(.done, for: localID)
+                do {
+                    try await DirectSender.send(media, uploader: uploader, to: invitation)
+                    setStatus(.done(remote: false), for: localID)
+                } catch let directError {
+                    // Not on the same network, or the host closed the screen: try iCloud.
+                    guard RemoteTransfer.isConfigured, canSendRemotely != false else { throw directError }
+                    setStatus(.uploadingRemotely, for: localID)
+                    try await RemoteSender.send(media, uploader: uploader, to: invitation)
+                    setStatus(.done(remote: true), for: localID)
+                }
             } catch {
                 setStatus(.failed(error.localizedDescription), for: localID)
             }
