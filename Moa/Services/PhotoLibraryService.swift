@@ -1,3 +1,4 @@
+import CoreLocation
 import Foundation
 import Photos
 
@@ -38,10 +39,18 @@ enum PhotoLibraryService {
         return identifier
     }
 
-    /// Imports the original files as a single asset. Photos reads capture date, location
-    /// and the Live Photo pairing from the files themselves, so the asset lands at its
-    /// real position in the library timeline instead of "today".
-    static func importAsset(photo: URL?, pairedVideo: URL?, video: URL?, albumIdentifier: String?) async throws {
+    /// Imports the original files as a single asset, so it looks like one taken on this iPhone:
+    /// original format, Live Photo pairing, and its real position in the library timeline
+    /// instead of "today". Date and place are also set explicitly because Photos doesn't
+    /// always pick them up from video files on import.
+    static func importAsset(
+        photo: URL?,
+        pairedVideo: URL?,
+        video: URL?,
+        capturedAt: Date?,
+        location: CaptureLocation?,
+        albumIdentifier: String?
+    ) async throws {
         guard photo != nil || video != nil else { throw PhotoLibraryError.noResources }
 
         let album = albumIdentifier.flatMap {
@@ -59,6 +68,13 @@ enum PhotoLibraryService {
                 }
             } else if let video {
                 request.addResource(with: .video, fileURL: video, options: options)
+            }
+
+            if let capturedAt {
+                request.creationDate = capturedAt
+            }
+            if let location {
+                request.location = CLLocation(latitude: location.latitude, longitude: location.longitude)
             }
 
             if let album,

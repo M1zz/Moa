@@ -17,6 +17,8 @@ enum DirectSender {
         let header = DirectHeader(
             key: invitation.key,
             uploader: uploader,
+            capturedAt: media.capturedAt,
+            location: media.location,
             resources: media.resources.map {
                 ResourceDescriptor(kind: $0.kind, filename: $0.url.lastPathComponent, contentType: $0.contentType, size: $0.size)
             }

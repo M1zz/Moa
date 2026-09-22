@@ -14,8 +14,6 @@ struct ClipRootView: View {
                         systemImage: "qrcode.viewfinder",
                         description: Text("행사장에 있는 QR 코드를 카메라로 스캔하면 사진을 보낼 수 있어요.")
                     )
-                case .loading:
-                    ProgressView("이벤트 정보를 불러오는 중…")
                 case .failed(let message):
                     ContentUnavailableView(
                         "열 수 없어요",
@@ -48,7 +46,7 @@ private struct UploadView: View {
         List {
             Section {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(model.event?.name ?? "")
+                    Text(model.eventName ?? "")
                         .font(.title2.bold())
                     Text("고른 사진과 동영상이 원본 그대로, 찍은 시각 그대로 호스트의 사진 앱에 들어가요.")
                         .font(.subheadline)

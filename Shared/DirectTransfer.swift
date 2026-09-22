@@ -26,6 +26,10 @@ enum DirectTransfer {
 struct DirectHeader: Codable, Sendable {
     let key: String
     let uploader: String?
+    /// Read from the files by the App Clip. The host sets them on the asset explicitly so it lands
+    /// at its real place in the timeline even when Photos can't read the file's own metadata.
+    let capturedAt: Date?
+    let location: CaptureLocation?
     let resources: [ResourceDescriptor]
 }
 

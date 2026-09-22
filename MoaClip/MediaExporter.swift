@@ -14,6 +14,7 @@ struct PreparedMedia {
 
     let resources: [Resource]
     let capturedAt: Date?
+    let location: CaptureLocation?
     let workingDirectory: URL
 
     func cleanUp() {
@@ -57,6 +58,7 @@ enum MediaExporter {
                 return PreparedMedia(
                     resources: [try resource(.photo, at: url)],
                     capturedAt: imageCaptureDate(url),
+                    location: imageLocation(url),
                     workingDirectory: workDir
                 )
             }
@@ -65,9 +67,11 @@ enum MediaExporter {
             if provider.hasItemConformingToTypeIdentifier(UTType.movie.identifier) {
                 let url = try await loadFile(from: provider, type: UTType.movie.identifier, into: workDir)
                 let capturedAt = await videoCreationDate(url)
+                let location = await videoLocation(url)
                 return PreparedMedia(
                     resources: [try resource(.video, at: url)],
                     capturedAt: capturedAt,
+                    location: location,
                     workingDirectory: workDir
                 )
             }
@@ -91,6 +95,7 @@ enum MediaExporter {
         return PreparedMedia(
             resources: [try resource(.photo, at: photo), try resource(.pairedVideo, at: video)],
             capturedAt: imageCaptureDate(photo),
+            location: imageLocation(photo),
             workingDirectory: directory
         )
     }
@@ -142,11 +147,15 @@ enum MediaExporter {
         UTType(filenameExtension: url.pathExtension)?.conforms(to: type) ?? false
     }
 
-    // MARK: Metadata (for display/sorting on the host; Photos reads the files' own metadata)
+    // MARK: Metadata (sent alongside the files so the host can pin date and place on the asset)
+
+    private static func imageProperties(_ url: URL) -> [CFString: Any]? {
+        guard let source = CGImageSourceCreateWithURL(url as CFURL, nil) else { return nil }
+        return CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any]
+    }
 
     static func imageCaptureDate(_ url: URL) -> Date? {
-        guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
-              let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any],
+        guard let properties = imageProperties(url),
               let exif = properties[kCGImagePropertyExifDictionary] as? [CFString: Any],
               let raw = exif[kCGImagePropertyExifDateTimeOriginal] as? String else { return nil }
 
@@ -160,6 +169,27 @@ enum MediaExporter {
         formatter.dateFormat = "yyyy:MM:dd HH:mm:ss"
         formatter.timeZone = .current
         return formatter.date(from: raw)
+    }
+
+    static func imageLocation(_ url: URL) -> CaptureLocation? {
+        guard let gps = imageProperties(url)?[kCGImagePropertyGPSDictionary] as? [CFString: Any],
+              let latitude = gps[kCGImagePropertyGPSLatitude] as? Double,
+              let longitude = gps[kCGImagePropertyGPSLongitude] as? Double else { return nil }
+        let south = (gps[kCGImagePropertyGPSLatitudeRef] as? String) == "S"
+        let west = (gps[kCGImagePropertyGPSLongitudeRef] as? String) == "W"
+        return CaptureLocation(latitude: south ? -latitude : latitude, longitude: west ? -longitude : longitude)
+    }
+
+    /// iPhone videos store the place as an ISO 6709 string such as `+37.5665+126.9780+038.000/`.
+    static func videoLocation(_ url: URL) async -> CaptureLocation? {
+        let asset = AVURLAsset(url: url)
+        guard let metadata = try? await asset.load(.metadata),
+              let item = AVMetadataItem.metadataItems(from: metadata, filteredByIdentifier: .quickTimeMetadataLocationISO6709).first
+                ?? AVMetadataItem.metadataItems(from: metadata, filteredByIdentifier: .commonIdentifierLocation).first,
+              let value = try? await item.load(.stringValue) else { return nil }
+        let numbers = value.matches(of: /[+-]\d+(?:\.\d+)?/).compactMap { Double($0.output) }
+        guard numbers.count >= 2 else { return nil }
+        return CaptureLocation(latitude: numbers[0], longitude: numbers[1])
     }
 
     static func videoCreationDate(_ url: URL) async -> Date? {

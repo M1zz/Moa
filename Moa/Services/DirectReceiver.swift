@@ -96,6 +96,8 @@ final class DirectReceiver {
                     photo: item.files[.photo],
                     pairedVideo: item.files[.pairedVideo],
                     video: item.files[.video],
+                    capturedAt: item.capturedAt,
+                    location: item.location,
                     albumIdentifier: albumIdentifier
                 )
                 reply = DirectTransfer.replyOK
@@ -115,6 +117,8 @@ final class DirectReceiver {
 
     private struct ReceivedItem {
         let uploader: String?
+        let capturedAt: Date?
+        let location: CaptureLocation?
         let files: [ResourceKind: URL]
         let directory: URL
 
@@ -167,7 +171,13 @@ final class DirectReceiver {
                 }
                 files[resource.kind] = url
             }
-            return ReceivedItem(uploader: header.uploader, files: files, directory: directory)
+            return ReceivedItem(
+                uploader: header.uploader,
+                capturedAt: header.capturedAt,
+                location: header.location,
+                files: files,
+                directory: directory
+            )
         } catch {
             try? FileManager.default.removeItem(at: directory)
             throw error
