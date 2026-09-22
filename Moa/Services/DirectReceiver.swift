@@ -37,6 +37,9 @@ final class DirectReceiver {
 
         guard let address = LocalAddress.current() else {
             state = .failed("Wi-Fi 또는 개인용 핫스팟에 연결되어 있지 않아요.")
+            #if DEBUG
+            NSLog("[moa] no usable address")
+            #endif
             return
         }
 
@@ -57,8 +60,14 @@ final class DirectReceiver {
                     guard let port = listener.port?.rawValue else { return }
                     let invitation = DirectInvitation(host: address.ip, port: port, key: key, name: name)
                     self.state = .listening(invitation, interface: address.interface)
+                    #if DEBUG
+                    NSLog("[moa] listening \(address.interface) \(invitation.url.absoluteString)")
+                    #endif
                 case .failed(let error):
                     self.state = .failed(error.localizedDescription)
+                    #if DEBUG
+                    NSLog("[moa] listener failed: \(error)")
+                    #endif
                     self.stop()
                 default:
                     break
@@ -102,6 +111,9 @@ final class DirectReceiver {
                 )
                 reply = DirectTransfer.replyOK
                 receivedCount += 1
+                #if DEBUG
+                NSLog("[moa] imported: \(await PhotoLibraryService.debugDescribeLatest(albumIdentifier: albumIdentifier))")
+                #endif
                 onImport?()
                 lastMessage = item.uploader.map { "\($0) 님이 보낸 사진을 넣었어요." } ?? "사진을 하나 넣었어요."
             } catch DirectTransferError.rejected {
@@ -109,6 +121,9 @@ final class DirectReceiver {
             } catch {
                 failedCount += 1
                 lastMessage = error.localizedDescription
+                #if DEBUG
+                NSLog("[moa] receive failed: \(error)")
+                #endif
             }
             // Answers the header on rejection, or reports the import result.
             try? await connection.sendData(Data([reply]))
@@ -213,19 +228,26 @@ enum LocalAddress {
         for pointer in sequence(first: first, next: { $0.pointee.ifa_next }) {
             let entry = pointer.pointee
             guard let addr = entry.ifa_addr, addr.pointee.sa_family == UInt8(AF_INET),
-                  (entry.ifa_flags & UInt32(IFF_UP)) != 0 else { continue }
-            let name = String(cString: entry.ifa_name)
-            guard name == "en0" || name.hasPrefix("bridge") else { continue }
+                  (entry.ifa_flags & UInt32(IFF_UP)) != 0,
+                  (entry.ifa_flags & UInt32(IFF_LOOPBACK)) == 0 else { continue }
 
             var host = [CChar](repeating: 0, count: Int(NI_MAXHOST))
             guard getnameinfo(addr, socklen_t(addr.pointee.sa_len), &host, socklen_t(host.count),
                               nil, 0, NI_NUMERICHOST) == 0 else { continue }
-            found[name] = String(cString: host)
+            let ip = String(cString: host)
+            // Link-local means no real network; a guest can't reach it.
+            guard !ip.hasPrefix("169.254.") else { continue }
+            found[String(cString: entry.ifa_name)] = ip
         }
 
+        // en0 is Wi-Fi on iPhone; bridge* appears while Personal Hotspot is on.
+        // Other en* interfaces show up in the Simulator, which borrows the Mac's network.
         if let ip = found["en0"] { return Address(ip: ip, interface: "Wi-Fi") }
-        if let ip = found.first(where: { $0.key.hasPrefix("bridge") })?.value {
-            return Address(ip: ip, interface: "개인용 핫스팟")
+        if let hotspot = found.first(where: { $0.key.hasPrefix("bridge") }) {
+            return Address(ip: hotspot.value, interface: "개인용 핫스팟")
+        }
+        if let other = found.filter({ $0.key.hasPrefix("en") }).sorted(by: { $0.key < $1.key }).first {
+            return Address(ip: other.value, interface: "네트워크")
         }
         return nil
     }

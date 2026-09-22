@@ -3,9 +3,10 @@ import SwiftUI
 struct EventListView: View {
     @Environment(EventStore.self) private var store
     @State private var isCreating = false
+    @State private var path: [String] = []
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             Group {
                 if store.events.isEmpty {
                     ContentUnavailableView {
@@ -44,6 +45,23 @@ struct EventListView: View {
             .sheet(isPresented: $isCreating) {
                 CreateEventView()
             }
+            #if DEBUG
+            // `-moa-auto-event` opens a receiving event straight away, so the flow can be
+            // exercised from the console without tapping through the UI.
+            .task {
+                guard ProcessInfo.processInfo.arguments.contains("-moa-auto-event"), path.isEmpty else { return }
+                NSLog("[moa] auto-event starting")
+                var event = store.events.first
+                if event == nil {
+                    do {
+                        event = try await store.createEvent(name: "디버그 이벤트")
+                    } catch {
+                        NSLog("[moa] auto-event create failed: \(error)")
+                    }
+                }
+                if let event { path = [event.id] }
+            }
+            #endif
         }
     }
 }

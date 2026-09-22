@@ -86,6 +86,29 @@ enum PhotoLibraryService {
     }
 }
 
+#if DEBUG
+extension PhotoLibraryService {
+    /// One line about the newest asset of an album, for checking imports from the console.
+    static func debugDescribeLatest(albumIdentifier: String?) async -> String {
+        guard let albumIdentifier,
+              let album = PHAssetCollection.fetchAssetCollections(
+                withLocalIdentifiers: [albumIdentifier], options: nil).firstObject else {
+            return "album missing"
+        }
+        let options = PHFetchOptions()
+        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        let assets = PHAsset.fetchAssets(in: album, options: options)
+        guard let latest = assets.firstObject else { return "album empty" }
+        let resources = PHAssetResource.assetResources(for: latest)
+            .map { "\($0.type.rawValue):\($0.originalFilename)" }
+            .joined(separator: ",")
+        return "count=\(assets.count) created=\(latest.creationDate?.description ?? "nil") "
+            + "location=\(latest.location.map { "\($0.coordinate.latitude),\($0.coordinate.longitude)" } ?? "nil") "
+            + "resources=[\(resources)]"
+    }
+}
+#endif
+
 /// Lets the change block hand a placeholder back out without mutating a captured var.
 private final class PlaceholderBox: @unchecked Sendable {
     var placeholder: PHObjectPlaceholder?
