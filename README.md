@@ -24,7 +24,7 @@ Apple Developer Program 멤버십 말고는 드는 비용이 없어요.
 | 경로 | 내용 |
 |---|---|
 | `Moa/` | 호스트 앱. 이벤트 생성, QR 표시, 직접 받기, PhotoKit 가져오기 |
-| `MoaClip/` | App Clip. PHPicker로 원본(HEIC, Live Photo 포함)을 골라 호스트로 보내요 |
+| `MoaClip/` | App Clip. PHPicker로 원본(HEIC, Live Photo 포함)을 골라 보내고, 보낸 사진을 격자로 보여줘요 |
 | `Shared/` | 두 타깃이 함께 쓰는 전송 규약, 모델, 설정 |
 | `Config/` | App Clip 엔타이틀먼트와 Info.plist |
 

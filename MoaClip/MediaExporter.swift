@@ -2,6 +2,9 @@ import AVFoundation
 import Foundation
 import ImageIO
 import UniformTypeIdentifiers
+#if canImport(UIKit)
+import UIKit
+#endif
 
 /// Original files ready to upload, stored in a private working directory.
 struct PreparedMedia {
@@ -191,6 +194,31 @@ enum MediaExporter {
         guard numbers.count >= 2 else { return nil }
         return CaptureLocation(latitude: numbers[0], longitude: numbers[1])
     }
+
+    #if canImport(UIKit)
+    /// Small preview kept in memory so the guest can see what they sent. The originals are
+    /// deleted right after upload, and an App Clip has little memory, so this stays small.
+    static func preview(for media: PreparedMedia, maxPixel: CGFloat = 800) async -> UIImage? {
+        if let photo = media.resources.first(where: { $0.kind == .photo })?.url {
+            let options: [CFString: Any] = [
+                kCGImageSourceCreateThumbnailFromImageAlways: true,
+                kCGImageSourceCreateThumbnailWithTransform: true,
+                kCGImageSourceThumbnailMaxPixelSize: maxPixel
+            ]
+            guard let source = CGImageSourceCreateWithURL(photo as CFURL, nil),
+                  let image = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary)
+            else { return nil }
+            return UIImage(cgImage: image)
+        }
+
+        guard let video = media.resources.first(where: { $0.kind == .video })?.url else { return nil }
+        let generator = AVAssetImageGenerator(asset: AVURLAsset(url: video))
+        generator.appliesPreferredTrackTransform = true
+        generator.maximumSize = CGSize(width: maxPixel, height: maxPixel)
+        guard let frame = try? await generator.image(at: .zero).image else { return nil }
+        return UIImage(cgImage: frame)
+    }
+    #endif
 
     static func videoCreationDate(_ url: URL) async -> Date? {
         let asset = AVURLAsset(url: url)

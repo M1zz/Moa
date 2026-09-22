@@ -78,9 +78,9 @@ private struct UploadView: View {
 
             if !model.items.isEmpty {
                 Section {
-                    ForEach(Array(model.items.enumerated()), id: \.element.id) { index, item in
-                        UploadRow(index: index + 1, status: item.status)
-                    }
+                    SentPhotosView(items: model.items)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
                 } header: {
                     Text("\(model.doneCount)/\(model.items.count) 보냄")
                 } footer: {
@@ -95,52 +95,6 @@ private struct UploadView: View {
                     }
                 }
             }
-        }
-    }
-}
-
-private struct UploadRow: View {
-    let index: Int
-    let status: UploadModel.UploadItem.Status
-
-    var body: some View {
-        HStack(spacing: 12) {
-            icon
-                .frame(width: 24)
-            VStack(alignment: .leading, spacing: 2) {
-                Text("항목 \(index)")
-                Text(label)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-        }
-    }
-
-    @ViewBuilder
-    private var icon: some View {
-        switch status {
-        case .waiting:
-            Image(systemName: "clock")
-                .foregroundStyle(.secondary)
-        case .preparing, .uploading, .uploadingRemotely:
-            ProgressView()
-        case .done(let remote):
-            Image(systemName: remote ? "checkmark.icloud.fill" : "checkmark.circle.fill")
-                .foregroundStyle(.green)
-        case .failed:
-            Image(systemName: "exclamationmark.circle.fill")
-                .foregroundStyle(.red)
-        }
-    }
-
-    private var label: String {
-        switch status {
-        case .waiting: return "대기 중"
-        case .preparing: return "원본 준비 중"
-        case .uploading: return "보내는 중"
-        case .uploadingRemotely: return "가까이 없어서 iCloud로 보내는 중"
-        case .done(let remote): return remote ? "완료 (iCloud로 전달)" : "완료"
-        case .failed(let message): return "실패: \(message)"
         }
     }
 }

@@ -25,6 +25,9 @@ final class UploadModel {
 
         let id = UUID()
         var status: Status = .waiting
+        var preview: UIImage?
+        var isVideo = false
+        var capturedAt: Date?
     }
 
     private(set) var phase: Phase = .waitingForInvocation
@@ -102,6 +105,12 @@ final class UploadModel {
             do {
                 let media = try await MediaExporter.export(provider)
                 defer { media.cleanUp() }
+                let preview = await MediaExporter.preview(for: media)
+                update(localID) {
+                    $0.preview = preview
+                    $0.isVideo = media.resources.contains { $0.kind == .video }
+                    $0.capturedAt = media.capturedAt
+                }
                 setStatus(.uploading, for: localID)
                 do {
                     try await DirectSender.send(media, uploader: uploader, to: invitation)
@@ -120,7 +129,11 @@ final class UploadModel {
     }
 
     private func setStatus(_ status: UploadItem.Status, for id: UUID) {
+        update(id) { $0.status = status }
+    }
+
+    private func update(_ id: UUID, _ body: (inout UploadItem) -> Void) {
         guard let index = items.firstIndex(where: { $0.id == id }) else { return }
-        items[index].status = status
+        body(&items[index])
     }
 }
