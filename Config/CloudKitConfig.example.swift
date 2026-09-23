@@ -1,8 +1,9 @@
 import Foundation
 
 /// Copy this file to `Shared/CloudKitConfig.swift` and fill it in. That path is gitignored,
-/// so the key never reaches the public repo. Leave the values empty and the app simply works
-/// without remote sending: guests can still send over the local network.
+/// so the key never reaches the public repo. The copy is required to build: a fresh clone has
+/// no `CloudKitConfig` and fails to compile. Leaving the values empty builds fine and simply
+/// turns remote sending off — guests can still send over the local network.
 ///
 /// Where the values come from — CloudKit Console (https://icloud.developer.apple.com):
 ///  1. Create the container `iCloud.com.leeo.moa`.

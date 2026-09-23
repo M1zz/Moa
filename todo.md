@@ -10,8 +10,12 @@
 - [x] 근거리 실패 시 iCloud(CloudKit 공개 DB)로 자동 전환, 파일·메타데이터 암호화
 
 - [x] 받은 사진마다 보낸 사람 이름 표시 (격자·전체 화면)
+- [x] 첫 실행 온보딩 3장 추가 (한국어·영어)
+- [x] GitHub Pages에 소개 페이지와 개인정보 처리방침 공개
+- [x] App Store 스크린샷 5장 (6.5인치 1242×2688, `Screenshots/`), DEBUG 전용 샘플 데이터(`-moa-screenshots`, `MOA_DEMO_DIR`)
 
 ## 다음
+- [ ] App Store Connect에 개인정보 처리방침 URL(`https://m1zz.github.io/moa/privacy.html`)과 마케팅 URL(`https://m1zz.github.io/moa/`) 입력
 - [ ] CloudKit Console에서 컨테이너·서버 키 만들고 `Shared/CloudKitConfig.swift` 채우기 (사람이 직접)
 - [ ] `MoaItem.eventID`를 Queryable로 표시하고, 실제 원거리 전송 한 번 검증
 - [ ] 호스트가 앱을 열지 않아도 알 수 있게 푸시 알림 (CloudKit 구독)
@@ -19,4 +23,5 @@
 - [ ] Local Experience에 `https://m1zz.github.io/moa/c` 등록하고 카메라로 QR 찍어 App Clip 카드 뜨는지 확인
 - [ ] App Store Connect에서 App Clip 고급 경험(`https://m1zz.github.io/moa/c`) 설정, 대한민국 판매 포함
 - [ ] 작은 폰트(.caption, .footnote, .subheadline)를 .body 이상으로 바꾸기
-- [ ] String Catalog로 한국어/영어 다국어 지원
+- [ ] String Catalog로 한국어/영어 다국어 지원 (온보딩만 완료, 나머지 화면은 한국어 하드코딩)
+- [ ] 영어 App Store 스크린샷 (다국어 지원 후)

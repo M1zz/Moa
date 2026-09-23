@@ -7,6 +7,8 @@ QR 하나로 게스트의 사진을 모아, **원본 그대로 · 찍은 시각 
 게스트 App Clip ── 같은 Wi-Fi, TCP ──▶ 호스트 모아 앱 (화면 켜 둠) ──▶ 사진 앱 → iCloud 사진
 ```
 
+[소개 페이지](https://m1zz.github.io/moa/) · [개인정보 처리방침](https://m1zz.github.io/moa/privacy.html)
+
 ## 비용
 
 Apple Developer Program 멤버십 말고는 드는 비용이 없어요.
@@ -56,7 +58,7 @@ Xcode 16 이상의 폴더 동기화 그룹을 쓰기 때문에, 폴더에 파일
 
 ### 설정 (한 번만, 사람이 직접)
 
-`Shared/CloudKitConfig.swift`가 없으면 원거리 전송은 꺼진 채로 동작해요. 근거리 전송은 그대로 돼요.
+**1번은 빌드에 꼭 필요해요.** `Shared/CloudKitConfig.swift`가 없으면 컴파일이 안 돼요. 값을 비워 두면 빌드는 되고 원거리 전송만 꺼져요. 근거리 전송은 그대로 돼요.
 
 1. `Config/CloudKitConfig.example.swift`를 `Shared/CloudKitConfig.swift`로 복사해요. 이 경로는 gitignore에 있어서 키가 공개 레포로 가지 않아요.
 2. [CloudKit Console](https://icloud.developer.apple.com)에서 컨테이너 `iCloud.com.leeo.moa`를 만들어요.
@@ -75,6 +77,16 @@ Xcode 16 이상의 폴더 동기화 그룹을 쓰기 때문에, 폴더에 파일
    - 카메라로 QR을 찍는 흐름: 게스트 iPhone에 `MoaClip`을 한 번 설치한 뒤, 설정 → 개발자 → App Clips Testing → Local Experiences → Register에서 URL 접두사 `https://m1zz.github.io/moa/c`, Bundle ID `com.leeo.moa.Clip`을 등록하고 QR을 찍어요.
    - TestFlight에 올리면 App Clip 호출 URL을 등록해 두고 테스터가 TestFlight 앱에서 App Clip을 실행해 볼 수 있어요.
 5. 확인할 것: 호스트 화면의 숫자가 올라가는지, 사진 앱의 이벤트 앨범에 **촬영 날짜 자리**로 들어갔는지, Live Photo가 살아 있는지.
+
+## 공개 페이지
+
+GitHub Pages(`m1zz.github.io`)에 있어요. 소스는 [M1zz/m1zz.github.io](https://github.com/M1zz/m1zz.github.io)의 `moa/` 폴더예요.
+
+| 주소 | 쓰임새 |
+|---|---|
+| [`/moa/`](https://m1zz.github.io/moa/) | 앱 소개. App Store "마케팅 URL"에 넣어요 |
+| [`/moa/privacy.html`](https://m1zz.github.io/moa/privacy.html) | 개인정보 처리방침. App Store Connect 제출에 필요해요 |
+| [`/moa/c`](https://m1zz.github.io/moa/c) | QR이 가리키는 App Clip 호출 주소. 브라우저로 열면 안내 카드가 떠요 |
 
 ## 출시 전 체크리스트
 

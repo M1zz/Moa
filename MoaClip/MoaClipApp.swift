@@ -17,6 +17,13 @@ struct MoaClipApp: App {
                 .onOpenURL { url in
                     model.handle(url: url)
                 }
+                #if DEBUG
+                .task {
+                    if let dir = ProcessInfo.processInfo.environment["MOA_DEMO_DIR"] {
+                        model.loadDemo(from: URL(fileURLWithPath: dir))
+                    }
+                }
+                #endif
         }
     }
 }

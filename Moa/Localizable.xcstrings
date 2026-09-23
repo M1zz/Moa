@@ -1,0 +1,212 @@
+{
+  "sourceLanguage" : "ko",
+  "strings" : {
+    "%@ 님이 보냈어요" : {
+
+    },
+    "%@:%@" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@:%2$@"
+          }
+        }
+      }
+    },
+    "QR 하나로 사진을 모아요" : {
+      "comment" : "Onboarding page 1 title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One QR code gathers the photos"
+          }
+        }
+      }
+    },
+    "같은 %@에서 QR을 찍으면 이 iPhone으로 바로 와요" : {
+
+    },
+    "건너뛰기" : {
+      "comment" : "Skips the onboarding",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip"
+          }
+        }
+      }
+    },
+    "다음" : {
+      "comment" : "Goes to the next onboarding page",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next"
+          }
+        }
+      }
+    },
+    "닫기" : {
+
+    },
+    "만들기" : {
+
+    },
+    "멀리 있는 사람이 보낸 사진은 iCloud를 거쳐 들어와요." : {
+      "comment" : "Appended to onboarding page 3 when remote sending is configured",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos from people who aren't nearby arrive through iCloud."
+          }
+        }
+      }
+    },
+    "멀리서 보낸 사진" : {
+
+    },
+    "모아" : {
+
+    },
+    "받은 사진 %lld개" : {
+
+    },
+    "받은 사진은 이 iPhone의 사진 앱에 들어가요. 내가 찍은 사진처럼 촬영한 날짜 자리에 놓이고, 이벤트 이름의 앨범에도 정리돼요." : {
+      "comment" : "Onboarding page 2 body",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everything you receive goes into this iPhone's Photos app. Each item sits at the date it was taken, just like your own shots, and also lands in an album named after the event."
+          }
+        }
+      }
+    },
+    "받을 준비를 못 했어요" : {
+
+    },
+    "받을 준비를 하는 중…" : {
+
+    },
+    "사진 보내기 QR 코드" : {
+
+    },
+    "사진 삭제" : {
+
+    },
+    "사진 앱에 같은 이름의 앨범이 만들어져요." : {
+
+    },
+    "사진 앱에 넣은 항목" : {
+
+    },
+    "새 이벤트" : {
+
+    },
+    "시작하기" : {
+      "comment" : "Closes the onboarding on the last page",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get Started"
+          }
+        }
+      }
+    },
+    "아직 받은 사진이 없어요. QR을 보여주면 여기에 쌓여요." : {
+
+    },
+    "아직 이벤트가 없어요" : {
+
+    },
+    "앱 소개" : {
+      "comment" : "Toolbar button that reopens the onboarding",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About Moa"
+          }
+        }
+      }
+    },
+    "예: 9월 멘토링 세션" : {
+
+    },
+    "원본 그대로, 찍은 시각 그대로" : {
+      "comment" : "Onboarding page 2 title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Originals, at the moment they were taken"
+          }
+        }
+      }
+    },
+    "이 화면을 열어 둔 동안 받아요" : {
+      "comment" : "Onboarding page 3 title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos arrive while the screen is open"
+          }
+        }
+      }
+    },
+    "이 화면이 켜져 있는 동안만 받아요. 화면은 자동으로 꺼지지 않아요.\n화면을 다시 열면 QR이 바뀌어요." : {
+
+    },
+    "이번에 실패" : {
+
+    },
+    "이벤트 만들기" : {
+
+    },
+    "이벤트 이름" : {
+
+    },
+    "이벤트를 만들고 QR을 보여주면, 같은 Wi-Fi에 있는 사람이 앱 설치 없이 이 iPhone으로 사진을 보낼 수 있어요. 받은 사진은 촬영 시각 그대로 사진 앱에 들어가요." : {
+
+    },
+    "이벤트를 열면 QR이 나오고, 그동안 사진이 들어와요. 같은 Wi-Fi에 있는 사람은 이 iPhone으로 바로 보내요." : {
+      "comment" : "Onboarding page 3 body",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open an event and its QR code appears; photos arrive while it's on screen. Anyone on the same Wi-Fi sends straight to this iPhone."
+          }
+        }
+      }
+    },
+    "이벤트를 찾을 수 없어요" : {
+
+    },
+    "취소" : {
+
+    },
+    "테스트용 링크 공유" : {
+
+    },
+    "행사에서 QR을 보여주기만 하면 돼요. 사진을 보내는 사람은 앱을 설치하지 않고, 카메라로 QR을 찍어서 바로 보낼 수 있어요." : {
+      "comment" : "Onboarding page 1 body",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just show the QR code at your event. Guests send photos right away by scanning it with the camera, with no app to install."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

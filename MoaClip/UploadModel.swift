@@ -77,6 +77,33 @@ final class UploadModel {
         Task { canSendRemotely = await RemoteSender.isReachable() }
     }
 
+    #if DEBUG
+    /// `MOA_DEMO_DIR=<folder of images>`: opens a sample invitation and shows those images as
+    /// already sent, so App Store screenshots show the clip mid-event.
+    func loadDemo(from directory: URL) {
+        var components = URLComponents(url: AppConfig.directInvitationBaseURL, resolvingAgainstBaseURL: false)!
+        components.queryItems = [
+            URLQueryItem(name: "host", value: "192.168.0.2"), URLQueryItem(name: "port", value: "50000"),
+            URLQueryItem(name: "key", value: "demo"), URLQueryItem(name: "eid", value: "demo"),
+            URLQueryItem(name: "name", value: "가을 캠핑"),
+        ]
+        guard let url = components.url, let invitation = DirectInvitation(url: url) else { return }
+        self.invitation = invitation
+        eventName = invitation.name
+        phase = .ready
+        uploaderName = "지민"
+        let files = ((try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? [])
+            .sorted { $0.lastPathComponent < $1.lastPathComponent }
+        items = files.enumerated().compactMap { index, file in
+            guard let image = UIImage(contentsOfFile: file.path) else { return nil }
+            var item = UploadItem()
+            item.preview = image.preparingThumbnail(of: CGSize(width: 600, height: 600 * image.size.height / image.size.width))
+            item.status = index == files.count - 1 ? .uploading : .done(remote: false)
+            return item
+        }
+    }
+    #endif
+
     // MARK: Upload
 
     func upload(_ results: [PHPickerResult]) {

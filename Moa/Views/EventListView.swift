@@ -4,6 +4,8 @@ struct EventListView: View {
     @Environment(EventStore.self) private var store
     @State private var isCreating = false
     @State private var path: [String] = []
+    @State private var isShowingOnboarding = false
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -33,6 +35,14 @@ struct EventListView: View {
                 EventDetailView(eventID: id)
             }
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        isShowingOnboarding = true
+                    } label: {
+                        Image(systemName: "questionmark.circle")
+                    }
+                    .accessibilityLabel("앱 소개")
+                }
                 ToolbarItem(placement: .primaryAction) {
                     Button {
                         isCreating = true
@@ -45,10 +55,28 @@ struct EventListView: View {
             .sheet(isPresented: $isCreating) {
                 CreateEventView()
             }
+            .fullScreenCover(isPresented: $isShowingOnboarding) {
+                OnboardingView()
+            }
+            .onAppear {
+                guard !hasSeenOnboarding else { return }
+                hasSeenOnboarding = true
+                isShowingOnboarding = true
+            }
             #if DEBUG
             // `-moa-auto-event` opens a receiving event straight away, so the flow can be
             // exercised from the console without tapping through the UI.
             .task {
+                let arguments = ProcessInfo.processInfo.arguments
+                if arguments.contains("-moa-screenshots"), store.events.isEmpty {
+                    let event = await store.seedForScreenshots()
+                    if arguments.contains("-moa-open-first"), let event { path = [event.id] }
+                    return
+                }
+                if arguments.contains("-moa-open-first"), let event = store.events.first, path.isEmpty {
+                    path = [event.id]
+                    return
+                }
                 guard ProcessInfo.processInfo.arguments.contains("-moa-auto-event"), path.isEmpty else { return }
                 NSLog("[moa] auto-event starting")
                 var event = store.events.first

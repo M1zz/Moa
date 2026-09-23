@@ -1,5 +1,8 @@
 import Foundation
 import Observation
+#if DEBUG
+import Photos
+#endif
 
 @MainActor
 @Observable
@@ -60,6 +63,48 @@ final class EventStore {
         }
         save()
     }
+
+
+    #if DEBUG
+    /// `-moa-screenshots`: fills the list with sample events and puts the library's photos into
+    /// the first event's album, so App Store screenshots show a lived-in app.
+    func seedForScreenshots() async -> HostedEvent? {
+        guard await PhotoLibraryService.requestAccess() else { return nil }
+        let albumID = try? await PhotoLibraryService.createAlbum(named: "가을 캠핑")
+        let fetched = PHAsset.fetchAssets(with: .image, options: nil)
+        let assets = (0..<fetched.count).map { fetched.object(at: $0) }
+        if let albumID,
+           let album = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [albumID], options: nil).firstObject {
+            try? await PHPhotoLibrary.shared().performChanges {
+                PHAssetCollectionChangeRequest(for: album)?.addAssets(assets as NSArray)
+            }
+        }
+        let names = ["지민", "서준", "하은", "도윤", "민서", "유나"]
+        var uploaders: [String: String] = [:]
+        for (index, asset) in assets.enumerated() {
+            uploaders[asset.localIdentifier] = names[index % names.count]
+        }
+        let now = Date.now
+        let main = HostedEvent(
+            id: UUID().uuidString, name: "가을 캠핑", createdAt: now, albumIdentifier: albumID,
+            receivedCount: assets.count, lastReceivedAt: now.addingTimeInterval(-120), uploaders: uploaders
+        )
+        func past(_ name: String, days: Double, count: Int) -> HostedEvent {
+            let date = now.addingTimeInterval(-days * 86_400)
+            return HostedEvent(id: UUID().uuidString, name: name, createdAt: date, albumIdentifier: nil,
+                               receivedCount: count, lastReceivedAt: date.addingTimeInterval(7_200), uploaders: nil)
+        }
+        events = [
+            main,
+            past("지민이 돌잔치", days: 9, count: 128),
+            past("9월 멘토링 세션", days: 16, count: 47),
+            past("대학 동기 모임", days: 31, count: 86),
+            past("제주 가족 여행", days: 58, count: 312),
+        ]
+        save()
+        return main
+    }
+    #endif
 
     // MARK: Persistence
 
