@@ -118,7 +118,8 @@ final class DirectReceiver {
                 NSLog("[moa] imported: \(await PhotoLibraryService.debugDescribeLatest(albumIdentifier: albumIdentifier))")
                 #endif
                 onImport?(assetID, item.uploader)
-                lastMessage = item.uploader.map { "\($0) 님이 보낸 사진을 넣었어요." } ?? "사진을 하나 넣었어요."
+                let noun = item.files[.video] != nil ? "동영상" : "사진"
+                lastMessage = item.uploader.map { "\($0) 님이 보낸 \(noun)을 넣었어요." } ?? "\(noun)을 하나 넣었어요."
             } catch DirectTransferError.rejected {
                 // Wrong key: someone else on the network. Don't count it as a failed photo.
             } catch {
