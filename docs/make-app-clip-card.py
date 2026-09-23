@@ -1,6 +1,7 @@
-"""Generates the 3000x2000 App Clip card image for 모아.
+"""Generates the 1800x1200 App Clip card image for 모아.
 
-No text: iOS draws the title, subtitle and action button over the card itself.
+No text and no QR code: iOS draws the title, subtitle and action button over the card, and
+the card is what appears *after* scanning, so another QR on it only confuses the guest.
 Drawn at 2x and downscaled so every edge stays smooth.
 """
 from PIL import Image, ImageDraw, ImageFilter
@@ -8,7 +9,7 @@ import math, random
 from pathlib import Path
 
 S = 2                      # supersampling
-W, H = 3000 * S, 2000 * S
+W, H = 1800 * S, 1200 * S
 TEAL_DARK = (10, 58, 68)
 TEAL = (20, 96, 110)
 WARM = (240, 138, 93)
@@ -43,52 +44,6 @@ def background() -> Image.Image:
     vignette = vignette.filter(ImageFilter.GaussianBlur(200 * S))
     dark = Image.new("RGB", (W, H), (6, 34, 40))
     return Image.composite(base, dark, vignette)
-
-
-def qr_glyph(size: int) -> Image.Image:
-    """A stylized QR: three finder eyes plus scattered modules."""
-    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    n = 9                                   # modules per side
-    gap = size / n * 0.14
-    cell = size / n
-    white = (255, 255, 255, 255)
-
-    def module(cx, cy, span=1, fill=white):
-        x0 = cx * cell + gap / 2
-        y0 = cy * cell + gap / 2
-        x1 = (cx + span) * cell - gap / 2
-        y1 = (cy + span) * cell - gap / 2
-        d.rounded_rectangle([x0, y0, x1, y1], radius=cell * 0.28, fill=fill)
-
-    def eye(cx, cy):
-        x0, y0 = cx * cell, cy * cell
-        x1, y1 = (cx + 3) * cell, (cy + 3) * cell
-        d.rounded_rectangle([x0, y0, x1, y1], radius=cell * 0.75, fill=white)
-        d.rounded_rectangle(
-            [x0 + cell * 0.62, y0 + cell * 0.62, x1 - cell * 0.62, y1 - cell * 0.62],
-            radius=cell * 0.45, fill=(0, 0, 0, 0),
-        )
-        d.rounded_rectangle(
-            [x0 + cell * 1.05, y0 + cell * 1.05, x1 - cell * 1.05, y1 - cell * 1.05],
-            radius=cell * 0.3, fill=white,
-        )
-
-    eye(0, 0); eye(n - 3, 0); eye(0, n - 3)
-
-    taken = set()
-    for cx in range(n):
-        for cy in range(n):
-            in_eye = (cx < 3 and cy < 3) or (cx >= n - 3 and cy < 3) or (cx < 3 and cy >= n - 3)
-            if in_eye or (cx == 3 and cy == 3):
-                taken.add((cx, cy))
-    for cx in range(n):
-        for cy in range(n):
-            if (cx, cy) in taken:
-                continue
-            if random.random() < 0.42:
-                module(cx, cy)
-    return img
 
 
 def photo_tile(w: int, h: int, sky, ground, sun=True) -> Image.Image:
@@ -138,30 +93,19 @@ def place(canvas: Image.Image, tile: Image.Image, center, angle: float):
 def main():
     canvas = background().convert("RGBA")
 
-    qr_size = int(H * 0.50)
-    qr = qr_glyph(qr_size)
-    qr_center = (int(W * 0.29), int(H * 0.50))
-    canvas.alpha_composite(qr, (qr_center[0] - qr_size // 2, qr_center[1] - qr_size // 2))
-
-    # Photos flow out of the QR toward the right.
+    # A fan of photos gathering in one place — what the app does, without a word of text.
+    # Outer cards first so the biggest one lands in front.
     tiles = [
-        (photo_tile(int(W * 0.168), int(W * 0.200), (126, 186, 205), (206, 158, 120)), (W * 0.550, H * 0.61), 9),
-        (photo_tile(int(W * 0.178), int(W * 0.216), (150, 199, 210), (231, 176, 128), sun=False), (W * 0.702, H * 0.45), -5),
-        (photo_tile(int(W * 0.190), int(W * 0.230), (176, 213, 214), (243, 186, 132)), (W * 0.858, H * 0.55), 7),
+        (photo_tile(int(W * 0.150), int(W * 0.185), (126, 186, 205), (206, 158, 120)), (W * 0.268, H * 0.455), 16),
+        (photo_tile(int(W * 0.155), int(W * 0.191), (176, 213, 214), (243, 186, 132)), (W * 0.732, H * 0.455), -16),
+        (photo_tile(int(W * 0.170), int(W * 0.210), (150, 199, 210), (231, 176, 128)), (W * 0.392, H * 0.492), 8),
+        (photo_tile(int(W * 0.172), int(W * 0.212), (140, 195, 212), (238, 182, 130)), (W * 0.608, H * 0.492), -8),
+        (photo_tile(int(W * 0.196), int(W * 0.242), (160, 205, 212), (246, 190, 136)), (W * 0.500, H * 0.470), 0),
     ]
     for tile, center, angle in tiles:
         place(canvas, tile, (int(center[0]), int(center[1])), angle)
 
-    # A few travelling dots between the code and the photos.
-    d = ImageDraw.Draw(canvas)
-    for i in range(7):
-        t = i / 6
-        x = W * (0.395 + 0.075 * t)
-        y = H * (0.52 - 0.10 * math.sin(t * math.pi))
-        r = (11 + 14 * (1 - t)) * S
-        d.ellipse([x - r, y - r, x + r, y + r], fill=(255, 255, 255, int(110 + 130 * (1 - t))))
-
-    out = canvas.convert("RGB").resize((3000, 2000), Image.LANCZOS)
+    out = canvas.convert("RGB").resize((1800, 1200), Image.LANCZOS)
     out.save(str(Path(__file__).with_name("app-clip-card.png")), optimize=True)
     print("saved", out.size)
 
