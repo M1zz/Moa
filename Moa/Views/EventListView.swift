@@ -30,7 +30,7 @@ struct EventListView: View {
                     }
                 }
             }
-            .navigationTitle("모아")
+            .navigationTitle("보태줘")
             .navigationDestination(for: String.self) { id in
                 EventDetailView(eventID: id)
             }

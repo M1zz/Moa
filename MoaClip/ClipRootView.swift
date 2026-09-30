@@ -24,7 +24,7 @@ struct ClipRootView: View {
                     UploadView(isPicking: $isPicking)
                 }
             }
-            .navigationTitle("모아")
+            .navigationTitle("보태줘")
             .navigationBarTitleDisplayMode(.inline)
         }
         .sheet(isPresented: $isPicking) {

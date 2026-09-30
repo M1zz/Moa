@@ -10,7 +10,7 @@ enum PhotoLibraryError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .accessDenied:
-            return "사진 접근 권한이 필요해요. 설정 > 모아 > 사진에서 '전체 접근'을 허용해 주세요."
+            return "사진 접근 권한이 필요해요. 설정 > 보태줘 > 사진에서 '전체 접근'을 허용해 주세요."
         case .albumCreationFailed:
             return "사진 앱에 앨범을 만들지 못했어요."
         case .noResources:

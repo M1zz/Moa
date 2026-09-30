@@ -304,7 +304,7 @@
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "모아";
+				INFOPLIST_KEY_CFBundleDisplayName = "보태줘";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "같은 Wi-Fi에 있는 사람이 보낸 사진을 이 iPhone으로 바로 받기 위해 필요해요.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "게스트가 보낸 사진을 사진 앱에 넣기 위해 필요해요.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "이벤트 앨범을 만들고, 게스트가 보낸 사진을 촬영 시각 그대로 사진 앱에 정리하기 위해 필요해요.";
@@ -336,7 +336,7 @@
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "모아";
+				INFOPLIST_KEY_CFBundleDisplayName = "보태줘";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "같은 Wi-Fi에 있는 사람이 보낸 사진을 이 iPhone으로 바로 받기 위해 필요해요.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "게스트가 보낸 사진을 사진 앱에 넣기 위해 필요해요.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "이벤트 앨범을 만들고, 게스트가 보낸 사진을 촬영 시각 그대로 사진 앱에 정리하기 위해 필요해요.";
@@ -370,7 +370,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Config/MoaClip-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "모아";
+				INFOPLIST_KEY_CFBundleDisplayName = "보태줘";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "같은 Wi-Fi에 있는 호스트의 iPhone으로 사진을 바로 보내기 위해 필요해요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -402,7 +402,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Config/MoaClip-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "모아";
+				INFOPLIST_KEY_CFBundleDisplayName = "보태줘";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "같은 Wi-Fi에 있는 호스트의 iPhone으로 사진을 바로 보내기 위해 필요해요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

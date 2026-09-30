@@ -13,8 +13,10 @@
 - [x] 첫 실행 온보딩 3장 추가 (한국어·영어)
 - [x] GitHub Pages에 소개 페이지와 개인정보 처리방침 공개
 - [x] App Store 스크린샷 5장 (6.5인치 1242×2688, `Screenshots/`), DEBUG 전용 샘플 데이터(`-moa-screenshots`, `MOA_DEMO_DIR`)
+- [x] 심사 반려(2.3.8) 대응: 기기 표시 이름을 스토어 이름과 같은 "보태줘"로 변경 (앱·App Clip·화면 제목·권한 안내 문구)
 
 ## 다음
+- [ ] 빌드 번호 올려서 재제출 (1.0 (3))
 - [ ] App Store Connect에 개인정보 처리방침 URL(`https://m1zz.github.io/moa/privacy.html`)과 마케팅 URL(`https://m1zz.github.io/moa/`) 입력
 - [ ] CloudKit Console에서 컨테이너·서버 키 만들고 `Shared/CloudKitConfig.swift` 채우기 (사람이 직접)
 - [ ] `MoaItem.eventID`를 Queryable로 표시하고, 실제 원거리 전송 한 번 검증
