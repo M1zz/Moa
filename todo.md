@@ -1,4 +1,4 @@
-# 모아 todo
+# 보태줘 todo
 
 ## 완료
 - [x] 서버(Cloudflare Worker 릴레이) 제거, 같은 Wi-Fi 직접 전송만 남김
@@ -18,6 +18,7 @@
 - [x] 심사 반려(2.1(a)) 대응: App Clip이 초대 없이 열리면 오류 대신 QR 안내, 앱·App Clip 영어 지원, iCloud 원거리 전송 켬(Development)
 - [x] 한국어·영어 스토어 문구(`APPSTORE.md`), 릴리즈노트, 언어별 스크린샷(`docs/screenshots/`)
 - [x] CloudKit 원거리 전송 켬: 컨테이너·스키마(Production 배포)·서버 키(Development·Production), 두 환경 모두 올리기·조회·삭제 검증
+- [x] 이름 통일: 공개 페이지(소개·개인정보·`/moa/c`)를 보태줘/Botaejwo로, 영어 페이지 `/moa/en/` 추가, 기본 App Clip 카드 작업 "열기"·부제목 변경
 
 ## 다음
 - [ ] App Store Connect에 개인정보 처리방침 URL(`https://m1zz.github.io/moa/privacy.html`)과 마케팅 URL(`https://m1zz.github.io/moa/`) 입력
@@ -25,6 +26,5 @@
 - [ ] 기기 두 대로 실제 전송 검증 (Live Photo, HEIC 사진, 동영상, 촬영 날짜 위치)
 - [ ] Local Experience에 `https://m1zz.github.io/moa/c` 등록하고 카메라로 QR 찍어 App Clip 카드 뜨는지 확인
 - [ ] App Store Connect에서 App Clip 고급 경험(`https://m1zz.github.io/moa/c`) 설정, 대한민국 판매 포함
-- [ ] m1zz.github.io/moa 소개·개인정보·`/moa/c` 페이지를 "보태줘"로 바꾸고 영어 추가
-- [ ] App Store Connect App Clip 작업 버튼을 "실행"에서 "열기"로
+- [ ] 고급 App Clip 경험 수정본(부제목·작업 "열기") "Apple로 전송" (사람이 직접)
 - [ ] 작은 폰트(.caption, .footnote, .subheadline)를 .body 이상으로 바꾸기

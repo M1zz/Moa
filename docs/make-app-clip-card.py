@@ -1,4 +1,4 @@
-"""Generates the 1800x1200 App Clip card image for 모아.
+"""Generates the 1800x1200 App Clip card image for 보태줘.
 
 No text and no QR code: iOS draws the title, subtitle and action button over the card, and
 the card is what appears *after* scanning, so another QR on it only confuses the guest.

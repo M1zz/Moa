@@ -137,11 +137,11 @@ wedding,party,event,share,pictures,guests,album,gather,live,transfer,reunion,bir
 
 ### 지원 URL
 
-https://m1zz.github.io/moa/
+https://m1zz.github.io/moa/en/
 
 ### 개인정보처리방침 URL
 
-https://m1zz.github.io/moa/privacy.html
+https://m1zz.github.io/moa/en/privacy.html
 
 ## 연령 등급
 

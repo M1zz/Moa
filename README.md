@@ -1,11 +1,13 @@
-# 모아 (Moa)
+# 보태줘 (Botaejwo)
 
 QR 하나로 게스트의 사진을 모아, **원본 그대로 · 찍은 시각 그대로** 호스트의 사진 앱에 넣어주는 앱.
 서버가 없어요. 게스트 iPhone이 같은 Wi-Fi에 있는 호스트 iPhone으로 바로 보내요.
 
 ```
-게스트 App Clip ── 같은 Wi-Fi, TCP ──▶ 호스트 모아 앱 (화면 켜 둠) ──▶ 사진 앱 → iCloud 사진
+게스트 App Clip ── 같은 Wi-Fi, TCP ──▶ 호스트 보태줘 앱 (화면 켜 둠) ──▶ 사진 앱 → iCloud 사진
 ```
+
+스토어 이름은 한국어 **보태줘**, 영어 **Botaejwo**예요. 폴더·스킴·번들 ID(`Moa`, `com.leeo.moa`)와 공개 페이지 경로(`/moa/`)는 처음 이름 "모아"에서 온 내부 이름이라 그대로 둬요. 바꾸면 QR 링크, App Clip 도메인 연결, CloudKit 컨테이너가 끊겨요.
 
 [소개 페이지](https://m1zz.github.io/moa/) · [개인정보 처리방침](https://m1zz.github.io/moa/privacy.html)
 
