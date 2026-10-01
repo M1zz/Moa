@@ -15,15 +15,16 @@
 - [x] App Store 스크린샷 5장 (6.5인치 1242×2688, `Screenshots/`), DEBUG 전용 샘플 데이터(`-moa-screenshots`, `MOA_DEMO_DIR`)
 - [x] 심사 반려(2.3.8) 대응: 기기 표시 이름을 스토어 이름과 같은 "보태줘"로 변경 (앱·App Clip·화면 제목·권한 안내 문구)
 
+- [x] 심사 반려(2.1(a)) 대응: App Clip이 초대 없이 열리면 오류 대신 QR 안내, 앱·App Clip 영어 지원, iCloud 원거리 전송 켬(Development)
+- [x] 한국어·영어 스토어 문구(`APPSTORE.md`), 릴리즈노트, 언어별 스크린샷(`docs/screenshots/`)
+
 ## 다음
-- [ ] 빌드 번호 올려서 재제출 (1.0 (3))
 - [ ] App Store Connect에 개인정보 처리방침 URL(`https://m1zz.github.io/moa/privacy.html`)과 마케팅 URL(`https://m1zz.github.io/moa/`) 입력
-- [ ] CloudKit Console에서 컨테이너·서버 키 만들고 `Shared/CloudKitConfig.swift` 채우기 (사람이 직접)
-- [ ] `MoaItem.eventID`를 Queryable로 표시하고, 실제 원거리 전송 한 번 검증
+- [ ] CloudKit Production 서버 키 등록하고 `productionKeyID` 채우기 (Development는 완료·검증됨)
 - [ ] 호스트가 앱을 열지 않아도 알 수 있게 푸시 알림 (CloudKit 구독)
 - [ ] 기기 두 대로 실제 전송 검증 (Live Photo, HEIC 사진, 동영상, 촬영 날짜 위치)
 - [ ] Local Experience에 `https://m1zz.github.io/moa/c` 등록하고 카메라로 QR 찍어 App Clip 카드 뜨는지 확인
 - [ ] App Store Connect에서 App Clip 고급 경험(`https://m1zz.github.io/moa/c`) 설정, 대한민국 판매 포함
+- [ ] m1zz.github.io/moa 소개·개인정보·`/moa/c` 페이지를 "보태줘"로 바꾸고 영어 추가
+- [ ] App Store Connect에 영어 현지화 추가, App Clip 작업 버튼을 "열기"로
 - [ ] 작은 폰트(.caption, .footnote, .subheadline)를 .body 이상으로 바꾸기
-- [ ] String Catalog로 한국어/영어 다국어 지원 (온보딩만 완료, 나머지 화면은 한국어 하드코딩)
-- [ ] 영어 App Store 스크린샷 (다국어 지원 후)
