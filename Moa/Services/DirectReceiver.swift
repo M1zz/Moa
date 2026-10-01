@@ -37,7 +37,7 @@ final class DirectReceiver {
         self.albumIdentifier = albumIdentifier
 
         guard let address = LocalAddress.current() else {
-            state = .failed("Wi-Fi 또는 개인용 핫스팟에 연결되어 있지 않아요.")
+            state = .failed(String(localized: "Wi-Fi 또는 개인용 핫스팟에 연결되어 있지 않아요."))
             #if DEBUG
             NSLog("[moa] no usable address")
             #endif
@@ -118,8 +118,13 @@ final class DirectReceiver {
                 NSLog("[moa] imported: \(await PhotoLibraryService.debugDescribeLatest(albumIdentifier: albumIdentifier))")
                 #endif
                 onImport?(assetID, item.uploader)
-                let noun = item.files[.video] != nil ? "동영상" : "사진"
-                lastMessage = item.uploader.map { "\($0) 님이 보낸 \(noun)을 넣었어요." } ?? "\(noun)을 하나 넣었어요."
+                let isVideo = item.files[.video] != nil
+                lastMessage = switch (item.uploader, isVideo) {
+                case let (name?, true): String(localized: "\(name) 님이 보낸 동영상을 넣었어요.")
+                case let (name?, false): String(localized: "\(name) 님이 보낸 사진을 넣었어요.")
+                case (nil, true): String(localized: "동영상을 하나 넣었어요.")
+                case (nil, false): String(localized: "사진을 하나 넣었어요.")
+                }
             } catch DirectTransferError.rejected {
                 // Wrong key: someone else on the network. Don't count it as a failed photo.
             } catch {
@@ -248,10 +253,10 @@ enum LocalAddress {
         // Other en* interfaces show up in the Simulator, which borrows the Mac's network.
         if let ip = found["en0"] { return Address(ip: ip, interface: "Wi-Fi") }
         if let hotspot = found.first(where: { $0.key.hasPrefix("bridge") }) {
-            return Address(ip: hotspot.value, interface: "개인용 핫스팟")
+            return Address(ip: hotspot.value, interface: String(localized: "개인용 핫스팟"))
         }
         if let other = found.filter({ $0.key.hasPrefix("en") }).sorted(by: { $0.key < $1.key }).first {
-            return Address(ip: other.value, interface: "네트워크")
+            return Address(ip: other.value, interface: String(localized: "네트워크"))
         }
         return nil
     }

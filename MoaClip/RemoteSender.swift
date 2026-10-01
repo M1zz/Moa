@@ -75,7 +75,7 @@ enum RemoteSenderError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .tooLarge(let megabytes):
-            return "\(megabytes)MB라서 멀리 있는 호스트에게는 보낼 수 없어요. 같은 Wi-Fi에서 보내 주세요."
+            return String(localized: "\(megabytes)MB라서 멀리 있는 호스트에게는 보낼 수 없어요. 같은 Wi-Fi에서 보내 주세요.")
         }
     }
 }

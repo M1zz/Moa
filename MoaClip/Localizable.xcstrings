@@ -1,0 +1,376 @@
+{
+  "sourceLanguage" : "ko",
+  "strings" : {
+    "%lld/%lld 보냄" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld/%2$lld sent"
+          }
+        }
+      }
+    },
+    "%lldMB라서 멀리 있는 호스트에게는 보낼 수 없어요. 같은 Wi-Fi에서 보내 주세요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At %lld MB, this is too large to send to a host who isn't nearby. Send it on the same Wi-Fi."
+          }
+        }
+      }
+    },
+    "iCloud 응답을 이해하지 못했어요. %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't read the response from iCloud. %@"
+          }
+        }
+      }
+    },
+    "iCloud가 요청을 거절했어요 (%lld). %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud turned down the request (%1$lld). %2$@"
+          }
+        }
+      }
+    },
+    "가까이 없어서 iCloud로 보내는 중" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not nearby, sending through iCloud"
+          }
+        }
+      }
+    },
+    "고른 사진과 동영상이 원본 그대로, 찍은 시각 그대로 호스트의 사진 앱에 들어가요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The photos and videos you pick go into the host's Photos app as originals, at the time they were taken."
+          }
+        }
+      }
+    },
+    "다 보낼 때까지 이 화면을 켜 두세요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep this screen on until everything is sent."
+          }
+        }
+      }
+    },
+    "닫기" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
+    },
+    "대기 중" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waiting"
+          }
+        }
+      }
+    },
+    "모두 보냈어요. 고마워요!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All sent. Thank you!"
+          }
+        }
+      }
+    },
+    "모두 보냈어요. 고마워요! 가까이 있지 않아서 iCloud로 전달했고, 호스트가 앱을 열면 사진 앱에 들어가요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All sent. Thank you! You weren't nearby, so they went through iCloud and will reach Photos when the host opens the app."
+          }
+        }
+      }
+    },
+    "받는 사람이 보태줘 앱에서 이벤트를 열면 QR이 나와요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The person collecting photos opens an event in Botaejwo to show a QR code."
+          }
+        }
+      }
+    },
+    "받은 사진을 풀지 못했어요. QR이 다른 이벤트의 것일 수 있어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't unlock this photo. The QR code may belong to a different event."
+          }
+        }
+      }
+    },
+    "보내는 도중 연결이 끊겼어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The connection dropped while sending."
+          }
+        }
+      }
+    },
+    "보내는 사람" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Name"
+          }
+        }
+      }
+    },
+    "보내는 중" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sending"
+          }
+        }
+      }
+    },
+    "보낸 사진" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sent photo"
+          }
+        }
+      }
+    },
+    "보태줘" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Botaejwo"
+          }
+        }
+      }
+    },
+    "사진·동영상 고르기" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose Photos and Videos"
+          }
+        }
+      }
+    },
+    "사진을 고르면 원본 그대로 받는 사람의 사진 앱에 들어가요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick photos, and the originals go into their Photos app."
+          }
+        }
+      }
+    },
+    "사진을 받을 사람의 iPhone에 뜬 QR을 카메라로 찍으면, 여기서 바로 사진을 보낼 수 있어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan the QR code on the collector's iPhone with your camera, and you can send photos right from here."
+          }
+        }
+      }
+    },
+    "실패: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed: %@"
+          }
+        }
+      }
+    },
+    "완료" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "완료 (iCloud로 전달)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done (sent through iCloud)"
+          }
+        }
+      }
+    },
+    "원거리 전송이 설정되지 않았어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sending from afar isn't set up."
+          }
+        }
+      }
+    },
+    "원본 준비 중" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparing original"
+          }
+        }
+      }
+    },
+    "이 iPhone의 카메라 앱으로 그 QR을 찍어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan that QR code with the Camera app on this iPhone."
+          }
+        }
+      }
+    },
+    "이 링크에는 이벤트 정보가 없어요. 받는 사람 화면에 지금 떠 있는 QR을 찍어 주세요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This link doesn't include an event. Scan the QR code showing on the collector's screen right now."
+          }
+        }
+      }
+    },
+    "이름 (선택)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name (optional)"
+          }
+        }
+      }
+    },
+    "잘못된 요청이에요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That request isn't valid."
+          }
+        }
+      }
+    },
+    "지원하지 않는 형식이에요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This format isn't supported."
+          }
+        }
+      }
+    },
+    "파일을 불러오지 못했어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't load the file."
+          }
+        }
+      }
+    },
+    "호스트 iPhone에 연결하지 못했어요. 같은 Wi-Fi인지, 로컬 네트워크 권한을 허용했는지 확인해 주세요.%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't reach the host's iPhone. Check that you're on the same Wi-Fi and that Local Network access is allowed.%@"
+          }
+        }
+      }
+    },
+    "호스트 iPhone이 사진을 저장하지 못했어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The host's iPhone couldn't save the photo."
+          }
+        }
+      }
+    },
+    "호스트가 받지 않았어요. QR을 다시 찍어 주세요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The host didn't accept it. Scan the QR code again."
+          }
+        }
+      }
+    },
+    "호스트에게 바로 보내기" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send to the host"
+          }
+        }
+      }
+    },
+    "호스트의 QR을 찍어 주세요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan the Host's QR Code"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

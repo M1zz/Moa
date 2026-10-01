@@ -44,15 +44,15 @@ enum DirectTransferError: LocalizedError {
         switch self {
         case .timedOut(let underlying):
             let reason = underlying.map { " (\($0.localizedDescription))" } ?? ""
-            return "호스트 iPhone에 연결하지 못했어요. 같은 Wi-Fi인지, 로컬 네트워크 권한을 허용했는지 확인해 주세요.\(reason)"
+            return String(localized: "호스트 iPhone에 연결하지 못했어요. 같은 Wi-Fi인지, 로컬 네트워크 권한을 허용했는지 확인해 주세요.\(reason)")
         case .connectionClosed:
-            return "보내는 도중 연결이 끊겼어요."
+            return String(localized: "보내는 도중 연결이 끊겼어요.")
         case .rejected:
-            return "호스트가 받지 않았어요. QR을 다시 찍어 주세요."
+            return String(localized: "호스트가 받지 않았어요. QR을 다시 찍어 주세요.")
         case .importFailed:
-            return "호스트 iPhone이 사진을 저장하지 못했어요."
+            return String(localized: "호스트 iPhone이 사진을 저장하지 못했어요.")
         case .invalidHeader:
-            return "잘못된 요청이에요."
+            return String(localized: "잘못된 요청이에요.")
         }
     }
 }

@@ -1,15 +1,105 @@
 {
   "sourceLanguage" : "ko",
   "strings" : {
+    "%@ · 마지막 %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · Last %2$@"
+          }
+        }
+      }
+    },
+    "%@ 님 외 %lld개 가져왔어요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Got %2$lld from %1$@ and others"
+          }
+        }
+      }
+    },
+    "%@ 님이 보낸 동영상, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video from %1$@, %2$@"
+          }
+        }
+      }
+    },
+    "%@ 님이 보낸 동영상을 넣었어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added a video from %@."
+          }
+        }
+      }
+    },
+    "%@ 님이 보낸 사진, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo from %1$@, %2$@"
+          }
+        }
+      }
+    },
+    "%@ 님이 보낸 사진을 넣었어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added a photo from %@."
+          }
+        }
+      }
+    },
     "%@ 님이 보냈어요" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sent by %@"
+          }
+        }
+      }
     },
     "%@:%@" : {
+      "shouldTranslate" : false
+    },
+    "%lld개" : {
       "localizations" : {
-        "ko" : {
+        "en" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@:%2$@"
+            "state" : "translated",
+            "value" : "%lld"
+          }
+        }
+      }
+    },
+    "%lld개 가져왔어요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Got %lld"
+          }
+        }
+      }
+    },
+    "%lld개 실패" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld failed"
           }
         }
       }
@@ -25,8 +115,65 @@
         }
       }
     },
+    "Wi-Fi 또는 개인용 핫스팟에 연결되어 있지 않아요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This iPhone isn't connected to Wi-Fi or a Personal Hotspot."
+          }
+        }
+      }
+    },
+    "iCloud 응답을 이해하지 못했어요. %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't read the response from iCloud. %@"
+          }
+        }
+      }
+    },
+    "iCloud가 요청을 거절했어요 (%lld). %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud turned down the request (%1$lld). %2$@"
+          }
+        }
+      }
+    },
+    "가져올 파일이 없어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There's no file to import."
+          }
+        }
+      }
+    },
     "같은 %@에서 QR을 찍으면 이 iPhone으로 바로 와요" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan on the same %@ to send straight to this iPhone"
+          }
+        }
+      }
+    },
+    "개인용 핫스팟" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal Hotspot"
+          }
+        }
+      }
     },
     "건너뛰기" : {
       "comment" : "Skips the onboarding",
@@ -35,6 +182,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Skip"
+          }
+        }
+      }
+    },
+    "네트워크" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "network"
           }
         }
       }
@@ -51,10 +208,44 @@
       }
     },
     "닫기" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
+    },
+    "동영상, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video, %@"
+          }
+        }
+      }
+    },
+    "동영상을 하나 넣었어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added a video."
+          }
+        }
+      }
     },
     "만들기" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create"
+          }
+        }
+      }
     },
     "멀리 있는 사람이 보낸 사진은 iCloud를 거쳐 들어와요." : {
       "comment" : "Appended to onboarding page 3 when remote sending is configured",
@@ -68,13 +259,24 @@
       }
     },
     "멀리서 보낸 사진" : {
-
-    },
-    "보태줘" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sent from afar"
+          }
+        }
+      }
     },
     "받은 사진 %lld개" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld received"
+          }
+        }
+      }
     },
     "받은 사진은 이 iPhone의 사진 앱에 들어가요. 내가 찍은 사진처럼 촬영한 날짜 자리에 놓이고, 이벤트 이름의 앨범에도 정리돼요." : {
       "comment" : "Onboarding page 2 body",
@@ -87,26 +289,145 @@
         }
       }
     },
+    "받은 사진을 풀지 못했어요. QR이 다른 이벤트의 것일 수 있어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't unlock this photo. The QR code may belong to a different event."
+          }
+        }
+      }
+    },
     "받을 준비를 못 했어요" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't get ready to receive"
+          }
+        }
+      }
     },
     "받을 준비를 하는 중…" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Getting ready to receive…"
+          }
+        }
+      }
+    },
+    "보내는 도중 연결이 끊겼어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The connection dropped while sending."
+          }
+        }
+      }
+    },
+    "보태줘" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Botaejwo"
+          }
+        }
+      }
     },
     "사진 보내기 QR 코드" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "QR code for sending photos"
+          }
+        }
+      }
     },
     "사진 삭제" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Photo"
+          }
+        }
+      }
     },
     "사진 앱에 같은 이름의 앨범이 만들어져요." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An album with the same name is created in Photos."
+          }
+        }
+      }
     },
     "사진 앱에 넣은 항목" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added to Photos"
+          }
+        }
+      }
+    },
+    "사진 앱에 앨범을 만들지 못했어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't create the album in Photos."
+          }
+        }
+      }
+    },
+    "사진 접근 권한이 필요해요. 설정 > 보태줘 > 사진에서 '전체 접근'을 허용해 주세요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo access is needed. In Settings > Botaejwo > Photos, choose Full Access."
+          }
+        }
+      }
+    },
+    "사진, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo, %@"
+          }
+        }
+      }
+    },
+    "사진을 하나 넣었어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added a photo."
+          }
+        }
+      }
     },
     "새 이벤트" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Event"
+          }
+        }
+      }
     },
     "시작하기" : {
       "comment" : "Closes the onboarding on the last page",
@@ -120,10 +441,24 @@
       }
     },
     "아직 받은 사진이 없어요. QR을 보여주면 여기에 쌓여요." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No photos yet. Show the QR code and they'll collect here."
+          }
+        }
+      }
     },
     "아직 이벤트가 없어요" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Events Yet"
+          }
+        }
+      }
     },
     "앱 소개" : {
       "comment" : "Toolbar button that reopens the onboarding",
@@ -131,13 +466,40 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Moa"
+            "value" : "About Botaejwo"
+          }
+        }
+      }
+    },
+    "없어요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "None"
           }
         }
       }
     },
     "예: 9월 멘토링 세션" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e.g. September Mentoring Session"
+          }
+        }
+      }
+    },
+    "원거리 전송이 설정되지 않았어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sending from afar isn't set up."
+          }
+        }
+      }
     },
     "원본 그대로, 찍은 시각 그대로" : {
       "comment" : "Onboarding page 2 title",
@@ -162,19 +524,54 @@
       }
     },
     "이 화면이 켜져 있는 동안만 받아요. 화면은 자동으로 꺼지지 않아요.\n화면을 다시 열면 QR이 바뀌어요." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos arrive only while this screen is on. It won't turn off by itself.\nThe QR code changes each time you reopen the screen."
+          }
+        }
+      }
     },
     "이번에 실패" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed This Time"
+          }
+        }
+      }
     },
     "이벤트 만들기" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create Event"
+          }
+        }
+      }
     },
     "이벤트 이름" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Event Name"
+          }
+        }
+      }
     },
     "이벤트를 만들고 QR을 보여주면, 같은 Wi-Fi에 있는 사람이 앱 설치 없이 이 iPhone으로 사진을 보낼 수 있어요. 받은 사진은 촬영 시각 그대로 사진 앱에 들어가요." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create an event and show its QR code. Guests can send photos to this iPhone without installing anything, and each one lands in Photos at the time it was taken."
+          }
+        }
+      }
     },
     "이벤트를 열면 QR이 나오고, 그동안 사진이 들어와요. 같은 Wi-Fi에 있는 사람은 이 iPhone으로 바로 보내요." : {
       "comment" : "Onboarding page 3 body",
@@ -188,13 +585,54 @@
       }
     },
     "이벤트를 찾을 수 없어요" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Event Not Found"
+          }
+        }
+      }
+    },
+    "잘못된 요청이에요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That request isn't valid."
+          }
+        }
+      }
+    },
+    "촬영 시각 모름" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capture time unknown"
+          }
+        }
+      }
     },
     "취소" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
     },
     "테스트용 링크 공유" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share Test Link"
+          }
+        }
+      }
     },
     "행사에서 QR을 보여주기만 하면 돼요. 사진을 보내는 사람은 앱을 설치하지 않고, 카메라로 QR을 찍어서 바로 보낼 수 있어요." : {
       "comment" : "Onboarding page 1 body",
@@ -203,6 +641,56 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Just show the QR code at your event. Guests send photos right away by scanning it with the camera, with no app to install."
+          }
+        }
+      }
+    },
+    "호스트 iPhone에 연결하지 못했어요. 같은 Wi-Fi인지, 로컬 네트워크 권한을 허용했는지 확인해 주세요.%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't reach the host's iPhone. Check that you're on the same Wi-Fi and that Local Network access is allowed.%@"
+          }
+        }
+      }
+    },
+    "호스트 iPhone이 사진을 저장하지 못했어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The host's iPhone couldn't save the photo."
+          }
+        }
+      }
+    },
+    "호스트가 받지 않았어요. QR을 다시 찍어 주세요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The host didn't accept it. Scan the QR code again."
+          }
+        }
+      }
+    },
+    "확인 실패" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't check"
+          }
+        }
+      }
+    },
+    "확인했어요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Checked"
           }
         }
       }

@@ -49,13 +49,13 @@ enum RemoteTransferError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .notConfigured:
-            return "원거리 전송이 설정되지 않았어요."
+            return String(localized: "원거리 전송이 설정되지 않았어요.")
         case let .http(status, body):
-            return "iCloud가 요청을 거절했어요 (\(status)). \(body.prefix(200))"
+            return String(localized: "iCloud가 요청을 거절했어요 (\(status)). \(body.prefix(200))")
         case .malformedResponse(let detail):
-            return "iCloud 응답을 이해하지 못했어요. \(detail)"
+            return String(localized: "iCloud 응답을 이해하지 못했어요. \(detail)")
         case .decryptionFailed:
-            return "받은 사진을 풀지 못했어요. QR이 다른 이벤트의 것일 수 있어요."
+            return String(localized: "받은 사진을 풀지 못했어요. QR이 다른 이벤트의 것일 수 있어요.")
         }
     }
 }

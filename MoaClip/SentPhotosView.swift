@@ -28,12 +28,12 @@ struct SentPhotosView: View {
 
     static func statusLabel(_ status: UploadModel.UploadItem.Status) -> String {
         switch status {
-        case .waiting: return "대기 중"
-        case .preparing: return "원본 준비 중"
-        case .uploading: return "보내는 중"
-        case .uploadingRemotely: return "가까이 없어서 iCloud로 보내는 중"
-        case .done(let remote): return remote ? "완료 (iCloud로 전달)" : "완료"
-        case .failed(let message): return "실패: \(message)"
+        case .waiting: return String(localized: "대기 중")
+        case .preparing: return String(localized: "원본 준비 중")
+        case .uploading: return String(localized: "보내는 중")
+        case .uploadingRemotely: return String(localized: "가까이 없어서 iCloud로 보내는 중")
+        case .done(let remote): return remote ? String(localized: "완료 (iCloud로 전달)") : String(localized: "완료")
+        case .failed(let message): return String(localized: "실패: \(message)")
         }
     }
 }
@@ -162,6 +162,6 @@ private struct SentPagerView: View {
 
     private var title: String {
         guard items.indices.contains(index) else { return "" }
-        return items[index].capturedAt?.formatted(date: .abbreviated, time: .shortened) ?? "보낸 사진"
+        return items[index].capturedAt?.formatted(date: .abbreviated, time: .shortened) ?? String(localized: "보낸 사진")
     }
 }

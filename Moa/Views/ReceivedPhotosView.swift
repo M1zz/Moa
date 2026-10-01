@@ -36,16 +36,28 @@ struct ReceivedPhotosView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        #if DEBUG
+        // `-moa-open-photo`: opens the second photo full screen, for the App Store screenshot.
+        .onChange(of: assets.count) {
+            guard ProcessInfo.processInfo.arguments.contains("-moa-open-photo"), opened == nil,
+                  assets.count > 1 else { return }
+            opened = OpenedAsset(index: 1)
+        }
+        #endif
         .fullScreenCover(item: $opened) { opened in
             AssetPagerView(assets: assets, uploaders: uploaders, startIndex: opened.index)
         }
     }
 
     private func label(for asset: PHAsset) -> String {
-        let when = asset.creationDate?.formatted(date: .abbreviated, time: .shortened) ?? "촬영 시각 모름"
-        let kind = asset.mediaType == .video ? "동영상" : "사진"
-        guard let uploader = uploaders[asset.localIdentifier] else { return "\(kind), \(when)" }
-        return "\(uploader) 님이 보낸 \(kind), \(when)"
+        let when = asset.creationDate?.formatted(date: .abbreviated, time: .shortened) ?? String(localized: "촬영 시각 모름")
+        let isVideo = asset.mediaType == .video
+        switch (uploaders[asset.localIdentifier], isVideo) {
+        case let (name?, true): return String(localized: "\(name) 님이 보낸 동영상, \(when)")
+        case let (name?, false): return String(localized: "\(name) 님이 보낸 사진, \(when)")
+        case (nil, true): return String(localized: "동영상, \(when)")
+        case (nil, false): return String(localized: "사진, \(when)")
+        }
     }
 }
 

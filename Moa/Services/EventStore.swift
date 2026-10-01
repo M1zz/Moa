@@ -70,7 +70,10 @@ final class EventStore {
     /// the first event's album, so App Store screenshots show a lived-in app.
     func seedForScreenshots() async -> HostedEvent? {
         guard await PhotoLibraryService.requestAccess() else { return nil }
-        let albumID = try? await PhotoLibraryService.createAlbum(named: "가을 캠핑")
+        // Sample names follow the app's language so each locale's screenshots read naturally.
+        let english = Bundle.main.preferredLocalizations.first == "en"
+        let mainName = english ? "Fall Camping Trip" : "가을 캠핑"
+        let albumID = try? await PhotoLibraryService.createAlbum(named: mainName)
         let fetched = PHAsset.fetchAssets(with: .image, options: nil)
         let assets = (0..<fetched.count).map { fetched.object(at: $0) }
         if let albumID,
@@ -79,14 +82,16 @@ final class EventStore {
                 PHAssetCollectionChangeRequest(for: album)?.addAssets(assets as NSArray)
             }
         }
-        let names = ["지민", "서준", "하은", "도윤", "민서", "유나"]
+        let names = english
+            ? ["Emma", "Noah", "Olivia", "Liam", "Ava", "Mia"]
+            : ["지민", "서준", "하은", "도윤", "민서", "유나"]
         var uploaders: [String: String] = [:]
         for (index, asset) in assets.enumerated() {
             uploaders[asset.localIdentifier] = names[index % names.count]
         }
         let now = Date.now
         let main = HostedEvent(
-            id: UUID().uuidString, name: "가을 캠핑", createdAt: now, albumIdentifier: albumID,
+            id: UUID().uuidString, name: mainName, createdAt: now, albumIdentifier: albumID,
             receivedCount: assets.count, lastReceivedAt: now.addingTimeInterval(-120), uploaders: uploaders
         )
         func past(_ name: String, days: Double, count: Int) -> HostedEvent {
@@ -96,10 +101,10 @@ final class EventStore {
         }
         events = [
             main,
-            past("지민이 돌잔치", days: 9, count: 128),
-            past("9월 멘토링 세션", days: 16, count: 47),
-            past("대학 동기 모임", days: 31, count: 86),
-            past("제주 가족 여행", days: 58, count: 312),
+            past(english ? "Lily's First Birthday" : "지민이 돌잔치", days: 9, count: 128),
+            past(english ? "September Mentoring" : "9월 멘토링 세션", days: 16, count: 47),
+            past(english ? "College Reunion" : "대학 동기 모임", days: 31, count: 86),
+            past(english ? "Family Trip to Hawaii" : "제주 가족 여행", days: 58, count: 312),
         ]
         save()
         return main

@@ -109,8 +109,8 @@ private struct EventRow: View {
     }
 
     private var subtitle: String {
-        let count = "받은 사진 \(event.receivedCount)개"
+        let count = String(localized: "받은 사진 \(event.receivedCount)개")
         guard let last = event.lastReceivedAt else { return count }
-        return "\(count) · 마지막 \(last.formatted(date: .abbreviated, time: .shortened))"
+        return String(localized: "\(count) · 마지막 \(last.formatted(date: .abbreviated, time: .shortened))")
     }
 }

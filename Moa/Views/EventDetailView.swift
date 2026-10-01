@@ -37,6 +37,7 @@ struct EventDetailView: View {
     }
 
     private func content(for event: HostedEvent) -> some View {
+        ScrollViewReader { proxy in
         ScrollView {
             VStack(spacing: 24) {
                 switch receiver.state {
@@ -56,8 +57,20 @@ struct EventDetailView: View {
                 Divider()
 
                 ReceivedPhotosView(assets: gallery.assets, uploaders: event.uploaders ?? [:])
+                    .id("photos")
             }
             .padding()
+        }
+        #if DEBUG
+        // `-moa-scroll-to-photos`: shows the received grid, for the App Store screenshot.
+        .onChange(of: gallery.assets.count) {
+            guard ProcessInfo.processInfo.arguments.contains("-moa-scroll-to-photos") else { return }
+            Task {
+                try? await Task.sleep(for: .milliseconds(300))
+                proxy.scrollTo("photos", anchor: .top)
+            }
+        }
+        #endif
         }
         .navigationTitle(event.name)
         .navigationBarTitleDisplayMode(.inline)
@@ -82,9 +95,9 @@ struct EventDetailView: View {
 
         GroupBox {
             VStack(alignment: .leading, spacing: 12) {
-                LabeledContent("사진 앱에 넣은 항목", value: "\(event.receivedCount)개")
+                LabeledContent("사진 앱에 넣은 항목", value: String(localized: "\(event.receivedCount)개"))
                 if receiver.failedCount > 0 {
-                    LabeledContent("이번에 실패", value: "\(receiver.failedCount)개")
+                    LabeledContent("이번에 실패", value: String(localized: "\(receiver.failedCount)개"))
                 }
                 if let lastMessage = receiver.lastMessage {
                     Text(lastMessage)
@@ -97,7 +110,7 @@ struct EventDetailView: View {
                         if isCheckingRemote {
                             ProgressView()
                         } else {
-                            Text(remoteMessage ?? "확인했어요")
+                            Text(remoteMessage ?? String(localized: "확인했어요"))
                         }
                     }
                 }
@@ -135,16 +148,17 @@ struct EventDetailView: View {
                     store.recordImport(eventID: event.id, assetID: item.assetID, uploader: item.uploader)
                 }
                 if !result.imported.isEmpty {
-                    let who = result.lastUploader.map { "\($0) 님 외 " } ?? ""
-                    remoteMessage = "\(who)\(result.imported.count)개 가져왔어요"
+                    let count = result.imported.count
+                    remoteMessage = result.lastUploader.map { String(localized: "\($0) 님 외 \(count)개 가져왔어요") }
+                        ?? String(localized: "\(count)개 가져왔어요")
                     gallery.reload()
                 } else if result.failed > 0 {
-                    remoteMessage = "\(result.failed)개 실패"
+                    remoteMessage = String(localized: "\(result.failed)개 실패")
                 } else if remoteMessage == nil {
-                    remoteMessage = "없어요"
+                    remoteMessage = String(localized: "없어요")
                 }
             } catch {
-                remoteMessage = "확인 실패"
+                remoteMessage = String(localized: "확인 실패")
                 #if DEBUG
                 NSLog("[moa] remote poll failed: \(error)")
                 #endif

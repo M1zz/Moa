@@ -31,8 +31,8 @@ enum MediaExportError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .unsupported: return "지원하지 않는 형식이에요."
-        case .missingFile: return "파일을 불러오지 못했어요."
+        case .unsupported: return String(localized: "지원하지 않는 형식이에요.")
+        case .missingFile: return String(localized: "파일을 불러오지 못했어요.")
         }
     }
 }

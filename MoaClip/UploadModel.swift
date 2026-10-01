@@ -7,9 +7,10 @@ import UIKit
 @Observable
 final class UploadModel {
     enum Phase: Equatable {
-        case waitingForInvocation
+        /// No usable invitation yet. `linkHadNoEvent` is true when the clip was opened through a
+        /// link without one, e.g. the default App Clip link or the App Store demo URL.
+        case waitingForInvocation(linkHadNoEvent: Bool)
         case ready
-        case failed(String)
     }
 
     struct UploadItem: Identifiable, Equatable {
@@ -30,7 +31,7 @@ final class UploadModel {
         var capturedAt: Date?
     }
 
-    private(set) var phase: Phase = .waitingForInvocation
+    private(set) var phase: Phase = .waitingForInvocation(linkHadNoEvent: false)
     private(set) var eventName: String?
     private(set) var items: [UploadItem] = []
     var uploaderName: String
@@ -63,14 +64,16 @@ final class UploadModel {
 
     // MARK: Invocation
 
-    /// Expects a direct invitation from the host's QR (see `DirectInvitation`).
+    /// Expects a direct invitation from the host's QR (see `DirectInvitation`). Any other link
+    /// (the default App Clip link, the App Store demo URL, an old or cropped QR) shows how to
+    /// get one instead of an error, since that is all the guest can do about it.
     func handle(url: URL) {
         guard let invitation = DirectInvitation(url: url) else {
-            phase = .failed("올바른 초대 링크가 아니에요.")
+            if self.invitation == nil { phase = .waitingForInvocation(linkHadNoEvent: true) }
             return
         }
         self.invitation = invitation
-        eventName = invitation.name ?? "호스트에게 바로 보내기"
+        eventName = invitation.name ?? String(localized: "호스트에게 바로 보내기")
         phase = .ready
         // Answer "can this go through iCloud?" before it is needed, so the first failed
         // local attempt doesn't stall behind a second network round trip.
@@ -81,17 +84,18 @@ final class UploadModel {
     /// `MOA_DEMO_DIR=<folder of images>`: opens a sample invitation and shows those images as
     /// already sent, so App Store screenshots show the clip mid-event.
     func loadDemo(from directory: URL) {
+        let english = Bundle.main.preferredLocalizations.first == "en"
         var components = URLComponents(url: AppConfig.directInvitationBaseURL, resolvingAgainstBaseURL: false)!
         components.queryItems = [
             URLQueryItem(name: "host", value: "192.168.0.2"), URLQueryItem(name: "port", value: "50000"),
             URLQueryItem(name: "key", value: "demo"), URLQueryItem(name: "eid", value: "demo"),
-            URLQueryItem(name: "name", value: "가을 캠핑"),
+            URLQueryItem(name: "name", value: english ? "Fall Camping Trip" : "가을 캠핑"),
         ]
         guard let url = components.url, let invitation = DirectInvitation(url: url) else { return }
         self.invitation = invitation
         eventName = invitation.name
         phase = .ready
-        uploaderName = "지민"
+        uploaderName = english ? "Emma" : "지민"
         let files = ((try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? [])
             .sorted { $0.lastPathComponent < $1.lastPathComponent }
         items = files.enumerated().compactMap { index, file in
