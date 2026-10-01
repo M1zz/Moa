@@ -7,8 +7,9 @@ import Foundation
 ///
 /// Where the values come from — CloudKit Console (https://icloud.developer.apple.com):
 ///  1. Create the container `iCloud.com.leeo.moa`.
-///  2. Tokens & Keys → Server-to-Server Keys → create a key. Keep the printed private key;
-///     it is shown only once. `keyID` is the long hex string next to it.
+///  2. Generate a key pair locally (`openssl ecparam -name prime256v1 -genkey -noout -out eckey.pem`,
+///     then `openssl ec -in eckey.pem -pubout`). In Tokens & Keys → Server-to-Server Keys, register
+///     the public key in **both** Development and Production; each gives its own key ID.
 ///  3. Turn the PEM private key into the base64 DER string this file wants:
 ///       openssl ec -in eckey.pem -outform DER | base64
 ///  4. Schema → Record Types → `MoaItem`: mark the `eventID` field **Queryable**,
@@ -20,8 +21,18 @@ import Foundation
 enum CloudKitConfig {
     /// e.g. "iCloud.com.leeo.moa"
     static let containerID = ""
-    /// Server-to-server key ID (long hex string).
-    static let keyID = ""
+    /// Server-to-server key IDs (long hex strings). CloudKit Console issues keys per
+    /// environment, so register the same public key in Development and Production.
+    static let developmentKeyID = ""
+    static let productionKeyID = ""
+
+    static var keyID: String {
+        #if DEBUG
+        developmentKeyID
+        #else
+        productionKeyID
+        #endif
+    }
     /// EC P-256 private key, DER, base64 encoded.
     static let privateKeyBase64 = ""
 

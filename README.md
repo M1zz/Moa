@@ -62,8 +62,8 @@ Xcode 16 이상의 폴더 동기화 그룹을 쓰기 때문에, 폴더에 파일
 
 1. `Config/CloudKitConfig.example.swift`를 `Shared/CloudKitConfig.swift`로 복사해요. 이 경로는 gitignore에 있어서 키가 공개 레포로 가지 않아요.
 2. [CloudKit Console](https://icloud.developer.apple.com)에서 컨테이너 `iCloud.com.leeo.moa`를 만들어요.
-3. Tokens & Keys → Server-to-Server Keys에서 키를 만들고, 개인키와 key ID를 파일에 넣어요. 개인키는 그때 한 번만 보여줘요.
-4. Schema → Record Types → `MoaItem`에서 `eventID` 필드를 **Queryable**로 표시해요. 이게 없으면 호스트가 목록을 못 읽어요.
+3. 키 쌍을 직접 만들고(`openssl ecparam -name prime256v1 -genkey -noout -out eckey.pem`), 공개키를 Tokens & Keys → Server-to-Server Keys에 **Development와 Production 양쪽에** 등록해요. 키는 환경마다 따로라서 key ID도 두 개예요(`developmentKeyID`, `productionKeyID`).
+4. Schema → Record Types에 `MoaItem`(필드 `eventID`·`meta`는 String, `a0`·`a1`은 Asset)을 만들고, Indexes에서 `eventID`와 `recordName`을 **Queryable**로 걸어요. 서버 키로는 스키마가 자동으로 생기지 않아요.
 5. 출시할 때 CloudKit Console에서 스키마를 Production으로 배포해요.
 
 키는 App Clip 안에 들어가기 때문에 마음먹으면 꺼낼 수 있어요. 그래서 공개 DB를 못 믿을 곳으로 보고 전부 암호화해서 올려요. 키가 새면 남이 멘토님 공개 DB에 쓰레기 기록을 쓸 수 있으니, 그때는 Console에서 키를 폐기하고 새로 만들면 돼요.
