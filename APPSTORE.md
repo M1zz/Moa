@@ -73,6 +73,10 @@ https://m1zz.github.io/moa/
 
 https://m1zz.github.io/moa/privacy.html
 
+### 마케팅 URL
+
+https://m1zz.github.io/moa/
+
 ## 영어 (en)
 
 ### 이름
@@ -142,6 +146,10 @@ https://m1zz.github.io/moa/en/
 ### 개인정보처리방침 URL
 
 https://m1zz.github.io/moa/en/privacy.html
+
+### 마케팅 URL
+
+https://m1zz.github.io/moa/en/
 
 ## 연령 등급
 
