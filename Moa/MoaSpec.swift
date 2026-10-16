@@ -16,13 +16,15 @@ enum MoaSpec: LeeoAppSpec {
     static let developerEmail = "leeo@kakao.com"
 
     /// 공용 피드백 허브(FeedbackHub)로 수집 — appIdentifier(번들 ID)로 앱을 구분한다.
-    /// ⚠️ 아직 이 앱의 entitlements 에 iCloud.com.Ysoup.FeedbackHub 컨테이너가 **없다.**
-    ///    그래서 부트스트랩에서 크래시 진단(CloudKit 전송)을 꺼 두었다 (→ MoaApp).
-    ///    피드백 화면·진단을 켜기 전에 iCloud(CloudKit) 기능과 이 컨테이너부터 넣을 것.
+    /// 이 컨테이너 권한은 Config/Moa.entitlements 에 있다 (본 앱 타깃만 — 앱 클립은 LeeoKit 을 안 쓴다).
     static let feedback = LeeoFeedbackConfig(
         containerIdentifier: "iCloud.com.Ysoup.FeedbackHub",
         appIdentifier: "com.leeo.moa"
     )
+
+    /// 익명 사용 통계 — 설치 수·실행 일수·버전 분포를 FeedbackHub 로 보낸다.
+    /// 기본값(LeeoNoopAnalytics)이면 부트스트랩이 아무것도 안 보낸다.
+    static let analytics: any LeeoAnalytics = LeeoUsageAnalytics(spec: MoaSpec.self)
 
     /// 개인정보·지원 페이지 (LeeoKit 3.x 부터 필수). APPSTORE.md (한국어 절) 에 적힌 주소를 그대로 쓴다.
     static let legal = LeeoLegalConfig(
