@@ -71,8 +71,8 @@ final class EventStore {
     func seedForScreenshots() async -> HostedEvent? {
         guard await PhotoLibraryService.requestAccess() else { return nil }
         // Sample names follow the app's language so each locale's screenshots read naturally.
-        let english = Bundle.main.preferredLocalizations.first == "en"
-        let mainName = english ? "Fall Camping Trip" : "가을 캠핑"
+        let sample = ScreenshotSamples.current
+        let mainName = sample.events[0]
         let albumID = try? await PhotoLibraryService.createAlbum(named: mainName)
         let fetched = PHAsset.fetchAssets(with: .image, options: nil)
         let assets = (0..<fetched.count).map { fetched.object(at: $0) }
@@ -82,9 +82,7 @@ final class EventStore {
                 PHAssetCollectionChangeRequest(for: album)?.addAssets(assets as NSArray)
             }
         }
-        let names = english
-            ? ["Emma", "Noah", "Olivia", "Liam", "Ava", "Mia"]
-            : ["지민", "서준", "하은", "도윤", "민서", "유나"]
+        let names = sample.people
         var uploaders: [String: String] = [:]
         for (index, asset) in assets.enumerated() {
             uploaders[asset.localIdentifier] = names[index % names.count]
@@ -101,10 +99,10 @@ final class EventStore {
         }
         events = [
             main,
-            past(english ? "Lily's First Birthday" : "지민이 돌잔치", days: 9, count: 128),
-            past(english ? "September Mentoring" : "9월 멘토링 세션", days: 16, count: 47),
-            past(english ? "College Reunion" : "대학 동기 모임", days: 31, count: 86),
-            past(english ? "Family Trip to Hawaii" : "제주 가족 여행", days: 58, count: 312),
+            past(sample.events[1], days: 9, count: 128),
+            past(sample.events[2], days: 16, count: 47),
+            past(sample.events[3], days: 31, count: 86),
+            past(sample.events[4], days: 58, count: 312),
         ]
         save()
         return main

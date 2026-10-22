@@ -1405,7 +1405,7 @@ https://m1zz.github.io/moa/id/privacy.html
 
 https://m1zz.github.io/moa/id/
 
-## 노르웨이어 (nb)
+## 노르웨이어(보크말) (nb)
 
 ### 이름
 

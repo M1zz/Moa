@@ -84,18 +84,18 @@ final class UploadModel {
     /// `MOA_DEMO_DIR=<folder of images>`: opens a sample invitation and shows those images as
     /// already sent, so App Store screenshots show the clip mid-event.
     func loadDemo(from directory: URL) {
-        let english = Bundle.main.preferredLocalizations.first == "en"
+        let sample = ScreenshotSamples.current
         var components = URLComponents(url: AppConfig.directInvitationBaseURL, resolvingAgainstBaseURL: false)!
         components.queryItems = [
             URLQueryItem(name: "host", value: "192.168.0.2"), URLQueryItem(name: "port", value: "50000"),
             URLQueryItem(name: "key", value: "demo"), URLQueryItem(name: "eid", value: "demo"),
-            URLQueryItem(name: "name", value: english ? "Fall Camping Trip" : "가을 캠핑"),
+            URLQueryItem(name: "name", value: sample.events[0]),
         ]
         guard let url = components.url, let invitation = DirectInvitation(url: url) else { return }
         self.invitation = invitation
         eventName = invitation.name
         phase = .ready
-        uploaderName = english ? "Emma" : "지민"
+        uploaderName = sample.people[0]
         let files = ((try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? [])
             .sorted { $0.lastPathComponent < $1.lastPathComponent }
         items = files.enumerated().compactMap { index, file in

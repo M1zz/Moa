@@ -7,9 +7,9 @@ docs/screenshots/marketing/<언어>/ 에 1242x2688 로 렌더링한다. 헤드�
   App Clip  환경변수 MOA_DEMO_DIR=<사진 폴더>
   언어는 -AppleLanguages "(en)" -AppleLocale en_US, 온보딩은 -hasSeenOnboarding YES 로 건너뛴다.
 
-사용법: python3 scripts/make_marketing_screenshots.py
+사용법: python3 scripts/make_marketing_screenshots.py [언어 ...]     (없으면 전부)
 """
-import pathlib, subprocess, tempfile
+import pathlib, subprocess, sys, tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RAW = ROOT / "docs" / "screenshots" / "raw"
@@ -218,5 +218,7 @@ def render(lang, name, headline, sub):
     print(out.relative_to(ROOT))
 
 for lang, shots in SHOTS.items():
+    if len(sys.argv) > 1 and lang not in sys.argv[1:]:
+        continue
     for shot in shots:
         render(lang, *shot)
