@@ -49,14 +49,14 @@ SEARCH = {
     "vi": ("Gom ảnh nhóm tại sự kiện", "Một mã QR,<br>ảnh của mọi người", "Chỉ cần quét và gửi.<br>Không cần cài ứng dụng."),
     "cs": ("Sdílení fotek ze setkání", "Jeden QR kód,<br>fotky všech", "Hosté jen naskenují a pošlou.<br>Bez aplikace."),
     "da": ("Gruppebilleder samlet", "Én QR-kode,<br>alle billederne", "Gæsterne scanner og sender.<br>Ingen app nødvendig."),
-    "el": ("Κοινή χρήση φωτογραφιών", "Ένα QR,<br>οι φωτογραφίες όλων", "Οι καλεσμένοι σαρώνουν και στέλνουν.<br>Χωρίς εφαρμογή."),
+    "el": ("Κοινή χρήση φωτογραφιών", "Ένα QR,<br>οι φωτογραφίες<br>όλων", "Σαρώνουν και στέλνουν.<br>Χωρίς εφαρμογή."),
     "fi": ("Ryhmäkuvien jako", "Yksi QR-koodi,<br>kaikkien kuvat", "Vieraat skannaavat ja lähettävät.<br>Sovellusta ei tarvita."),
-    "id": ("Kumpulkan foto grup", "Satu QR,<br>semua foto terkumpul", "Tamu cukup pindai dan kirim.<br>Tanpa app."),
+    "id": ("Kumpulkan foto grup", "Satu QR,<br>semua foto<br>terkumpul", "Tamu cukup pindai dan kirim.<br>Tanpa app."),
     "nb": ("Samle gruppebilder", "Én QR-kode,<br>alles bilder", "Gjestene skanner og sender.<br>Ingen app nødvendig."),
     "nl": ("Groepsfoto's delen", "Eén QR-code,<br>alle foto's", "Gasten scannen en sturen.<br>Geen app nodig."),
-    "pl": ("Wspólne zdjęcia z imprezy", "Jeden kod QR,<br>zdjęcia od wszystkich", "Goście skanują i wysyłają.<br>Bez aplikacji."),
+    "pl": ("Wspólne zdjęcia z imprezy", "Jeden kod QR,<br>zdjęcia<br>od wszystkich", "Goście skanują i wysyłają.<br>Bez aplikacji."),
     "sv": ("Samla gruppbilder", "En QR-kod,<br>allas bilder", "Gästerna skannar och skickar.<br>Ingen app behövs."),
-    "tr": ("Grup fotoğrafı paylaşımı", "Tek QR kod,<br>herkesin fotoğrafları", "Misafirler okutur ve gönderir.<br>Uygulama gerekmez."),
+    "tr": ("Grup fotoğrafı paylaşımı", "Tek QR kod,<br>herkesin<br>fotoğrafları", "Misafirler okutur ve gönderir.<br>Uygulama gerekmez."),
 }
 
 # 헤더는 처음 온 사람에게 **한 가지 약속**만 한다(Apple: 단일한 생각, 빽빽하지 않게).
