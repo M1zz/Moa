@@ -1,4 +1,5 @@
 import SwiftUI
+import LeeoKit
 
 struct EventListView: View {
     @Environment(EventStore.self) private var store
@@ -35,13 +36,15 @@ struct EventListView: View {
                 EventDetailView(eventID: id)
             }
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItemGroup(placement: .topBarLeading) {
                     Button {
                         isShowingOnboarding = true
                     } label: {
                         Image(systemName: "questionmark.circle")
                     }
                     .accessibilityLabel("앱 소개")
+                    // 친구에게 소개하기 — App Store ID 가 생기면 나타난다.
+                    LeeoShareAppLink<MoaSpec>()
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button {
