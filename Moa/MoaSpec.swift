@@ -34,4 +34,9 @@ enum MoaSpec: LeeoAppSpec {
 
     /// 수익모델 (LeeoKit 3.x 부터 필수) — 인앱 결제가 없는 무료 앱.
     static let monetization = LeeoMonetization.free
+
+    /// 개발자 응원(팁). 소모성 세 가지, 작은 것부터. 기능을 열지 않는다 — 무료 앱이라 혼자 돈다(`startStandalone`).
+    @MainActor static let tipJar = LeeoTipJar(config: LeeoTipJarConfig(productIDs: [
+        "com.leeo.moa.tip.small", "com.leeo.moa.tip.medium", "com.leeo.moa.tip.large",
+    ]))
 }

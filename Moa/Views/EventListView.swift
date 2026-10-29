@@ -22,6 +22,11 @@ struct EventListView: View {
                     }
                 } else {
                     List {
+                        // 이벤트를 마치고 목록으로 돌아온 자리. 모은 사진이 숫자로 보일 때만, 드물게 응원을 부탁한다.
+                        LeeoTipAskSlot<MoaSpec>(tipJar: MoaSpec.tipJar,
+                                                reached: MoaTipMoments.reached(photos: store.events.reduce(0) { $0 + $1.receivedCount }))
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color.clear)
                         ForEach(store.events) { event in
                             NavigationLink(value: event.id) {
                                 EventRow(event: event)
@@ -45,6 +50,8 @@ struct EventListView: View {
                     .accessibilityLabel("앱 소개")
                     // 친구에게 소개하기 — App Store ID 가 생기면 나타난다.
                     LeeoShareAppLink<MoaSpec>()
+                    // 개발자 응원하기 — 설정 화면이 없어 여기서 시트로 연다. 판매 중인 팁이 있어야 나타난다.
+                    TipJarButton(tipJar: MoaSpec.tipJar)
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button {
@@ -93,6 +100,45 @@ struct EventListView: View {
                 if let event { path = [event.id] }
             }
             #endif
+        }
+    }
+}
+
+/// 받은 사진이 이만큼 모였을 때 응원을 부탁한다. 큰 것부터.
+enum MoaTipMoments {
+    static let photos = [1000, 300, 100]
+
+    static func reached(photos total: Int) -> [LeeoTipMoment] {
+        photos.filter { total >= $0 }.map { threshold in
+            LeeoTipMoment(id: "photos.\(threshold)",
+                          message: String(localized: "지금까지 사진 \(total)장을 모았어요",
+                                          comment: "Tip ask card: total photos received across all events"))
+        }
+    }
+}
+
+private struct TipJarButton: View {
+    @ObservedObject var tipJar: LeeoTipJar
+    @State private var isShowing = false
+
+    var body: some View {
+        if tipJar.isAvailable {
+            Button {
+                isShowing = true
+            } label: {
+                Image(systemName: "heart")
+            }
+            .accessibilityLabel(LeeoTipText.entry)
+            .sheet(isPresented: $isShowing) {
+                NavigationStack {
+                    LeeoTipJarView<MoaSpec>(tipJar: tipJar)
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("닫기") { isShowing = false }
+                            }
+                        }
+                }
+            }
         }
     }
 }
