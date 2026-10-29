@@ -15,6 +15,7 @@ struct ReceivedPhotosView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("받은 사진 \(assets.count)개")
                 .font(.headline)
+                .accessibilityAddTraits(.isHeader)
 
             if assets.isEmpty {
                 Text("아직 받은 사진이 없어요. QR을 보여주면 여기에 쌓여요.")
@@ -30,7 +31,7 @@ struct ReceivedPhotosView: View {
                             AssetThumbnail(asset: asset, uploader: uploaders[asset.localIdentifier])
                         }
                         .buttonStyle(.plain)
-                        .accessibilityLabel(label(for: asset))
+                        .accessibilityLabel(Self.label(for: asset, uploaders: uploaders))
                     }
                 }
             }
@@ -49,7 +50,7 @@ struct ReceivedPhotosView: View {
         }
     }
 
-    private func label(for asset: PHAsset) -> String {
+    static func label(for asset: PHAsset, uploaders: [String: String]) -> String {
         let when = asset.creationDate?.formatted(date: .abbreviated, time: .shortened) ?? String(localized: "촬영 시각 모름")
         let isVideo = asset.mediaType == .video
         switch (uploaders[asset.localIdentifier], isVideo) {
@@ -143,6 +144,9 @@ struct AssetPagerView: View {
             TabView(selection: $index) {
                 ForEach(Array(assets.enumerated()), id: \.element.localIdentifier) { offset, asset in
                     AssetFullImage(asset: asset)
+                        .accessibilityElement(children: .ignore)
+                        .accessibilityLabel(ReceivedPhotosView.label(for: asset, uploaders: uploaders))
+                        .accessibilityAddTraits(.isImage)
                         .tag(offset)
                 }
             }

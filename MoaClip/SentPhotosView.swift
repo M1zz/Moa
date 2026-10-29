@@ -134,10 +134,12 @@ private struct SentPagerView: View {
                             Image(uiImage: preview)
                                 .resizable()
                                 .scaledToFit()
+                                .accessibilityHidden(true)
                         } else {
                             Image(systemName: "photo")
                                 .font(.system(size: 60))
                                 .foregroundStyle(.white.opacity(0.4))
+                                .accessibilityHidden(true)
                         }
                         Text(SentPhotosView.statusLabel(item.status))
                             .font(.body)
