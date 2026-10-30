@@ -1,5 +1,15 @@
 # 보태줘 todo
 
+## 아이폰 듀오 대응 (2026-10-30, 듀오 시뮬레이터 빌드 성공 · 실기기 확인 안 함)
+- [x] 루트에 `.foldAware()`, 시트 · 알림창이 접힌 선을 비킨다
+- [x] 펴면 왼쪽(세로면 아래) 이벤트 목록 · QR | 오른쪽(위) 그 이벤트에 받은 사진(`Views/FoldEventPhotos.swift`). 목록에 있으면 맨 위 이벤트
+- [x] 펼쳐 있으면 이벤트 화면 안의 사진 격자는 빼고 오른쪽 판에만 (같은 것을 두 번 그리지 않는다)
+- [x] 온보딩 · 사진 크게 보기는 `.foldConfined()`
+- [x] 툴바의 글자만 있던 단추(닫기 · 취소 · 만들기)에 아이콘
+- [ ] App Clip(MoaClip)은 LeeoKit 을 쓰지 않아 손대지 않음
+- [ ] 기기 부하로 시뮬레이터 화면 캡처는 못 봄. `-FoldPretend -moa-screenshots -moa-open-first` 로 펼친 화면 확인
+- [ ] 가로로 편 화면 · 실기기 확인 (⚠️ Xcode 27.1 로 빌드해야 듀오 배치가 켜진다)
+
 ## 완료
 - [x] 서버(Cloudflare Worker 릴레이) 제거, 같은 Wi-Fi 직접 전송만 남김
 - [x] App Clip 엔타이틀먼트에서 가짜 도메인(associated domains) 제거

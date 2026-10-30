@@ -1,5 +1,6 @@
 import Photos
 import SwiftUI
+import LeeoKit
 
 /// Grid of everything the event has received, read from its Photos album.
 struct ReceivedPhotosView: View {
@@ -47,6 +48,7 @@ struct ReceivedPhotosView: View {
         #endif
         .fullScreenCover(item: $opened) { opened in
             AssetPagerView(assets: assets, uploaders: uploaders, startIndex: opened.index)
+                .foldConfined()
         }
     }
 
@@ -167,7 +169,7 @@ struct AssetPagerView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("닫기") { dismiss() }
+                    Button { dismiss() } label: { Label("닫기", systemImage: "xmark") }
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button(role: .destructive) {

@@ -18,6 +18,8 @@ struct MoaApp: App {
                 .environment(store)
                 // 팁 상품을 불러오고 끝나지 않은 팁을 마저 센다.
                 .task { await MoaSpec.tipJar.startStandalone() }
+                // 시트 · 알림창이 아이폰 듀오의 접힌 선을 비킨다. 접혀 있으면 아무것도 바뀌지 않는다.
+                .foldAware()
         }
     }
 }

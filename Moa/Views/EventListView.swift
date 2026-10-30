@@ -9,6 +9,17 @@ struct EventListView: View {
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
 
     var body: some View {
+        // 아이폰 듀오를 펴면 왼쪽(세로면 아래)은 이벤트 목록 · QR, 오른쪽(위)은 그 이벤트에 받은 사진이다.
+        // 접혀 있거나 보통 아이폰이면 목록만 그린다. 지금 화면 그대로다.
+        FoldSplitView {
+            list
+        } result: {
+            FoldEventPhotos(eventID: path.last ?? store.events.first?.id)
+                .environment(\.foldLayout, .single)
+        }
+    }
+
+    private var list: some View {
         NavigationStack(path: $path) {
             Group {
                 if store.events.isEmpty {
@@ -67,6 +78,7 @@ struct EventListView: View {
             }
             .fullScreenCover(isPresented: $isShowingOnboarding) {
                 OnboardingView()
+                    .foldConfined()
             }
             .onAppear {
                 guard !hasSeenOnboarding else { return }
@@ -134,7 +146,7 @@ private struct TipJarButton: View {
                     LeeoTipJarView<MoaSpec>(tipJar: tipJar)
                         .toolbar {
                             ToolbarItem(placement: .cancellationAction) {
-                                Button("닫기") { isShowing = false }
+                                Button { isShowing = false } label: { Label("닫기", systemImage: "xmark") }
                             }
                         }
                 }

@@ -1,4 +1,5 @@
 import SwiftUI
+import LeeoKit
 
 /// While this screen is open, guests on the same Wi-Fi send straight to this iPhone.
 struct EventDetailView: View {
@@ -9,6 +10,8 @@ struct EventDetailView: View {
     @State private var gallery = AlbumGallery()
     @State private var remoteMessage: String?
     @State private var isCheckingRemote = false
+    /// 아이폰 듀오를 펴면 받은 사진은 옆 판(`FoldEventPhotos`)에 서므로 여기서는 그리지 않는다.
+    @Environment(\.foldLayout) private var fold
 
     var body: some View {
         if let event = store.event(id: eventID) {
@@ -54,10 +57,12 @@ struct EventDetailView: View {
                     listening(event: event, invitation: invitation, interface: interface)
                 }
 
-                Divider()
+                if !fold.isUnfolded {
+                    Divider()
 
-                ReceivedPhotosView(assets: gallery.assets, uploaders: event.uploaders ?? [:])
-                    .id("photos")
+                    ReceivedPhotosView(assets: gallery.assets, uploaders: event.uploaders ?? [:])
+                        .id("photos")
+                }
             }
             .padding()
         }

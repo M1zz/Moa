@@ -32,15 +32,17 @@ struct CreateEventView: View {
             .interactiveDismissDisabled(isSubmitting)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("취소") { dismiss() }
+                    Button { dismiss() } label: { Label("취소", systemImage: "xmark") }
                         .disabled(isSubmitting)
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     if isSubmitting {
                         ProgressView()
                     } else {
-                        Button("만들기") {
+                        Button {
                             Task { await submit() }
+                        } label: {
+                            Label("만들기", systemImage: "checkmark")
                         }
                         .disabled(trimmedName.isEmpty)
                     }
