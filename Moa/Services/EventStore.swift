@@ -112,8 +112,12 @@ final class EventStore {
     // MARK: Persistence
 
     private func load() {
-        guard let data = try? Data(contentsOf: fileURL),
-              let decoded = try? JSONCoding.decoder.decode([HostedEvent].self, from: data) else { return }
+        guard let data = try? Data(contentsOf: fileURL) else { return }
+        guard let decoded = try? JSONCoding.decoder.decode([HostedEvent].self, from: data) else {
+            // 못 읽은 원본을 옆에 남긴다 — 빈 목록으로 시작해 다음 저장이 덮어써도 되찾을 수 있게
+            try? FileManager.default.copyItem(at: fileURL, to: fileURL.appendingPathExtension("unreadable"))
+            return
+        }
         events = decoded
     }
 
