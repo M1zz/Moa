@@ -63,6 +63,10 @@ struct EventListView: View {
                     LeeoShareAppLink<MoaSpec>()
                     // 개발자 응원하기 — 설정 화면이 없어 여기서 시트로 연다. 판매 중인 팁이 있어야 나타난다.
                     TipJarButton(tipJar: MoaSpec.tipJar)
+                    // 백업 및 복원 — 설정 화면이 없어 여기서 연다.
+                    NavigationLink { LeeoVaultView(appName: MoaSpec.displayName) } label: {
+                        Label(LeeoVaultText.entry, systemImage: "externaldrive.badge.timemachine")
+                    }
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button {
