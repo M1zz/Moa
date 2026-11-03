@@ -4,6 +4,8 @@ import LeeoKit
 struct EventListView: View {
     @Environment(EventStore.self) private var store
     @State private var isCreating = false
+    /// Siri 로 들어온 새 모으기 (→ EventIntents.swift)
+    @Bindable private var eventRouter = EventRouter.shared
     @State private var path: [String] = []
     @State private var isShowingOnboarding = false
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
@@ -76,6 +78,9 @@ struct EventListView: View {
                     }
                     .accessibilityLabel("이벤트 만들기")
                 }
+            }
+            .onChange(of: eventRouter.createRequest, initial: true) { _, request in
+                if request > 0 { isCreating = true }
             }
             .sheet(isPresented: $isCreating) {
                 CreateEventView()
