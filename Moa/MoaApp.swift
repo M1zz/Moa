@@ -1,3 +1,4 @@
+import AppIntents
 import SwiftUI
 import LeeoKit
 
@@ -11,8 +12,13 @@ struct MoaApp: App {
         // 크래시 진단 · DEBUG 프리플라이트. 통계·진단은 FeedbackHub(CloudKit)로 올라간다 —
         // 그 iCloud 컨테이너 권한은 Config/Moa.entitlements 에 있다 (없으면 CKContainer 에서 죽는다).
         LeeoKit.bootstrap(MoaSpec.self)
-        _store = State(initialValue: EventStore())
+        let store = EventStore()
+        _store = State(initialValue: store)
+        // Siri · Spotlight 가 같은 이벤트 목록을 읽게 한다 (→ EventIntents.swift)
+        AppDependencyManager.shared.add(dependency: store)
     }
+
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
@@ -20,6 +26,10 @@ struct MoaApp: App {
                 .environment(store)
                 // 팁 상품을 불러오고 끝나지 않은 팁을 마저 센다.
                 .task { await MoaSpec.tipJar.startStandalone() }
+                .task { await store.reindex() }
+                .onChange(of: scenePhase) { _, phase in
+                    if phase == .background { Task { await store.reindex() } }
+                }
                 // 시트 · 알림창이 아이폰 듀오의 접힌 선을 비킨다. 접혀 있으면 아무것도 바뀌지 않는다.
                 .foldAware()
         }

@@ -1,3 +1,4 @@
+import AppIntents
 import SwiftUI
 import LeeoKit
 
@@ -73,6 +74,8 @@ struct EventListView: View {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
                         isCreating = true
+                        // Siri 가 '사진 모으기 시작'을 배우게 한다
+                        IntentDonationManager.shared.donate(intent: NewEventIntent())
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -81,6 +84,12 @@ struct EventListView: View {
             }
             .onChange(of: eventRouter.createRequest, initial: true) { _, request in
                 if request > 0 { isCreating = true }
+            }
+            // Siri · Spotlight 에서 고른 이벤트로 넘어간다
+            .onChange(of: eventRouter.openEventID, initial: true) { _, id in
+                guard let id else { return }
+                path = [id]
+                eventRouter.openEventID = nil
             }
             .sheet(isPresented: $isCreating) {
                 CreateEventView()
