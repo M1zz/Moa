@@ -995,9 +995,6 @@
         }
       }
     },
-    "%@:%@" : {
-      "shouldTranslate" : false
-    },
     "%lld개" : {
       "localizations" : {
         "en" : {
@@ -9048,144 +9045,145 @@
         }
       }
     },
-    "테스트용 링크 공유" : {
+    "초대 링크 보내기" : {
+      "comment" : "Event screen: share the invite link with guests who are not nearby",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Share Test Link"
+            "value" : "Send Invite Link"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Share Test Link"
+            "value" : "Send Invite Link"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "分享测试链接"
+            "value" : "发送邀请链接"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "分享測試連結"
+            "value" : "傳送邀請連結"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "テスト用リンクを共有"
+            "value" : "招待リンクを送る"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поделиться тестовой ссылкой"
+            "value" : "Отправить приглашение"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Compartir enlace de prueba"
+            "value" : "Enviar enlace de invitación"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Testlink teilen"
+            "value" : "Einladungslink senden"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Partager le lien de test"
+            "value" : "Envoyer le lien d’invitation"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Condividi link di prova"
+            "value" : "Invia link d’invito"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Compartilhar link de teste"
+            "value" : "Enviar link de convite"
           }
         },
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "แชร์ลิงก์ทดสอบ"
+            "value" : "ส่งลิงก์เชิญ"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chia sẻ liên kết thử nghiệm"
+            "value" : "Gửi liên kết mời"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sdílet testovací odkaz"
+            "value" : "Poslat odkaz s pozvánkou"
           }
         },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Del testlink"
+            "value" : "Send invitationslink"
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Κοινοποίηση συνδέσμου δοκιμής"
+            "value" : "Αποστολή συνδέσμου πρόσκλησης"
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jaa testilinkki"
+            "value" : "Lähetä kutsulinkki"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bagikan Tautan Uji Coba"
+            "value" : "Kirim tautan undangan"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Del testlenke"
+            "value" : "Send invitasjonslenke"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Testlink delen"
+            "value" : "Uitnodigingslink sturen"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Udostępnij link testowy"
+            "value" : "Wyślij link z zaproszeniem"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dela testlänk"
+            "value" : "Skicka inbjudningslänk"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Test Bağlantısını Paylaş"
+            "value" : "Davet bağlantısı gönder"
           }
         }
       }

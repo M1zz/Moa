@@ -92,10 +92,6 @@ struct EventDetailView: View {
             Text("같은 \(interface)에서 QR을 찍으면 이 iPhone으로 바로 와요")
                 .font(.headline)
                 .multilineTextAlignment(.center)
-            Text("\(invitation.host):\(String(invitation.port))")
-                .font(.footnote.monospaced())
-                .foregroundStyle(.secondary)
-                .textSelection(.enabled)
         }
 
         GroupBox {
@@ -123,7 +119,7 @@ struct EventDetailView: View {
         }
 
         ShareLink(item: invitation.url) {
-            Label("테스트용 링크 공유", systemImage: "link")
+            Label("초대 링크 보내기", systemImage: "link")
         }
         .buttonStyle(.bordered)
 

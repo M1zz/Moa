@@ -10,6 +10,26 @@
 - [ ] 기기 부하로 시뮬레이터 화면 캡처는 못 봄. `-FoldPretend -moa-screenshots -moa-open-first` 로 펼친 화면 확인
 - [ ] 가로로 편 화면 · 실기기 확인 (⚠️ Xcode 27.1 로 빌드해야 듀오 배치가 켜진다)
 
+## 1.0 심사 반려 대응 (2026-11-05)
+- 반려 사유 원문은 레포 · DeployBar 로그 어디에도 없다 (App Store Connect API 로 Resolution Center 를 못 읽는다). 사람이 원문을 붙여 줘야 정확히 고친다.
+- [x] 이벤트 화면의 "테스트용 링크 공유" → "초대 링크 보내기"(24개 언어), 개발용 IP:포트 표시 제거 — 출시 앱에 시험용 단추 · 디버그 정보가 보이지 않게
+- [ ] 사람: App Store Connect ▸ 앱 클립 ▸ 고급 경험에 `https://m1zz.github.io/moa/c` 가 등록 · 승인됐는지 확인. 안 되어 있으면 QR 을 카메라로 찍어도 앱 클립 카드가 뜨지 않는다(심사자가 앱 클립을 못 연다)
+- [ ] 사람: 앱 심사 정보 ▸ 메모에 아래 글 붙여넣기 (계정 없음 · 기기 두 대 필요)
+
+```
+No account or sign-in is needed.
+
+Botaejwo needs two iPhones: one host and one guest.
+1. On the host iPhone, open Botaejwo, tap Create Event, enter any name and tap Create. The event screen shows a QR code. Keep this screen open; photos arrive only while it is open.
+2. On the guest iPhone, scan the QR code with the built-in Camera app and tap Open on the App Clip card. The App Clip (com.leeo.moa.Clip) opens. Nothing needs to be installed.
+3. In the App Clip, tap Choose Photos and Videos, pick a few items and send them.
+4. On the host iPhone they appear in the Photos app, in an album with the event name, at the time each photo was taken.
+
+If the two iPhones are on the same Wi-Fi, photos go directly from phone to phone. Otherwise they are encrypted on the guest's iPhone with a key that exists only in the QR code, pass briefly through our CloudKit public database and are deleted once the host receives them.
+If the guest cannot scan, tap Send Invite Link on the host's event screen and open the link on the guest iPhone.
+App Clip experience URL: https://m1zz.github.io/moa/c
+```
+
 ## 완료
 - [x] 서버(Cloudflare Worker 릴레이) 제거, 같은 Wi-Fi 직접 전송만 남김
 - [x] App Clip 엔타이틀먼트에서 가짜 도메인(associated domains) 제거
