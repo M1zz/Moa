@@ -5,3 +5,6 @@ DerivedData/
 
 # Server-to-server key — copy from Config/CloudKitConfig.example.swift
 Shared/CloudKitConfig.swift
+
+# 로컬 빌드 · 스크린샷 빌드
+build/
