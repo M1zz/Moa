@@ -8,7 +8,9 @@ struct OnboardingView: View {
 
     private var pages: [Page] {
         // Built as a String so the iCloud sentence is only claimed when remote sending is on.
-        var arrival = String(localized: "이벤트를 열면 QR이 나오고, 그동안 사진이 들어와요. 같은 Wi-Fi에 있는 사람은 이 iPhone으로 바로 보내요.")
+        var arrival = (UIDevice.current.userInterfaceIdiom == .pad
+            ? String(localized: "이벤트를 열면 QR이 나오고, 그동안 사진이 들어와요. 같은 Wi-Fi에 있는 사람은 이 iPad로 바로 보내요.")
+            : String(localized: "이벤트를 열면 QR이 나오고, 그동안 사진이 들어와요. 같은 Wi-Fi에 있는 사람은 이 iPhone으로 바로 보내요."))
         if RemoteTransfer.isConfigured {
             arrival += " " + String(localized: "멀리 있는 사람이 보낸 사진은 iCloud를 거쳐 들어와요.")
         }
@@ -23,7 +25,9 @@ struct OnboardingView: View {
             Page(
                 symbol: "photo.on.rectangle.angled",
                 title: "원본 그대로, 찍은 시각 그대로",
-                body: String(localized: "받은 사진은 이 iPhone의 사진 앱에 들어가요. 내가 찍은 사진처럼 촬영한 날짜 자리에 놓이고, 이벤트 이름의 앨범에도 정리돼요.")
+                body: UIDevice.current.userInterfaceIdiom == .pad
+                    ? String(localized: "받은 사진은 이 iPad의 사진 앱에 들어가요. 내가 찍은 사진처럼 촬영한 날짜 자리에 놓이고, 이벤트 이름의 앨범에도 정리돼요.")
+                    : String(localized: "받은 사진은 이 iPhone의 사진 앱에 들어가요. 내가 찍은 사진처럼 촬영한 날짜 자리에 놓이고, 이벤트 이름의 앨범에도 정리돼요.")
             ),
             howItArrives,
         ]

@@ -29,7 +29,9 @@ struct EventListView: View {
                     ContentUnavailableView {
                         Label("아직 이벤트가 없어요", systemImage: "qrcode")
                     } description: {
-                        Text("이벤트를 만들고 QR을 보여주면, 같은 Wi-Fi에 있는 사람이 앱 설치 없이 이 iPhone으로 사진을 보낼 수 있어요. 받은 사진은 촬영 시각 그대로 사진 앱에 들어가요.")
+                        Text(UIDevice.current.userInterfaceIdiom == .pad
+                             ? "이벤트를 만들고 QR을 보여주면, 같은 Wi-Fi에 있는 사람이 앱 설치 없이 이 iPad로 사진을 보낼 수 있어요. 받은 사진은 촬영 시각 그대로 사진 앱에 들어가요."
+                             : "이벤트를 만들고 QR을 보여주면, 같은 Wi-Fi에 있는 사람이 앱 설치 없이 이 iPhone으로 사진을 보낼 수 있어요. 받은 사진은 촬영 시각 그대로 사진 앱에 들어가요.")
                     } actions: {
                         Button("이벤트 만들기") { isCreating = true }
                             .buttonStyle(.borderedProminent)
@@ -96,7 +98,7 @@ struct EventListView: View {
             }
             .fullScreenCover(isPresented: $isShowingOnboarding) {
                 OnboardingView()
-                    .foldConfined()
+                    .coverConfined()
             }
             .onAppear {
                 guard !hasSeenOnboarding else { return }

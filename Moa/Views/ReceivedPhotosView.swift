@@ -48,7 +48,7 @@ struct ReceivedPhotosView: View {
         #endif
         .fullScreenCover(item: $opened) { opened in
             AssetPagerView(assets: assets, uploaders: uploaders, startIndex: opened.index)
-                .foldConfined()
+                .coverConfined()
         }
     }
 

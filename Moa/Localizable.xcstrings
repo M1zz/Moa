@@ -2274,6 +2274,148 @@
         }
       }
     },
+    "같은 %@에서 QR을 찍으면 이 iPad로 바로 와요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan on the same %@ to send straight to this iPad"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan on the same %@ to send straight to this iPad"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在相同%@下扫描二维码，照片会直接传到这台 iPad"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在相同%@下掃描 QR Code，照片會直接傳到這台 iPad"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同じ%@でQRを読み取ると、このiPadにすぐ届きます"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фото придут сразу на этот iPad, если отсканировать QR-код в той же сети (%@)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escanea el QR con la misma conexión (%@) y las fotos llegarán directas a este iPad"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanne den QR-Code über dieselbe Verbindung (%@), dann kommt alles direkt auf dieses iPad"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scannez le QR code sur le même %@ et les photos arrivent directement sur cet iPad"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stessa connessione (%@): inquadra il QR e le foto arrivano subito su questo iPad"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na mesma %@, basta escanear o QR para as fotos chegarem direto a este iPad"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "สแกน QR ใน%@เดียวกัน รูปจะส่งตรงมาที่ iPad เครื่องนี้"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quét mã QR trên cùng một %@ là ảnh gửi thẳng đến iPad này"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naskenujte QR ve stejném připojení (%@) a fotky půjdou rovnou na tento iPad"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan QR-koden på samme %@, så sendes billederne direkte til denne iPad"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Σαρώστε το QR στο ίδιο %@ και οι φωτογραφίες έρχονται απευθείας σε αυτό το iPad"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skannaa QR-koodi samalla yhteydellä (%@), niin kuvat tulevat suoraan tähän iPadiin"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pindai QR di %@ untuk langsung mengirim ke iPad ini"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skann QR-koden på %@ for å sende rett til denne iPaden"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan de QR-code via %@ om direct naar deze iPad te sturen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeskanuj QR przez to samo połączenie (%@), a zdjęcia trafią prosto na ten iPad"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skanna QR-koden via samma anslutning (%@) så skickas bilderna direkt till den här iPaden"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aynı %@ üzerinden QR'ı okutursanız fotoğraflar doğrudan bu iPad'e gelir"
+          }
+        }
+      }
+    },
     "개인용 핫스팟" : {
       "localizations" : {
         "en" : {
@@ -3978,6 +4120,149 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alınan her şey bu iPhone'daki Fotoğraflar uygulamasına girer. Her biri, kendi çektikleriniz gibi çekildiği tarihe yerleşir ve etkinlik adını taşıyan bir albüme de eklenir."
+          }
+        }
+      }
+    },
+    "받은 사진은 이 iPad의 사진 앱에 들어가요. 내가 찍은 사진처럼 촬영한 날짜 자리에 놓이고, 이벤트 이름의 앨범에도 정리돼요." : {
+      "comment" : "Onboarding page 2 body",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everything you receive goes into this iPad's Photos app. Each item sits at the date it was taken, just like your own shots, and also lands in an album named after the event."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everything you receive goes into the Photos app on this iPad. Each item sits on the date it was taken, just like your own shots, and is also filed in an album named after the event."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收到的照片会存入这台 iPad 的“照片”App。它们会像你自己拍的照片一样，按拍摄日期归位，并整理到以活动名称命名的相册中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收到的照片會存入這台 iPad 的「照片」App。它們會像你自己拍的照片一樣，依拍攝日期歸位，並整理到以活動名稱命名的相簿中。"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "受け取った写真はこのiPadの写真アプリに入ります。自分で撮った写真と同じように撮影した日付の位置に並び、イベント名のアルバムにも整理されます。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Всё полученное попадает в приложение «Фото» на этом iPad. Как и ваши снимки, оно встаёт на дату съёмки и раскладывается по альбому с названием события."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo lo que recibas se guarda en la app Fotos de este iPad. Cada elemento queda en la fecha en que se hizo, como tus propias fotos, y además se añade a un álbum con el nombre del evento."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles, was du erhältst, landet in der Fotos-App dieses iPads. Jedes Foto wird zum Aufnahmedatum einsortiert, genau wie deine eigenen, und zusätzlich in ein Album mit dem Namen des Events gelegt."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout ce que vous recevez va dans l’app Photos de cet iPad. Chaque élément se place à sa date de prise de vue, comme vos propres photos, et rejoint aussi un album au nom de l’événement."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutto ciò che ricevi finisce nell'app Foto di questo iPad. Ogni elemento va alla data in cui è stato scattato, come i tuoi scatti, e viene raccolto anche in un album con il nome dell'evento."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tudo o que você recebe vai para o app Fotos deste iPad. Cada item fica na data em que foi feito, como as suas próprias fotos, e também entra em um álbum com o nome do evento."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ทุกอย่างที่คุณได้รับจะเข้าไปในแอปรูปภาพของ iPad เครื่องนี้ โดยอยู่ในวันที่ถ่ายจริงเหมือนรูปที่คุณถ่ายเอง และยังถูกจัดไว้ในอัลบั้มที่ตั้งชื่อตามอีเวนต์ด้วย"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mọi thứ bạn nhận được sẽ vào ứng dụng Ảnh trên iPad này. Mỗi ảnh nằm đúng ngày chụp như ảnh bạn tự chụp, đồng thời được xếp vào album mang tên sự kiện."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vše, co přijmete, se uloží do aplikace Fotky na tomto iPadu. Každá položka se zařadí podle data pořízení, stejně jako vaše vlastní snímky, a zároveň se uloží do alba pojmenovaného podle události."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alt, du modtager, lægges i Fotos-appen på denne iPad. Hvert billede placeres på den dato, det blev taget, ligesom dine egne, og lægges også i et album opkaldt efter begivenheden."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ό,τι λαμβάνετε μπαίνει στην εφαρμογή Φωτογραφίες αυτού του iPad. Κάθε στοιχείο μπαίνει στην ημερομηνία λήψης του, όπως οι δικές σας φωτογραφίες, και προστίθεται και σε άλμπουμ με το όνομα της εκδήλωσης."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaikki vastaanottamasi menee tämän iPadin Kuvat-appiin. Jokainen kuva sijoittuu ottopäivänsä kohdalle kuten omat kuvasi, ja se lisätään myös tapahtuman nimiseen albumiin."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semua yang diterima masuk ke app Foto di iPad ini. Tiap item ditempatkan di tanggal pengambilannya, seperti foto yang kamu ambil sendiri, dan juga masuk ke album bernama sesuai acara."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alt du mottar havner i Bilder-appen på denne iPaden. Hvert bilde legges på datoen det ble tatt, som dine egne bilder, og havner også i et album oppkalt etter arrangementet."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles wat je ontvangt komt in de Foto's-app op deze iPad. Elk item staat op de datum waarop het is gemaakt, net als je eigen foto's, en komt ook in een album met de naam van het evenement."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odebrane zdjęcia trafiają do aplikacji Zdjęcia na tym iPadzie. Tak jak Twoje własne, układają się według daty wykonania i trafiają też do albumu o nazwie wydarzenia."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allt du tar emot hamnar i Bilder på den här iPaden. Varje bild hamnar på det datum den togs, precis som dina egna, och läggs också i ett album med eventets namn."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alınan her şey bu iPad'deki Fotoğraflar uygulamasına girer. Her biri, kendi çektikleriniz gibi çekildiği tarihe yerleşir ve etkinlik adını taşıyan bir albüme de eklenir."
           }
         }
       }
@@ -7962,6 +8247,148 @@
         }
       }
     },
+    "이벤트를 만들고 QR을 보여주면, 같은 Wi-Fi에 있는 사람이 앱 설치 없이 이 iPad로 사진을 보낼 수 있어요. 받은 사진은 촬영 시각 그대로 사진 앱에 들어가요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create an event and show its QR code. Guests can send photos to this iPad without installing anything, and each one lands in Photos at the time it was taken."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create an event and show the QR code. Guests on the same Wi-Fi can send photos to this iPad with no app to install, and each lands in Photos at the time it was taken."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "创建活动并亮出二维码，同一 Wi-Fi 下的人无需安装 App，就能把照片发到这台 iPad。收到的照片会按拍摄时间存入“照片”App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "建立活動並出示 QR Code，同一個 Wi-Fi 下的人不必安裝 App，就能把照片傳到這台 iPad。收到的照片會依拍攝時間存入「照片」App。"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "イベントを作成してQRを見せると、同じWi-Fiにいる人がアプリなしでこのiPadに写真を送れます。受け取った写真は撮影時刻のまま写真アプリに入ります。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создайте событие и покажите QR-код: гости из той же сети Wi-Fi смогут отправить фото на этот iPad, ничего не устанавливая. Полученные фото попадут в «Фото» с исходным временем съёмки."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crea un evento y muestra su QR: quienes estén en la misma red Wi-Fi podrán enviar fotos a este iPad sin instalar nada. Las fotos recibidas se guardan en Fotos con la hora a la que se hicieron."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erstelle ein Event und zeig den QR-Code: Wer im selben WLAN ist, kann Fotos an dieses iPad senden, ohne etwas zu installieren. Empfangene Fotos landen zum Aufnahmezeitpunkt in Fotos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créez un événement et montrez son QR code : les personnes sur le même Wi-Fi peuvent envoyer des photos à cet iPad sans rien installer. Les photos reçues arrivent dans Photos à l’heure de prise de vue."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crea un evento e mostra il QR: chi è sullo stesso Wi-Fi può inviare le foto a questo iPad senza installare nulla. Le foto ricevute vanno in Foto con l'ora di scatto originale."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crie um evento e mostre o QR: quem estiver no mesmo Wi-Fi pode enviar fotos para este iPad sem instalar nada. As fotos recebidas vão para o app Fotos no horário em que foram feitas."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "สร้างอีเวนต์แล้วแสดง QR คนที่อยู่ใน Wi-Fi เดียวกันก็ส่งรูปมาที่ iPad เครื่องนี้ได้โดยไม่ต้องติดตั้งแอป รูปที่ได้รับจะเข้าแอปรูปภาพตามเวลาที่ถ่ายจริง"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tạo sự kiện rồi cho mọi người quét mã QR, ai dùng chung Wi-Fi đều có thể gửi ảnh đến iPad này mà không cần cài ứng dụng. Ảnh nhận được vào Ảnh đúng thời điểm chụp."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvořte událost a ukažte její QR kód. Kdo je ve stejné Wi-Fi, může poslat fotky na tento iPad bez instalace aplikace. Přijaté fotky se ve Fotkách zařadí podle času pořízení."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opret en begivenhed og vis dens QR-kode. Gæster på samme Wi-Fi kan sende billeder til denne iPad uden at installere noget, og hvert billede lander i Fotos på det tidspunkt, det blev taget."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Δημιουργήστε μια εκδήλωση και δείξτε το QR της. Όσοι βρίσκονται στο ίδιο Wi-Fi μπορούν να στείλουν φωτογραφίες σε αυτό το iPad χωρίς να εγκαταστήσουν εφαρμογή. Οι φωτογραφίες μπαίνουν στις Φωτογραφίες στη στιγμή που τραβήχτηκαν."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luo tapahtuma ja näytä sen QR-koodi. Samassa Wi-Fi-verkossa olevat voivat lähettää kuvia tähän iPadiin ilman sovelluksen asennusta. Vastaanotetut kuvat sijoittuvat Kuvat-appissa ottohetkensä kohdalle."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buat acara lalu tampilkan QR-nya. Orang di Wi-Fi yang sama bisa mengirim foto ke iPad ini tanpa memasang app, dan foto masuk ke app Foto sesuai waktu pengambilannya."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opprett et arrangement og vis QR-koden. Folk på samme Wi-Fi kan sende bilder til denne iPaden uten å installere noe, og hvert bilde havner i Bilder med opptakstidspunktet i behold."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maak een evenement aan en laat de QR-code zien. Mensen op hetzelfde wifi-netwerk kunnen foto's naar deze iPad sturen zonder iets te installeren, en elke foto komt in Foto's op het moment van opname."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utwórz wydarzenie i pokaż jego kod QR. Osoby w tej samej sieci Wi-Fi mogą wysyłać zdjęcia na ten iPad bez instalowania aplikacji, a każde trafia do Zdjęć z godziną wykonania."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skapa ett event och visa QR-koden. Personer på samma Wi-Fi kan skicka bilder till den här iPaden utan att installera något, och varje bild hamnar i Bilder på den tid den togs."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir etkinlik oluşturup QR kodunu gösterin. Aynı Wi-Fi ağındaki kişiler uygulama yüklemeden bu iPad'e fotoğraf gönderebilir; her fotoğraf Fotoğraflar'a çekildiği saatle girer."
+          }
+        }
+      }
+    },
     "이벤트를 열면 QR이 나오고, 그동안 사진이 들어와요. 같은 Wi-Fi에 있는 사람은 이 iPhone으로 바로 보내요." : {
       "comment" : "Onboarding page 3 body",
       "localizations" : {
@@ -8101,6 +8528,149 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Etkinliği açınca QR kod görünür ve fotoğraflar bu sırada gelir. Aynı Wi-Fi ağındaki kişiler doğrudan bu iPhone'a gönderir."
+          }
+        }
+      }
+    },
+    "이벤트를 열면 QR이 나오고, 그동안 사진이 들어와요. 같은 Wi-Fi에 있는 사람은 이 iPad로 바로 보내요." : {
+      "comment" : "Onboarding page 3 body",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open an event and its QR code appears; photos arrive while it's on screen. Anyone on the same Wi-Fi sends straight to this iPad."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open an event to show its QR code; photos arrive while it's on screen. Anyone on the same Wi-Fi can send straight to this iPad."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开活动后会显示二维码，期间照片会陆续传入。同一 Wi-Fi 下的人可以直接发到这台 iPad。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟活動後會顯示 QR Code，期間照片會陸續傳入。同一個 Wi-Fi 下的人可以直接傳到這台 iPad。"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "イベントを開くとQRが表示され、その間に写真が届きます。同じWi-Fiにいる人は、このiPadに直接送れます。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Откройте событие, и появится QR-код. Пока он на экране, фото приходят. Те, кто в той же сети Wi-Fi, отправляют их прямо на этот iPad."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre un evento y aparecerá su QR; las fotos llegan mientras está en pantalla. Quienes estén en la misma red Wi-Fi las envían directamente a este iPad."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffne ein Event, dann erscheint sein QR-Code. Solange er auf dem Bildschirm ist, kommen Fotos an. Wer im selben WLAN ist, sendet direkt an dieses iPad."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez un événement et son QR code apparaît ; les photos arrivent tant qu’il est affiché. Les personnes sur le même Wi-Fi envoient directement à cet iPad."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri un evento per mostrare il QR: le foto arrivano finché resta aperto. Chi è sullo stesso Wi-Fi le invia direttamente a questo iPad."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao abrir um evento, o QR aparece e as fotos chegam enquanto ele estiver na tela. Quem está no mesmo Wi-Fi envia direto para este iPad."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เปิดอีเวนต์แล้วจะมี QR ขึ้นมา และรูปจะเข้ามาระหว่างนั้น คนที่อยู่ใน Wi-Fi เดียวกันส่งตรงมาที่ iPad เครื่องนี้ได้เลย"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mở sự kiện để hiện mã QR, ảnh sẽ về trong lúc đó. Người dùng chung Wi-Fi gửi thẳng đến iPad này."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřete událost a objeví se QR kód; fotky přicházejí, dokud je na obrazovce. Kdo je ve stejné Wi-Fi, posílá rovnou na tento iPad."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åbn en begivenhed, så vises QR-koden, og billeder kommer ind, mens den er på skærmen. Gæster på samme Wi-Fi sender direkte til denne iPad."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ανοίξτε μια εκδήλωση για να εμφανιστεί το QR της· οι φωτογραφίες έρχονται όσο είναι στην οθόνη. Όσοι είναι στο ίδιο Wi-Fi στέλνουν απευθείας σε αυτό το iPad."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avaa tapahtuma, niin QR-koodi tulee näkyviin ja kuvat tulevat sisään, kun se on näytöllä. Samassa Wi-Fi-verkossa olevat lähettävät suoraan tähän iPadiin."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buka acara dan QR akan muncul; foto masuk selama QR tampil. Orang di Wi-Fi yang sama bisa langsung mengirim ke iPad ini."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åpne et arrangement, så vises QR-koden, og bildene kommer inn mens den vises. Folk på samme Wi-Fi sender rett til denne iPaden."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open een evenement en de QR-code verschijnt; zolang hij zichtbaar is, komen er foto's binnen. Mensen op hetzelfde wifi-netwerk sturen rechtstreeks naar deze iPad."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otwórz wydarzenie, a pojawi się kod QR; w tym czasie zdjęcia będą napływać. Osoby w tej samej sieci Wi-Fi wysyłają je prosto na ten iPad."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öppna ett event så visas QR-koden, och bilder kommer in medan den visas. Den som är på samma Wi-Fi skickar direkt till den här iPaden."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etkinliği açınca QR kod görünür ve fotoğraflar bu sırada gelir. Aynı Wi-Fi ağındaki kişiler doğrudan bu iPad'e gönderir."
           }
         }
       }

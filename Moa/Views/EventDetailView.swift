@@ -12,6 +12,7 @@ struct EventDetailView: View {
     @State private var isCheckingRemote = false
     /// 아이폰 듀오를 펴면 받은 사진은 옆 판(`FoldEventPhotos`)에 서므로 여기서는 그리지 않는다.
     @Environment(\.foldLayout) private var fold
+    @Environment(\.isWidePadPanes) private var widePad
 
     var body: some View {
         if let event = store.event(id: eventID) {
@@ -86,10 +87,13 @@ struct EventDetailView: View {
         let qrImage = QRCodeRenderer.image(for: invitation.url.absoluteString)
 
         QRCodeView(image: qrImage)
-            .frame(maxWidth: 280)
+            // 넓은 아이패드는 행사장 안내판 — 멀리서도 찍히게 크게
+            .frame(maxWidth: widePad ? 440 : 280)
 
         VStack(spacing: 4) {
-            Text("같은 \(interface)에서 QR을 찍으면 이 iPhone으로 바로 와요")
+            Text(UIDevice.current.userInterfaceIdiom == .pad
+                 ? "같은 \(interface)에서 QR을 찍으면 이 iPad로 바로 와요"
+                 : "같은 \(interface)에서 QR을 찍으면 이 iPhone으로 바로 와요")
                 .font(.headline)
                 .multilineTextAlignment(.center)
         }
