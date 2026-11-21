@@ -337,7 +337,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Config/Moa-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Botaejwo;
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "같은 Wi-Fi에 있는 사람이 보낸 사진을 이 iPhone으로 바로 받기 위해 필요해요.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "다른 사람의 이벤트 QR을 찍어 사진을 보내기 위해 필요해요.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "근처 사람과 사진을 바로 주고받기 위해 필요해요.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "게스트가 보낸 사진을 사진 앱에 넣기 위해 필요해요.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "이벤트 앨범을 만들고, 게스트가 보낸 사진을 촬영 시각 그대로 사진 앱에 정리하기 위해 필요해요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -372,7 +373,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Config/Moa-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Botaejwo;
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "같은 Wi-Fi에 있는 사람이 보낸 사진을 이 iPhone으로 바로 받기 위해 필요해요.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "다른 사람의 이벤트 QR을 찍어 사진을 보내기 위해 필요해요.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "근처 사람과 사진을 바로 주고받기 위해 필요해요.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "게스트가 보낸 사진을 사진 앱에 넣기 위해 필요해요.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "이벤트 앨범을 만들고, 게스트가 보낸 사진을 촬영 시각 그대로 사진 앱에 정리하기 위해 필요해요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

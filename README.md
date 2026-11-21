@@ -28,8 +28,8 @@ Apple Developer Program 멤버십 말고는 드는 비용이 없어요.
 | 경로 | 내용 |
 |---|---|
 | `Moa/` | 호스트 앱. 이벤트 생성, QR 표시, 직접 받기, PhotoKit 가져오기 |
-| `MoaClip/` | App Clip. PHPicker로 원본(HEIC, Live Photo 포함)을 골라 보내고, 보낸 사진을 격자로 보여줘요 |
-| `Shared/` | 두 타깃이 함께 쓰는 전송 규약, 모델, 설정 |
+| `MoaClip/` | App Clip. QR 로 열려서 보내는 화면(`Shared/Sending/`)을 보여줘요 |
+| `Shared/` | 두 타깃이 함께 쓰는 전송 규약, 모델, 설정, 보내는 화면(`Sending/` — PHPicker로 원본을 골라 보냄) |
 | `Config/` | App Clip 엔타이틀먼트와 Info.plist |
 
 Xcode 16 이상의 폴더 동기화 그룹을 쓰기 때문에, 폴더에 파일을 추가하면 자동으로 타깃에 포함돼요.
@@ -42,6 +42,22 @@ Xcode 16 이상의 폴더 동기화 그룹을 쓰기 때문에, 폴더에 파일
 - App Clip에서는 Bonjour를 쓸 수 없어서, QR에 호스트의 IP·포트·키를 담아요. 키와 포트는 이벤트마다 하나로 고정이라, 먼저 찍은 QR이나 공유한 초대 링크도 이벤트 내내 통해요(포트가 이미 쓰이고 있으면 그때만 바뀌어요). 예전처럼 화면마다 키가 바뀌면 그 전 QR로 iCloud에 맡긴 사진을 풀 수 없었어요.
 - 받는 도중 앱을 내려도 그 사진 하나는 끝까지 받아요(백그라운드 작업).
 - 전송 형식과 규칙은 `Shared/DirectTransfer.swift` 맨 위에 있어요.
+
+## 인터넷 · 공유기 없이 앱끼리 (근처 전송)
+
+보태줘 앱이 있는 사람은 네트워크가 전혀 없어도 보낼 수 있어요. 두 iPhone 모두 Wi-Fi만 켜져 있으면 돼요(어느 네트워크에 연결돼 있지 않아도 돼요).
+
+```
+보내는 사람 앱 ── 사진 보내기 → 호스트 QR 찍기(카메라, 오프라인)
+              └─ Bonjour 로 이벤트 ID 를 찾아 iPhone 끼리 직접 Wi-Fi(AirDrop 과 같은 길)로 연결
+                                        ▼
+                         호스트 앱 (이벤트 화면 켜 둠) ──▶ 사진 앱
+```
+
+- 호스트는 이벤트 화면을 여는 동안 이벤트 ID 를 이름으로 `_moa._tcp` 를 알려요(`includePeerToPeer`). Wi-Fi 네트워크가 없어도 받을 준비가 돼요.
+- 전송 규약과 키 확인은 같은 Wi-Fi 전송(`DirectTransfer`)과 같아요. 키는 QR 에만 있어서, 근처에 있다는 것만으로는 보낼 수 없어요.
+- 찾지 못하면 QR 의 주소로, 그것도 안 되면 iCloud 로 보내요. App Clip 은 Bonjour 를 쓸 수 없어서 근처 전송을 쓰지 않아요.
+- 보내는 코드(`Shared/Sending/`)는 App Clip 과 앱이 같이 써요. 코드는 `Shared/NearbyTransfer.swift`, `Moa/Views/SendPhotosView.swift`.
 
 ## 멀리 있는 사람이 보낼 때 (원거리 전송)
 

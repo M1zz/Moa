@@ -104,20 +104,29 @@ struct EventDetailView: View {
     }
 
     @ViewBuilder
-    private func listening(event: HostedEvent, invitation: DirectInvitation, interface: String) -> some View {
+    private func listening(event: HostedEvent, invitation: DirectInvitation, interface: String?) -> some View {
         let qrImage = QRCodeRenderer.image(for: invitation.url.absoluteString)
 
         QRCodeView(image: qrImage)
             // 넓은 아이패드는 행사장 안내판 — 멀리서도 찍히게 크게
             .frame(maxWidth: widePad ? 440 : 280)
 
-        VStack(spacing: 4) {
-            Text(UIDevice.current.userInterfaceIdiom == .pad
-                 ? "같은 \(interface)에서 QR을 찍으면 이 iPad로 바로 와요"
-                 : "같은 \(interface)에서 QR을 찍으면 이 iPhone으로 바로 와요")
-                .font(.headline)
-                .multilineTextAlignment(.center)
+        VStack(spacing: 8) {
+            if let interface {
+                Text(UIDevice.current.userInterfaceIdiom == .pad
+                     ? "같은 \(interface)에서 QR을 찍으면 이 iPad로 바로 와요"
+                     : "같은 \(interface)에서 QR을 찍으면 이 iPhone으로 바로 와요")
+                    .font(.headline)
+            } else {
+                Text("Wi-Fi 네트워크에 연결되어 있지 않아요")
+                    .font(.headline)
+            }
+            // 인터넷 · 공유기 없이도 되는 길 (→ NearbyTransfer)
+            Text("보태줘 앱이 있는 사람은 인터넷이 없어도 앱의 사진 보내기로 이 QR을 찍어 바로 보낼 수 있어요.")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
         }
+        .multilineTextAlignment(.center)
 
         GroupBox {
             VStack(alignment: .leading, spacing: 12) {

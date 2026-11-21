@@ -40,9 +40,16 @@ final class UploadModel {
     /// nil until checked. Whether this guest can reach the host's iCloud mailbox.
     private(set) var canSendRemotely: Bool?
     private static let uploaderNameKey = "uploaderName"
+    /// The app looks for the host nearby (no network needed); the App Clip can't use Bonjour.
+    private let nearby: NearbyHostFinder?
 
-    init() {
+    init(searchesNearby: Bool = false) {
         uploaderName = UserDefaults.standard.string(forKey: Self.uploaderNameKey) ?? ""
+        nearby = searchesNearby ? NearbyHostFinder() : nil
+    }
+
+    func stop() {
+        nearby?.stop()
     }
 
     var isUploading: Bool {
@@ -75,6 +82,7 @@ final class UploadModel {
         self.invitation = invitation
         eventName = invitation.name ?? String(localized: "호스트에게 바로 보내기")
         phase = .ready
+        nearby?.start(eventID: invitation.eventID)
         // Answer "can this go through iCloud?" before it is needed, so the first failed
         // local attempt doesn't stall behind a second network round trip.
         Task { canSendRemotely = await RemoteSender.isReachable() }
@@ -144,7 +152,8 @@ final class UploadModel {
                 }
                 setStatus(.uploading, for: localID)
                 do {
-                    try await DirectSender.send(media, uploader: uploader, to: invitation)
+                    let nearbyHost = await nearby?.waitForEndpoint()
+                    try await DirectSender.send(media, uploader: uploader, to: invitation, nearby: nearbyHost)
                     setStatus(.done(remote: false), for: localID)
                 } catch let directError {
                     // Not on the same network, or the host closed the screen: try iCloud.

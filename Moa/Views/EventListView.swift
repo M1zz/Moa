@@ -5,6 +5,7 @@ import LeeoKit
 struct EventListView: View {
     @Environment(EventStore.self) private var store
     @State private var isCreating = false
+    @State private var isSending = false
     /// Siri 로 들어온 새 모으기 (→ EventIntents.swift)
     @Bindable private var eventRouter = EventRouter.shared
     @State private var path: [String] = []
@@ -35,6 +36,9 @@ struct EventListView: View {
                     } actions: {
                         Button("이벤트 만들기") { isCreating = true }
                             .buttonStyle(.borderedProminent)
+                        // 받는 사람이 아니라 보내는 사람으로 설치했을 때
+                        Button("사진 보내기") { isSending = true }
+                            .buttonStyle(.bordered)
                     }
                 } else {
                     List {
@@ -74,6 +78,15 @@ struct EventListView: View {
                     }
                 }
                 ToolbarItem(placement: .primaryAction) {
+                    // 다른 사람의 QR 을 찍어 보낸다 — 근처면 인터넷 없이 (→ SendPhotosView)
+                    Button {
+                        isSending = true
+                    } label: {
+                        Image(systemName: "paperplane")
+                    }
+                    .accessibilityLabel("사진 보내기")
+                }
+                ToolbarItem(placement: .primaryAction) {
                     Button {
                         isCreating = true
                         // Siri 가 '사진 모으기 시작'을 배우게 한다
@@ -95,6 +108,9 @@ struct EventListView: View {
             }
             .sheet(isPresented: $isCreating) {
                 CreateEventView()
+            }
+            .sheet(isPresented: $isSending) {
+                SendPhotosView()
             }
             .fullScreenCover(isPresented: $isShowingOnboarding) {
                 OnboardingView()

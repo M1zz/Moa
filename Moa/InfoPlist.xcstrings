@@ -299,151 +299,300 @@
         }
       }
     },
+    "NSCameraUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used to scan someone’s event QR code so you can send them photos."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 사람의 이벤트 QR을 찍어 사진을 보내기 위해 필요해요."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used to scan someone’s event QR code so you can send them photos."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用于扫描他人的活动二维码，以便向其发送照片。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用於掃描他人的活動 QR 碼，以便傳送照片給對方。"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相手のイベントQRコードを読み取って写真を送るために使います。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нужно, чтобы сканировать QR-код мероприятия другого человека и отправлять ему фото."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se usa para escanear el código QR del evento de otra persona y enviarle fotos."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird verwendet, um den Event-QR-Code einer anderen Person zu scannen und ihr Fotos zu senden."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sert à scanner le QR code d’événement de quelqu’un pour lui envoyer des photos."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Serve a inquadrare il codice QR dell’evento di un’altra persona per inviarle foto."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usada para escanear o QR code do evento de outra pessoa e enviar fotos para ela."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ใช้สแกนคิวอาร์โค้ดงานของผู้อื่นเพื่อส่งรูปให้"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dùng để quét mã QR sự kiện của người khác và gửi ảnh cho họ."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slouží ke skenování QR kódu akce jiné osoby, abyste jí mohli poslat fotky."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bruges til at scanne en andens begivenheds-QR-kode, så du kan sende billeder."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Χρησιμοποιείται για τη σάρωση του κωδικού QR εκδήλωσης κάποιου, ώστε να του στείλετε φωτογραφίες."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Käytetään toisen tapahtuman QR-koodin skannaamiseen kuvien lähettämistä varten."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dipakai untuk memindai kode QR acara orang lain agar bisa mengirim foto."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brukes til å skanne noens arrangements-QR-kode så du kan sende bilder."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wordt gebruikt om iemands evenement-QR-code te scannen en diegene foto’s te sturen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Służy do skanowania kodu QR wydarzenia innej osoby, aby wysłać jej zdjęcia."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Används för att skanna någons event-QR-kod så att du kan skicka bilder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başka birinin etkinlik QR kodunu okutup ona fotoğraf göndermek için kullanılır."
+          }
+        }
+      }
+    },
     "NSLocalNetworkUsageDescription" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lets people on the same Wi-Fi send photos straight to this iPhone."
+            "value" : "Used to send and receive photos directly with people nearby."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "같은 Wi-Fi에 있는 사람이 보낸 사진을 이 iPhone으로 바로 받기 위해 필요해요."
+            "value" : "근처 사람과 사진을 바로 주고받기 위해 필요해요."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allows people on the same Wi-Fi to send photos directly to this iPhone."
+            "value" : "Used to send and receive photos directly with people nearby."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用于直接接收同一 Wi-Fi 下的人发送到这台 iPhone 的照片。"
+            "value" : "用于与附近的人直接收发照片。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用於直接接收同一個 Wi-Fi 下的人傳送到這部 iPhone 的照片。"
+            "value" : "用於與附近的人直接收發照片。"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "同じWi-Fiにいる人が送った写真を、このiPhoneで直接受け取るために必要です。"
+            "value" : "近くの人と写真を直接やり取りするために使います。"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Нужно, чтобы фото от людей из той же сети Wi-Fi сразу приходили на этот iPhone."
+            "value" : "Нужно, чтобы напрямую обмениваться фото с людьми рядом."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Permite que las personas en la misma red Wi-Fi envíen fotos directamente a este iPhone."
+            "value" : "Se usa para enviar y recibir fotos directamente con personas cercanas."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ermöglicht es Personen im selben WLAN, Fotos direkt an dieses iPhone zu senden."
+            "value" : "Wird verwendet, um Fotos direkt mit Personen in der Nähe auszutauschen."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Permet aux personnes sur le même Wi-Fi d’envoyer des photos directement à cet iPhone."
+            "value" : "Sert à échanger des photos directement avec les personnes à proximité."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Serve per ricevere direttamente su questo iPhone le foto inviate da chi è sullo stesso Wi-Fi."
+            "value" : "Serve a inviare e ricevere foto direttamente con le persone vicine."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Necessário para receber direto neste iPhone as fotos enviadas por quem está no mesmo Wi-Fi."
+            "value" : "Usada para enviar e receber fotos diretamente com pessoas por perto."
           }
         },
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ใช้เพื่อรับรูปที่คนใน Wi-Fi เดียวกันส่งมาที่ iPhone เครื่องนี้โดยตรง"
+            "value" : "ใช้ส่งและรับรูปโดยตรงกับคนที่อยู่ใกล้ๆ"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cần để nhận thẳng trên iPhone này những ảnh do người dùng chung Wi-Fi gửi đến."
+            "value" : "Dùng để gửi và nhận ảnh trực tiếp với người ở gần."
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Umožní lidem ve stejné Wi-Fi posílat fotky přímo na tento iPhone."
+            "value" : "Slouží k posílání a přijímání fotek přímo s lidmi poblíž."
           }
         },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lader folk på samme Wi-Fi sende billeder direkte til denne iPhone."
+            "value" : "Bruges til at sende og modtage billeder direkte med folk i nærheden."
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Επιτρέπει σε όσους βρίσκονται στο ίδιο Wi-Fi να στέλνουν φωτογραφίες απευθείας σε αυτό το iPhone."
+            "value" : "Χρησιμοποιείται για απευθείας αποστολή και λήψη φωτογραφιών με άτομα κοντά σας."
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Antaa samassa Wi-Fi-verkossa olevien lähettää kuvia suoraan tähän iPhoneen."
+            "value" : "Käytetään kuvien lähettämiseen ja vastaanottamiseen suoraan lähellä olevien kanssa."
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Agar orang di Wi-Fi yang sama bisa mengirim foto langsung ke iPhone ini."
+            "value" : "Dipakai untuk mengirim dan menerima foto langsung dengan orang di dekat Anda."
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lar folk på samme Wi-Fi sende bilder rett til denne iPhonen."
+            "value" : "Brukes til å sende og motta bilder direkte med folk i nærheten."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Laat mensen op hetzelfde wifi-netwerk foto's rechtstreeks naar deze iPhone sturen."
+            "value" : "Wordt gebruikt om foto’s direct uit te wisselen met mensen in de buurt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pozwala odbierać na tym iPhonie zdjęcia wysyłane przez osoby z tej samej sieci Wi-Fi."
+            "value" : "Służy do wysyłania i odbierania zdjęć bezpośrednio z osobami w pobliżu."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gör att personer på samma Wi-Fi kan skicka bilder direkt till den här iPhonen."
+            "value" : "Används för att skicka och ta emot bilder direkt med personer i närheten."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aynı Wi-Fi ağındaki kişilerin gönderdiği fotoğrafları doğrudan bu iPhone'a almak için gerekli."
+            "value" : "Yakındaki kişilerle doğrudan fotoğraf gönderip almak için kullanılır."
           }
         }
       }

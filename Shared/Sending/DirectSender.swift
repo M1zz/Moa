@@ -5,9 +5,21 @@ import Network
 enum DirectSender {
     private static let queue = DispatchQueue(label: "moa.direct.sender")
 
-    static func send(_ media: PreparedMedia, uploader: String?, to invitation: DirectInvitation) async throws {
-        guard let port = NWEndpoint.Port(rawValue: invitation.port) else { throw DirectTransferError.invalidHeader }
-        let connection = NWConnection(host: NWEndpoint.Host(invitation.host), port: port, using: .tcp)
+    /// `nearby` is the host found over Bonjour (`NearbyHostFinder`), which also works with no
+    /// network at all. Without it, the address in the QR.
+    static func send(
+        _ media: PreparedMedia,
+        uploader: String?,
+        to invitation: DirectInvitation,
+        nearby: NWEndpoint? = nil
+    ) async throws {
+        let connection: NWConnection
+        if let nearby {
+            connection = NWConnection(to: nearby, using: NearbyTransfer.parameters)
+        } else {
+            guard let port = NWEndpoint.Port(rawValue: invitation.port) else { throw DirectTransferError.invalidHeader }
+            connection = NWConnection(host: NWEndpoint.Host(invitation.host), port: port, using: .tcp)
+        }
         defer { connection.cancel() }
 
         try await connection.startAndWaitUntilReady(on: queue, timeout: .seconds(15))

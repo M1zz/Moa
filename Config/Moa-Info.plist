@@ -6,6 +6,10 @@
 	<array>
 		<string>fetch</string>
 	</array>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_moa._tcp</string>
+	</array>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.leeo.moa.remote-inbox</string>

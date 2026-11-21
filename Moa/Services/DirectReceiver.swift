@@ -11,7 +11,8 @@ final class DirectReceiver {
     enum State: Equatable {
         case idle
         case starting
-        case listening(DirectInvitation, interface: String)
+        /// `interface` is nil with no network at all: only app users nearby can reach it.
+        case listening(DirectInvitation, interface: String?)
         case failed(String)
     }
 
@@ -39,22 +40,15 @@ final class DirectReceiver {
         }
         self.albumIdentifier = albumIdentifier
 
-        guard let address = LocalAddress.current() else {
-            state = .failed(String(localized: "Wi-Fi 또는 개인용 핫스팟에 연결되어 있지 않아요."))
-            #if DEBUG
-            NSLog("[moa] no usable address")
-            #endif
-            return
-        }
+        // No Wi-Fi network is fine: app users nearby still find this iPhone directly (`NearbyTransfer`).
+        let address = LocalAddress.current()
         listen(on: preferredPort.flatMap(NWEndpoint.Port.init(rawValue:)), address: address,
                key: key, name: name, eventID: eventID)
     }
 
-    private func listen(on port: NWEndpoint.Port?, address: LocalAddress.Address,
+    private func listen(on port: NWEndpoint.Port?, address: LocalAddress.Address?,
                         key: String, name: String?, eventID: String) {
-        let parameters = NWParameters.tcp
-        // Lets the same port be taken again right after the screen closes.
-        parameters.allowLocalEndpointReuse = true
+        let parameters = NearbyTransfer.parameters
         let listener: NWListener
         do {
             listener = try port.map { try NWListener(using: parameters, on: $0) } ?? NWListener(using: parameters)
@@ -62,6 +56,8 @@ final class DirectReceiver {
             state = .failed(error.localizedDescription)
             return
         }
+        // Lets the app find this event nearby, over the network or iPhone to iPhone.
+        listener.service = NWListener.Service(name: eventID, type: NearbyTransfer.serviceType)
 
         listener.stateUpdateHandler = { [weak self] newState in
             Task { @MainActor in
@@ -69,12 +65,14 @@ final class DirectReceiver {
                 switch newState {
                 case .ready:
                     guard let port = listener.port?.rawValue else { return }
+                    // With no network the QR still carries the key; an App Clip reaching for 0.0.0.0
+                    // fails at once and goes through iCloud instead.
                     let invitation = DirectInvitation(
-                        host: address.ip, port: port, key: key, name: name, eventID: eventID
+                        host: address?.ip ?? "0.0.0.0", port: port, key: key, name: name, eventID: eventID
                     )
-                    self.state = .listening(invitation, interface: address.interface)
+                    self.state = .listening(invitation, interface: address?.interface)
                     #if DEBUG
-                    NSLog("[moa] listening \(address.interface) \(invitation.url.absoluteString)")
+                    NSLog("[moa] listening \(address?.interface ?? "nearby only") \(invitation.url.absoluteString)")
                     #endif
                 case .failed(let error):
                     #if DEBUG
