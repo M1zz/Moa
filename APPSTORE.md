@@ -1793,3 +1793,39 @@ darkInterface
 differentiateWithoutColor
 sufficientContrast
 reducedMotion
+
+## 심사 메모
+
+Regarding Guideline 4.3: Botaejwo is not a template or repackaged app. It solves one specific problem that no app on the App Store solves today.
+
+THE PROBLEM
+After a wedding, a class trip or a school event, the best photos sit scattered across dozens of guests' iPhones. We built Botaejwo at the Apple Developer Academy, where a single event has around 200 iPhones in one room. AirDrop breaks down at that scale: the share sheet fills with hundreds of nearby devices, every transfer must be accepted one by one, and senders have to find the right person among 200 names. Messaging apps compress photos and drop the time taken. Shared albums need everyone's account and an invitation, and store reduced-size copies.
+
+WHO IT IS FOR AND HOW IT IS USED
+For anyone who wants everyone's photos in one place: a couple at their wedding, a teacher on a field trip, an organizer at a conference or academy showcase.
+The host shows one QR code. Each guest scans it with the Camera app and picks photos. Nothing to install, no account, no sign-in. Every photo and video arrives in the host's Photos app as the original file (HEIC, Live Photos, video) in an album named after the event, at the moment it was actually taken, so the event reads as one timeline.
+
+WHAT IS UNIQUE, BUILT ON APPLE TECHNOLOGIES
+App Clip: guests send without installing anything, opened from a QR through an advanced App Clip experience.
+Network framework: photos go phone to phone over the local network with no server in between.
+Peer-to-peer Wi-Fi with Bonjour: guests who have the app can send with no internet and no router at all, iPhone to iPhone, even in halls with no usable Wi-Fi. Only someone who scanned the host's QR code holds the key, so being nearby is not enough to send.
+VisionKit DataScannerViewController: the app scans the host's QR on device, offline.
+PhotoKit: originals are imported with their paired Live Photo video, with the creation date and location set explicitly.
+PHPicker in current representation mode: originals leave the guest's phone without any photo library permission.
+CloudKit plus CryptoKit: guests who are far away fall back to the CloudKit public database. Every file is sealed with AES-GCM using a key that exists only in the QR code, and the record is deleted once the host has it.
+BackgroundTasks and UserNotifications: photos left in iCloud are brought in while the app is closed, and the host is notified.
+App Intents, Siri and Spotlight: "Start collecting photos" opens a new event.
+iPad layout as a large QR sign beside the incoming photos, VoiceOver, Dynamic Type, and 24 fully localized languages.
+No server, account, ads or tracking.
+
+We are not aware of any app that lets a crowd of guests, without installing anything or signing in, send original photos into one person's Apple Photos library at their real capture time, or that works with no internet at all. We reuse a small in-house library for common screens such as feedback and tips. The core of Botaejwo described above is written only for this app.
+
+HOW TO REVIEW (two iPhones, no account needed)
+1. On the host iPhone, open Botaejwo, tap +, enter any name and tap Create. The event screen shows a QR code. Keep it open.
+2. On the guest iPhone, scan the QR with the Camera app and tap Open on the App Clip card (com.leeo.moa.Clip).
+3. Tap Choose Photos and Videos, pick a few and send.
+4. On the host iPhone they appear in Photos, in an album with the event name, at the time each was taken.
+No internet: install Botaejwo on both iPhones, turn on Airplane Mode and then Wi-Fi only. On the guest iPhone tap the paper plane (Send Photos), scan the host's QR, pick photos and send.
+Far away: if the two iPhones are not on the same network, the App Clip sends through iCloud automatically and the host receives them on the event screen or in the background.
+If a guest cannot scan, tap Send Invite Link on the host's event screen and open the link on the guest iPhone.
+App Clip experience URL: https://m1zz.github.io/moa/c
