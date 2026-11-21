@@ -13,6 +13,7 @@ struct EventDetailView: View {
     /// 아이폰 듀오를 펴면 받은 사진은 옆 판(`FoldEventPhotos`)에 서므로 여기서는 그리지 않는다.
     @Environment(\.foldLayout) private var fold
     @Environment(\.isWidePadPanes) private var widePad
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         if let event = store.event(id: eventID) {
@@ -22,12 +23,21 @@ struct EventDetailView: View {
                         store.recordImport(eventID: eventID, assetID: assetID, uploader: uploader)
                     }
                     gallery.start(albumIdentifier: event.albumIdentifier)
-                    await receiver.start(
-                        name: event.name,
-                        eventID: event.id,
-                        albumIdentifier: event.albumIdentifier
-                    )
+                    await startReceiving(event)
+                    // 앱을 닫은 뒤 멀리서 온 사진을 가져와 알려 줄 수 있게 (→ RemoteRefresh)
+                    await RemoteRefresh.askForNotifications()
                     await pollRemote(event: event)
+                }
+                .onChange(of: receiver.state) { _, state in
+                    if case let .listening(invitation, _) = state {
+                        store.rememberPort(invitation.port, for: eventID)
+                    }
+                }
+                // 뒤로 갔다 오면 iOS 가 듣기를 끊어 둘 수 있다. 같은 키 · 포트로 다시 열어 QR 이 그대로다.
+                .onChange(of: scenePhase) { _, phase in
+                    guard phase == .active, case .failed = receiver.state else { return }
+                    receiver.stop()
+                    Task { await startReceiving(event) }
                 }
                 .onAppear { UIApplication.shared.isIdleTimerDisabled = true }
                 .onDisappear {
@@ -38,6 +48,17 @@ struct EventDetailView: View {
         } else {
             ContentUnavailableView("이벤트를 찾을 수 없어요", systemImage: "questionmark.circle")
         }
+    }
+
+    private func startReceiving(_ event: HostedEvent) async {
+        guard let key = store.inviteKey(for: event.id) else { return }
+        await receiver.start(
+            name: event.name,
+            eventID: event.id,
+            albumIdentifier: event.albumIdentifier,
+            key: key,
+            preferredPort: event.invitePort
+        )
     }
 
     private func content(for event: HostedEvent) -> some View {
@@ -127,7 +148,7 @@ struct EventDetailView: View {
         }
         .buttonStyle(.bordered)
 
-        Text("이 화면이 켜져 있는 동안만 받아요. 화면은 자동으로 꺼지지 않아요.\n화면을 다시 열면 QR이 바뀌어요.")
+        Text("이 화면이 켜져 있으면 같은 Wi-Fi에서 바로 받아요. 화면은 자동으로 꺼지지 않아요.\n이 QR은 이벤트 내내 그대로예요. 앱을 닫아 두면 멀리서 보낸 사진으로 받아 알려 드려요.")
             .font(.footnote)
             .foregroundStyle(.secondary)
             .multilineTextAlignment(.center)
@@ -138,29 +159,20 @@ struct EventDetailView: View {
     private func pollRemote(event: HostedEvent) async {
         guard RemoteInbox.isConfigured else { return }
         while !Task.isCancelled {
-            guard case let .listening(invitation, _) = receiver.state else {
-                try? await Task.sleep(for: .seconds(2))
-                continue
-            }
             isCheckingRemote = true
             do {
-                let result = try await RemoteInbox.fetch(
-                    eventID: event.id,
-                    invitationKey: invitation.key,
-                    albumIdentifier: event.albumIdentifier
-                )
-                for item in result.imported {
-                    store.recordImport(eventID: event.id, assetID: item.assetID, uploader: item.uploader)
-                }
-                if !result.imported.isEmpty {
-                    let count = result.imported.count
-                    remoteMessage = result.lastUploader.map { String(localized: "\($0) 님 외 \(count)개 가져왔어요") }
-                        ?? String(localized: "\(count)개 가져왔어요")
-                    gallery.reload()
-                } else if result.failed > 0 {
-                    remoteMessage = String(localized: "\(result.failed)개 실패")
-                } else if remoteMessage == nil {
-                    remoteMessage = String(localized: "없어요")
+                // nil: another pass (app launch, background refresh) is already on it.
+                if let result = try await store.pullRemote(eventID: event.id) {
+                    if !result.imported.isEmpty {
+                        let count = result.imported.count
+                        remoteMessage = result.lastUploader.map { String(localized: "\($0) 님 외 \(count)개 가져왔어요") }
+                            ?? String(localized: "\(count)개 가져왔어요")
+                        gallery.reload()
+                    } else if result.failed > 0 {
+                        remoteMessage = String(localized: "\(result.failed)개 실패")
+                    } else if remoteMessage == nil {
+                        remoteMessage = String(localized: "없어요")
+                    }
                 }
             } catch {
                 remoteMessage = String(localized: "확인 실패")

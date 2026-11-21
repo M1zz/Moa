@@ -26,6 +26,8 @@ enum RemoteInbox {
         var result = FetchResult()
 
         for item in try await list(eventID: eventID, key: key) {
+            // Background time ran out: stop between items, never between import and delete.
+            if Task.isCancelled { break }
             do {
                 let assetID = try await importItem(item, key: key, albumIdentifier: albumIdentifier)
                 result.imported.append((assetID: assetID, uploader: item.meta.uploader))

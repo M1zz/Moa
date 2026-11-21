@@ -39,7 +39,8 @@ Xcode 16 이상의 폴더 동기화 그룹을 쓰기 때문에, 폴더에 파일
 - QR은 `https://m1zz.github.io/moa/c?host=…&port=…&key=…&name=…` 이에요. 사진은 이 도메인을 거치지 않아요. iOS가 어떤 App Clip을 열지 아는 데만 써요.
 - 도메인 연결은 FindMe와 같은 방식이에요. [m1zz.github.io](https://github.com/M1zz/m1zz.github.io) 레포의 `.well-known/apple-app-site-association`에 있는 `appclips.apps`에 `QGAQ3AY3R3.com.leeo.moa.Clip`이 들어 있고, `/moa/c/index.html`은 브라우저로 열었을 때 보이는 안내 페이지예요.
 - 처음에는 Apple 기본 링크(`appclip.apple.com`)를 썼어요. 그런데 출시 전에는 카메라로 찍으면 "This App Clip is not currently available in your country"가 떠서 자체 도메인으로 바꿨어요.
-- App Clip에서는 Bonjour를 쓸 수 없어서, QR에 호스트의 IP·포트·일회용 키를 담아요. 화면을 다시 열면 키가 바뀌어요.
+- App Clip에서는 Bonjour를 쓸 수 없어서, QR에 호스트의 IP·포트·키를 담아요. 키와 포트는 이벤트마다 하나로 고정이라, 먼저 찍은 QR이나 공유한 초대 링크도 이벤트 내내 통해요(포트가 이미 쓰이고 있으면 그때만 바뀌어요). 예전처럼 화면마다 키가 바뀌면 그 전 QR로 iCloud에 맡긴 사진을 풀 수 없었어요.
+- 받는 도중 앱을 내려도 그 사진 하나는 끝까지 받아요(백그라운드 작업).
 - 전송 형식과 규칙은 `Shared/DirectTransfer.swift` 맨 위에 있어요.
 
 ## 멀리 있는 사람이 보낼 때 (원거리 전송)
@@ -55,7 +56,8 @@ Xcode 16 이상의 폴더 동기화 그룹을 쓰기 때문에, 폴더에 파일
 
 - **사진과 메타데이터는 QR에 담긴 키로 암호화해서 올려요.** 공개 DB에는 암호문만 있고, QR을 찍은 사람만 풀 수 있어요.
 - 게스트는 App Clip을 열 때 원거리 전송이 가능한지 미리 확인해 둬요. 안 되면 근거리 실패 메시지를 그대로 보여줘요.
-- 호스트는 이벤트 화면을 열어 둔 동안 30초마다 확인하고, 가져온 사진은 iCloud에서 지워요.
+- 호스트는 이벤트 화면을 열어 둔 동안 30초마다, 앱을 열 때마다 최근 3일 이벤트를 확인하고, 가져온 사진은 iCloud에서 지워요.
+- 앱을 닫아 두면 백그라운드 새로고침(`Moa/Services/RemoteRefresh.swift`)으로 iOS가 앱을 깨울 때 가져와서 로컬 알림으로 알려요. CloudKit 공개 DB 구독(푸시)은 Production에서 만들 수 없어서 쓰지 않아요. 언제 깨울지는 iOS가 정해서 실시간은 아니에요.
 - 한 파일 60MB까지만 원거리로 보내요. App Clip은 메모리가 적어서 큰 영상은 근거리로만 보내요.
 
 ### 설정 (한 번만, 사람이 직접)

@@ -37,7 +37,8 @@ final class EventStore {
             albumIdentifier: albumID,
             receivedCount: 0,
             lastReceivedAt: nil,
-            uploaders: [:]
+            uploaders: [:],
+            inviteKey: Self.makeInviteKey()
         )
         events.insert(event, at: 0)
         save()
@@ -50,6 +51,66 @@ final class EventStore {
             .filter { !offsets.contains($0.offset) }
             .map(\.element)
         save()
+    }
+
+    // MARK: Invitation
+
+    /// This event's QR key, made once and kept (see `HostedEvent.inviteKey`).
+    func inviteKey(for eventID: String) -> String? {
+        guard let index = events.firstIndex(where: { $0.id == eventID }) else { return nil }
+        if let key = events[index].inviteKey { return key }
+        let key = Self.makeInviteKey()
+        events[index].inviteKey = key
+        save()
+        return key
+    }
+
+    func rememberPort(_ port: UInt16, for eventID: String) {
+        guard let index = events.firstIndex(where: { $0.id == eventID }),
+              events[index].invitePort != port else { return }
+        events[index].invitePort = port
+        save()
+    }
+
+    private static func makeInviteKey() -> String {
+        var bytes = [UInt8](repeating: 0, count: 16)
+        _ = SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes)
+        return Data(bytes).base64EncodedString()
+            .replacingOccurrences(of: "+", with: "-")
+            .replacingOccurrences(of: "/", with: "_")
+            .replacingOccurrences(of: "=", with: "")
+    }
+
+    // MARK: Remote (iCloud) inbox
+
+    private var pulling: Set<String> = []
+
+    /// Brings in what guests left in iCloud for this event. The event screen, app launch and
+    /// background refresh all come through here, one pass per event at a time, so the same
+    /// record is never imported twice. nil when there is nothing to do or a pass is running.
+    func pullRemote(eventID: String) async throws -> RemoteInbox.FetchResult? {
+        guard RemoteInbox.isConfigured, !pulling.contains(eventID),
+              let event = event(id: eventID), let key = event.inviteKey else { return nil }
+        pulling.insert(eventID)
+        defer { pulling.remove(eventID) }
+        let result = try await RemoteInbox.fetch(
+            eventID: eventID, invitationKey: key, albumIdentifier: event.albumIdentifier
+        )
+        for item in result.imported {
+            recordImport(eventID: eventID, assetID: item.assetID, uploader: item.uploader)
+        }
+        return result
+    }
+
+    /// Checks every recent event and returns how many items each brought in.
+    func pullRecentRemote() async -> [(event: HostedEvent, count: Int)] {
+        var pulled: [(HostedEvent, Int)] = []
+        for event in events where event.isRecent && event.inviteKey != nil {
+            if let result = try? await pullRemote(eventID: event.id), !result.imported.isEmpty {
+                pulled.append((event, result.imported.count))
+            }
+        }
+        return pulled
     }
 
     func recordImport(eventID: String, assetID: String?, uploader: String?) {

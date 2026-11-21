@@ -6,6 +6,8 @@ import LeeoKit
 struct MoaApp: App {
     /// 금고(bootstrap 안)가 예약된 복원을 먼저 적용한 뒤에 읽도록 init 에서 만든다.
     @State private var store: EventStore
+    /// 알림을 누르면 그 이벤트를 연다 (→ RemoteRefresh.swift)
+    @UIApplicationDelegateAdaptor(MoaAppDelegate.self) private var appDelegate
 
     init() {
         // LeeoKit 계약을 켜는 한 줄 (→ MoaSpec.swift). 실행 횟수 기록 · 익명 사용 통계 ·
@@ -25,16 +27,33 @@ struct MoaApp: App {
             WidePadPanes { EventListView() }
                 // 개발자가 보낸 의견에 답장하면, 앱이 앞으로 올 때 답장을 시트로 보여 준다 (LeeoKit).
                 .leeoFeedbackReplyNotice(MoaSpec.self)
+                // 모든 사용자가 한 번은 감사를 받는다 (LeeoKit 3.46)
+                .leeoCelebrations(appName: MoaSpec.displayName)
                 .environment(store)
                 // 팁 상품을 불러오고 끝나지 않은 팁을 마저 센다.
                 .task { await MoaSpec.tipJar.startStandalone() }
                 .task { await store.reindex() }
                 .onChange(of: scenePhase) { _, phase in
-                    if phase == .background { Task { await store.reindex() } }
+                    switch phase {
+                    case .background:
+                        Task { await store.reindex() }
+                        RemoteRefresh.schedule(for: store)
+                    case .active:
+                        // 닫아 둔 동안 멀리서 온 사진을 바로 들인다 (알림은 없이 — 보고 있으니까)
+                        Task { _ = await store.pullRecentRemote() }
+                    default:
+                        break
+                    }
                 }
                 // 시트 · 알림창이 아이폰 듀오의 접힌 선을 비킨다. 접혀 있으면 아무것도 바뀌지 않는다.
                 .foldAware()
         }
+        // 앱을 닫아 둔 동안 멀리서 보낸 사진을 가져와 알린다 (→ RemoteRefresh.swift)
+        .backgroundTask(.appRefresh(RemoteRefresh.taskIdentifier)) {
+            await RemoteRefresh.run(store: store)
+        }
+        // 의견 답장도 같은 방식으로 알린다 — 식별자는 Config/Moa-Info.plist 에 있다.
+        .leeoFeedbackReplyRefresh(MoaSpec.self)
     }
 }
 

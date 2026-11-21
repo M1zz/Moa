@@ -7537,144 +7537,287 @@
         }
       }
     },
-    "이 화면이 켜져 있는 동안만 받아요. 화면은 자동으로 꺼지지 않아요.\n화면을 다시 열면 QR이 바뀌어요." : {
+    "멀리서 보낸 사진 %lld개를 사진 앱에 넣었어요" : {
+      "comment" : "Notification after photos left in iCloud were imported in the background",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Photos arrive only while this screen is on. It won't turn off by itself.\nThe QR code changes each time you reopen the screen."
+            "value" : "Added %lld photos sent from afar to Photos"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Photos arrive only while this screen is on, and it won't switch off by itself.\nThe QR code changes whenever you reopen the screen."
+            "value" : "Added %lld photos sent from afar to Photos"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "仅在此屏幕亮着时接收照片，屏幕不会自动锁定。\n重新打开此屏幕后，二维码会更换。"
+            "value" : "已将远程发来的 %lld 张照片存入“照片”"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "僅在此畫面開啟時接收照片，螢幕不會自動鎖定。\n重新開啟此畫面後，QR Code 會更換。"
+            "value" : "已將遠端傳來的 %lld 張照片存入「照片」"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "この画面が表示されている間だけ受信します。画面は自動ではスリープしません。\n画面を開き直すとQRが変わります。"
+            "value" : "離れた場所から届いた写真%lld枚を写真アプリに追加しました"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Фото приходят, только пока этот экран включён. Он не гаснет сам.\nПри повторном открытии экрана QR-код меняется."
+            "value" : "Фото, присланные издалека, добавлены в «Фото»: %lld"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las fotos solo llegan mientras esta pantalla está encendida. No se apaga sola.\nAl volver a abrirla, el QR cambia."
+            "value" : "Se añadieron a Fotos %lld fotos enviadas a distancia"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fotos kommen nur an, solange dieser Bildschirm eingeschaltet ist. Er schaltet sich nicht von selbst aus.\nBeim erneuten Öffnen ändert sich der QR-Code."
+            "value" : "%lld Fotos aus der Ferne zu Fotos hinzugefügt"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les photos n’arrivent que tant que cet écran est allumé. Il ne s’éteint pas tout seul.\nLe QR code change chaque fois que vous rouvrez l’écran."
+            "value" : "%lld photos envoyées à distance ajoutées à Photos"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le foto arrivano solo mentre questa schermata è accesa. Non si spegne da sola.\nIl QR cambia ogni volta che riapri la schermata."
+            "value" : "%lld foto inviate da lontano aggiunte a Foto"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As fotos só chegam enquanto esta tela estiver ligada. Ela não apaga sozinha.\nO QR muda toda vez que você reabre a tela."
+            "value" : "%lld fotos enviadas a distância foram adicionadas ao Fotos"
           }
         },
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "รับรูปได้เฉพาะตอนที่หน้าจอนี้เปิดอยู่ และหน้าจอจะไม่ดับเอง\nQR จะเปลี่ยนทุกครั้งที่เปิดหน้าจอนี้ใหม่"
+            "value" : "เพิ่มรูปที่ส่งมาจากที่ไกล %lld รูปลงในแอปรูปภาพแล้ว"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chỉ nhận ảnh khi màn hình này đang bật. Màn hình sẽ không tự tắt.\nMã QR đổi mới mỗi khi bạn mở lại màn hình."
+            "value" : "Đã thêm %lld ảnh gửi từ xa vào Ảnh"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fotky přicházejí, jen dokud je tato obrazovka zapnutá. Samovolně se nevypne.\nPo jejím opětovném otevření se QR kód změní."
+            "value" : "Do Fotek přidáno fotek poslaných na dálku: %lld"
           }
         },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Billeder kommer kun ind, mens denne skærm er tændt. Den slukker ikke af sig selv.\nQR-koden skifter, hver gang du åbner skærmen igen."
+            "value" : "%lld billeder sendt på afstand er føjet til Fotos"
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Η λήψη γίνεται μόνο όσο αυτή η οθόνη είναι αναμμένη. Δεν σβήνει μόνη της.\nΤο QR αλλάζει κάθε φορά που ανοίγετε ξανά την οθόνη."
+            "value" : "Προστέθηκαν στις Φωτογραφίες %lld φωτογραφίες από μακριά"
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kuvat tulevat vain, kun tämä näyttö on päällä. Näyttö ei sammu itsestään.\nQR-koodi vaihtuu aina, kun avaat näytön uudelleen."
+            "value" : "%lld etäältä lähetettyä kuvaa lisättiin Kuviin"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Foto hanya diterima selama layar ini menyala. Layar tidak mati otomatis.\nQR berubah setiap kali layar dibuka lagi."
+            "value" : "%lld foto kiriman jarak jauh ditambahkan ke Foto"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bilder mottas bare mens denne skjermen er på. Den slår seg ikke av av seg selv.\nQR-koden endres hver gang du åpner skjermen på nytt."
+            "value" : "%lld bilder sendt på avstand er lagt til i Bilder"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Foto's komen alleen binnen zolang dit scherm aan is. Het scherm gaat niet vanzelf uit.\nDe QR-code verandert elke keer dat je het scherm opnieuw opent."
+            "value" : "%lld foto’s van afstand toegevoegd aan Foto’s"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zdjęcia docierają tylko wtedy, gdy ten ekran jest włączony. Sam nie zgaśnie.\nPo ponownym otwarciu ekranu kod QR się zmieni."
+            "value" : "Dodano do Zdjęć zdjęcia wysłane zdalnie: %lld"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bilder tas bara emot medan den här skärmen är på. Den släcks inte av sig själv.\nQR-koden byts varje gång du öppnar skärmen igen."
+            "value" : "%lld bilder skickade på distans har lagts till i Bilder"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fotoğraflar yalnızca bu ekran açıkken alınır. Ekran kendiliğinden kapanmaz.\nEkranı yeniden açtığınızda QR kod değişir."
+            "value" : "Uzaktan gönderilen %lld fotoğraf Fotoğraflar’a eklendi"
+          }
+        }
+      }
+    },
+    "이 화면이 켜져 있으면 같은 Wi-Fi에서 바로 받아요. 화면은 자동으로 꺼지지 않아요.\n이 QR은 이벤트 내내 그대로예요. 앱을 닫아 두면 멀리서 보낸 사진으로 받아 알려 드려요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With this screen on, photos arrive straight over the same Wi-Fi. It won't turn off by itself.\nThis QR code stays the same for the whole event. If you close the app, photos come the long way and you'll get a notification."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With this screen on, photos arrive straight over the same Wi-Fi, and it won't switch off by itself.\nThis QR code stays the same for the whole event. If you close the app, photos come the long way and you'll be notified."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此屏幕亮着时，同一 Wi-Fi 下的照片会直接传来，屏幕不会自动锁定。\n整个活动期间二维码保持不变。关闭 App 后，照片会改走远程方式，收到时会通知你。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此畫面開啟時，同一 Wi-Fi 的照片會直接傳來，螢幕不會自動鎖定。\n整場活動 QR 碼都不會變。關閉 App 後，照片會改走遠端方式，收到時會通知你。"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この画面が開いている間は、同じWi-Fiから写真がそのまま届きます。画面は自動で消えません。\nこのQRコードはイベント中ずっと同じです。アプリを閉じていても、離れた場所からの写真として受け取り、通知でお知らせします。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока этот экран включён, фото приходят напрямую через ту же сеть Wi-Fi. Он не погаснет сам.\nЭтот QR-код не меняется всё мероприятие. Если закрыть приложение, фото придут через интернет, и вы получите уведомление."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con esta pantalla encendida, las fotos llegan directamente por la misma Wi-Fi. No se apaga sola.\nEste código QR es el mismo durante todo el evento. Si cierras la app, las fotos llegan por internet y te avisamos."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solange dieser Bildschirm an ist, kommen Fotos direkt über dasselbe WLAN. Er schaltet sich nicht von selbst aus.\nDieser QR-Code bleibt während des ganzen Events gleich. Ist die App geschlossen, kommen Fotos über das Internet und du wirst benachrichtigt."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tant que cet écran est allumé, les photos arrivent directement par le même Wi-Fi. Il ne s’éteint pas tout seul.\nCe QR code reste le même pendant tout l’événement. Si l’app est fermée, les photos passent par Internet et vous recevez une notification."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con questa schermata accesa, le foto arrivano direttamente sulla stessa Wi-Fi. Non si spegne da sola.\nQuesto codice QR resta lo stesso per tutto l’evento. Se chiudi l’app, le foto arrivano via internet e ricevi una notifica."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com esta tela ligada, as fotos chegam direto pela mesma Wi-Fi. Ela não se apaga sozinha.\nEste QR code é o mesmo durante todo o evento. Se você fechar o app, as fotos chegam pela internet e você recebe um aviso."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ขณะที่หน้าจอนี้เปิดอยู่ รูปจะส่งตรงมาผ่าน Wi-Fi เดียวกัน หน้าจอจะไม่ดับเอง\nคิวอาร์โค้ดนี้ใช้ได้ตลอดงาน ถ้าปิดแอป รูปจะส่งมาทางอินเทอร์เน็ตและคุณจะได้รับการแจ้งเตือน"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Khi màn hình này đang mở, ảnh được gửi thẳng qua cùng mạng Wi-Fi. Màn hình sẽ không tự tắt.\nMã QR này giữ nguyên suốt sự kiện. Nếu bạn đóng ứng dụng, ảnh sẽ đến qua internet và bạn sẽ nhận được thông báo."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když je tato obrazovka zapnutá, fotky přicházejí přímo přes stejnou Wi-Fi. Sama se nevypne.\nTento QR kód zůstává stejný po celou akci. Když aplikaci zavřete, fotky přijdou přes internet a dostanete oznámení."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mens denne skærm er tændt, kommer billederne direkte via samme wi-fi. Den slukker ikke af sig selv.\nQR-koden er den samme under hele begivenheden. Lukker du appen, kommer billederne via internettet, og du får en notifikation."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Όσο αυτή η οθόνη είναι ανοιχτή, οι φωτογραφίες έρχονται απευθείας μέσω του ίδιου Wi-Fi. Δεν σβήνει μόνη της.\nΑυτός ο κωδικός QR μένει ίδιος σε όλη την εκδήλωση. Αν κλείσετε την εφαρμογή, οι φωτογραφίες έρχονται μέσω διαδικτύου και θα λάβετε ειδοποίηση."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kun tämä näyttö on päällä, kuvat tulevat suoraan saman Wi-Fin kautta. Näyttö ei sammu itsestään.\nQR-koodi pysyy samana koko tapahtuman ajan. Jos suljet apin, kuvat tulevat internetin kautta ja saat ilmoituksen."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selama layar ini menyala, foto langsung masuk lewat Wi-Fi yang sama. Layar tidak akan mati sendiri.\nKode QR ini tetap sama sepanjang acara. Jika aplikasi ditutup, foto masuk lewat internet dan kamu akan mendapat notifikasi."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mens denne skjermen er på, kommer bildene rett over samme wifi. Den slår seg ikke av av seg selv.\nQR-koden er den samme gjennom hele arrangementet. Lukker du appen, kommer bildene via internett, og du får et varsel."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zolang dit scherm aan staat, komen foto’s direct via hetzelfde wifi binnen. Het gaat niet vanzelf uit.\nDeze QR-code blijft het hele evenement hetzelfde. Sluit je de app, dan komen foto’s via internet en krijg je een melding."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy ten ekran jest włączony, zdjęcia przychodzą prosto przez tę samą sieć Wi-Fi. Ekran nie wygasi się sam.\nTen kod QR jest taki sam przez całe wydarzenie. Gdy zamkniesz aplikację, zdjęcia przyjdą przez internet, a Ty dostaniesz powiadomienie."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medan den här skärmen är på kommer bilderna direkt via samma wifi. Den släcks inte av sig själv.\nQR-koden är densamma under hela eventet. Om du stänger appen kommer bilderna via internet och du får en notis."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu ekran açıkken fotoğraflar aynı Wi-Fi üzerinden doğrudan gelir. Ekran kendiliğinden kapanmaz.\nBu QR kod etkinlik boyunca aynı kalır. Uygulamayı kapatırsanız fotoğraflar internet üzerinden gelir ve size bildirim gönderilir."
           }
         }
       }

@@ -335,6 +335,7 @@
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/Moa-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Botaejwo;
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "같은 Wi-Fi에 있는 사람이 보낸 사진을 이 iPhone으로 바로 받기 위해 필요해요.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "게스트가 보낸 사진을 사진 앱에 넣기 위해 필요해요.";
@@ -369,6 +370,7 @@
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/Moa-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Botaejwo;
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "같은 Wi-Fi에 있는 사람이 보낸 사진을 이 iPhone으로 바로 받기 위해 필요해요.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "게스트가 보낸 사진을 사진 앱에 넣기 위해 필요해요.";
@@ -494,7 +496,7 @@
 			repositoryURL = "https://github.com/M1zz/LeeoKit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.44.1;
+				minimumVersion = 3.46.4;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

@@ -1,6 +1,7 @@
 import Foundation
 import Network
 import Observation
+import UIKit
 
 /// Listens on the local network and imports whatever the App Clip sends straight into Photos.
 /// No relay, no iCloud API: the photos reach iCloud through the host's own iCloud Photos.
@@ -26,7 +27,9 @@ final class DirectReceiver {
     private var albumIdentifier: String?
     private let queue = DispatchQueue(label: "moa.direct.receiver")
 
-    func start(name: String?, eventID: String, albumIdentifier: String?) async {
+    /// Listens with the event's own key, on `preferredPort` when it is free, so a QR shown
+    /// earlier in the event still reaches this iPhone.
+    func start(name: String?, eventID: String, albumIdentifier: String?, key: String, preferredPort: UInt16?) async {
         guard listener == nil else { return }
         state = .starting
 
@@ -43,19 +46,26 @@ final class DirectReceiver {
             #endif
             return
         }
+        listen(on: preferredPort.flatMap(NWEndpoint.Port.init(rawValue:)), address: address,
+               key: key, name: name, eventID: eventID)
+    }
 
+    private func listen(on port: NWEndpoint.Port?, address: LocalAddress.Address,
+                        key: String, name: String?, eventID: String) {
+        let parameters = NWParameters.tcp
+        // Lets the same port be taken again right after the screen closes.
+        parameters.allowLocalEndpointReuse = true
         let listener: NWListener
         do {
-            listener = try NWListener(using: .tcp)
+            listener = try port.map { try NWListener(using: parameters, on: $0) } ?? NWListener(using: parameters)
         } catch {
             state = .failed(error.localizedDescription)
             return
         }
-        let key = Self.makeKey()
 
         listener.stateUpdateHandler = { [weak self] newState in
             Task { @MainActor in
-                guard let self else { return }
+                guard let self, self.listener === listener else { return }
                 switch newState {
                 case .ready:
                     guard let port = listener.port?.rawValue else { return }
@@ -67,11 +77,17 @@ final class DirectReceiver {
                     NSLog("[moa] listening \(address.interface) \(invitation.url.absoluteString)")
                     #endif
                 case .failed(let error):
-                    self.state = .failed(error.localizedDescription)
                     #if DEBUG
                     NSLog("[moa] listener failed: \(error)")
                     #endif
-                    self.stop()
+                    listener.cancel()
+                    self.listener = nil
+                    if port != nil {
+                        // The old port is taken: any free one will do, the QR just changes.
+                        self.listen(on: nil, address: address, key: key, name: name, eventID: eventID)
+                    } else {
+                        self.state = .failed(error.localizedDescription)
+                    }
                 default:
                     break
                 }
@@ -95,8 +111,14 @@ final class DirectReceiver {
     private func accept(_ connection: NWConnection, key: String) {
         let queue = queue
         let albumIdentifier = albumIdentifier
+        // Leaving the app mid-transfer shouldn't drop the photo already on its way:
+        // ask for a little time to finish this one item.
+        let background = BackgroundTime(name: "moa.receive") { connection.cancel() }
         Task {
-            defer { connection.cancel() }
+            defer {
+                connection.cancel()
+                background.end()
+            }
             var reply = DirectTransfer.replyFailed
             do {
                 try await connection.startAndWaitUntilReady(on: queue, timeout: .seconds(10))
@@ -207,16 +229,26 @@ final class DirectReceiver {
             throw error
         }
     }
+}
 
-    // MARK: Helpers
+/// A short stretch of background time, ended exactly once.
+@MainActor
+private final class BackgroundTime {
+    private var identifier = UIBackgroundTaskIdentifier.invalid
 
-    private static func makeKey() -> String {
-        var bytes = [UInt8](repeating: 0, count: 16)
-        _ = SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes)
-        return Data(bytes).base64EncodedString()
-            .replacingOccurrences(of: "+", with: "-")
-            .replacingOccurrences(of: "/", with: "_")
-            .replacingOccurrences(of: "=", with: "")
+    init(name: String, onExpiry: @escaping @MainActor () -> Void) {
+        identifier = UIApplication.shared.beginBackgroundTask(withName: name) { [weak self] in
+            MainActor.assumeIsolated {
+                onExpiry()
+                self?.end()
+            }
+        }
+    }
+
+    func end() {
+        guard identifier != .invalid else { return }
+        UIApplication.shared.endBackgroundTask(identifier)
+        identifier = .invalid
     }
 }
 

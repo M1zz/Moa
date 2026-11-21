@@ -52,7 +52,10 @@ App Clip experience URL: https://m1zz.github.io/moa/c
 
 ## 다음
 - [ ] App Store Connect에 개인정보 처리방침 URL(`https://m1zz.github.io/moa/privacy.html`)과 마케팅 URL(`https://m1zz.github.io/moa/`) 입력
-- [ ] 호스트가 앱을 열지 않아도 알 수 있게 푸시 알림 (CloudKit 구독)
+- [x] 호스트가 앱을 닫아 둬도 멀리서 온 사진을 가져와 알림 (CloudKit 구독은 Production 에서 막혀 백그라운드 새로고침 + 로컬 알림으로)
+- [x] 이벤트마다 QR 키 · 포트 고정 — 화면을 다시 열면 그 전 QR 로 iCloud 에 맡긴 사진을 못 풀던 유실 수정
+- [ ] 사람: 실기기로 확인 — 화면 닫았다 다시 열어도 QR 그대로 / 앱 닫고 다른 망에서 보낸 뒤 알림이 오는지(설정 ▸ 앱 새로고침 켜짐)
+- [ ] 호스트에 Wi-Fi 가 없을 때(셀룰러뿐)도 QR 을 보여 주고 iCloud 로만 받기 — 지금은 '받을 준비를 못 했어요' 에서 멈춘다
 - [ ] 기기 두 대로 실제 전송 검증 (Live Photo, HEIC 사진, 동영상, 촬영 날짜 위치)
 - [ ] Local Experience에 `https://m1zz.github.io/moa/c` 등록하고 카메라로 QR 찍어 App Clip 카드 뜨는지 확인
 - [ ] App Store Connect에서 App Clip 고급 경험(`https://m1zz.github.io/moa/c`) 설정, 대한민국 판매 포함
