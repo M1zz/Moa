@@ -1,9 +1,12 @@
 import SwiftUI
+import LeeoKit
 
 /// Shown once on first launch, and any time from the "앱 소개" toolbar button.
 /// Explains what the host does with the app before asking for photo and network permissions.
 struct OnboardingView: View {
     @Environment(\.dismiss) private var dismiss
+    /// 첫 안내의 결과를 한 번만 보낸다. 물음표 단추로 다시 본 안내는 세지 않는다.
+    @AppStorage("onboardingReported") private var onboardingReported = false
     @State private var page = 0
 
     private var pages: [Page] {
@@ -46,7 +49,7 @@ struct OnboardingView: View {
 
             Button {
                 if isLastPage {
-                    dismiss()
+                    finish(skipped: false)
                 } else {
                     withAnimation { page += 1 }
                 }
@@ -62,11 +65,19 @@ struct OnboardingView: View {
         }
         .overlay(alignment: .topTrailing) {
             if !isLastPage {
-                Button("건너뛰기") { dismiss() }
+                Button("건너뛰기") { finish(skipped: true) }
                     .padding(.trailing, 20)
                     .padding(.top, 12)
             }
         }
+    }
+
+    private func finish(skipped: Bool) {
+        if !onboardingReported {
+            onboardingReported = true
+            LeeoAnalyticsCenter.track(.custom(name: skipped ? "onboarding_skipped" : "onboarding_completed", parameters: [:]))
+        }
+        dismiss()
     }
 
     private var isLastPage: Bool { page == pages.count - 1 }

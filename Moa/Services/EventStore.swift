@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import LeeoKit
 #if DEBUG
 import Photos
 #endif
@@ -117,6 +118,10 @@ final class EventStore {
         guard let index = events.firstIndex(where: { $0.id == eventID }) else { return }
         events[index].receivedCount += 1
         events[index].lastReceivedAt = .now
+        // 행사마다 첫 장만 센다 — QR 이 실제로 사진을 데려온 순간. 장마다 세면 행사 하나가 수백 건이 된다.
+        if events[index].receivedCount == 1 {
+            LeeoAnalyticsCenter.track(.custom(name: "photos_received", parameters: [:]))
+        }
         if let assetID, let uploader, !uploader.isEmpty {
             var uploaders = events[index].uploaders ?? [:]
             uploaders[assetID] = uploader
