@@ -1,7 +1,7 @@
 import CryptoKit
 import Foundation
 
-/// Uploads one item to the host's iCloud mailbox when the local network route didn't work.
+/// Puts items in an album's shared feed in iCloud (see `RemoteTransfer`).
 /// Everything is encrypted with the key from the QR before it leaves the phone.
 enum RemoteSender {
     private static let service = CloudKitWebService()
@@ -21,7 +21,15 @@ enum RemoteSender {
         }
     }
 
-    static func send(_ media: PreparedMedia, uploader: String?, to invitation: DirectInvitation) async throws {
+    /// Puts one item in the album's shared feed and returns its record name.
+    /// `holders` are the devices that already have it, so they don't download it back.
+    @discardableResult
+    static func send(
+        _ media: PreparedMedia,
+        uploader: String?,
+        holders: [String],
+        to invitation: DirectInvitation
+    ) async throws -> String {
         guard RemoteTransfer.isConfigured else { throw RemoteTransferError.notConfigured }
         if let tooBig = media.resources.first(where: { $0.size > RemoteTransfer.maxRemoteResourceSize }) {
             throw RemoteSenderError.tooLarge(megabytes: tooBig.size / (1 << 20))
@@ -44,6 +52,7 @@ enum RemoteSender {
 
         let meta = RemoteTransfer.Meta(
             uploader: uploader,
+            holders: holders,
             capturedAt: media.capturedAt,
             location: media.location,
             resources: media.resources.map {
@@ -51,21 +60,44 @@ enum RemoteSender {
                                    contentType: $0.contentType, size: $0.size)
             }
         )
+        return try await create(meta: meta, assetFields: assetFields, invitation: invitation, key: key)
+    }
+
+    /// A member's first record: no photo, just their name, so everyone sees who is in the album.
+    @discardableResult
+    static func announceJoin(name: String, to invitation: DirectInvitation) async throws -> String {
+        let meta = RemoteTransfer.Meta(uploader: name, holders: [DeviceID.current],
+                                       capturedAt: nil, location: nil, resources: [])
+        return try await create(meta: meta, assetFields: [:], invitation: invitation,
+                                key: ItemCrypto.key(fromInvitationKey: invitation.key))
+    }
+
+    private static func create(
+        meta: RemoteTransfer.Meta,
+        assetFields: [String: Any],
+        invitation: DirectInvitation,
+        key: SymmetricKey
+    ) async throws -> String {
         let sealedMeta = try ItemCrypto.seal(try JSONCoding.encoder.encode(meta), with: key)
 
         var fields: [String: Any] = [
-            // Plain text so the host can find its own items; it reveals nothing but a random id.
+            // Plain text so members can find the album's items; it reveals nothing but a random id.
             "eventID": ["value": invitation.eventID],
             "meta": ["value": sealedMeta.base64EncodedString()]
         ]
         fields.merge(assetFields) { current, _ in current }
 
-        _ = try await service.post("/records/modify", body: [
+        let response = try await service.post("/records/modify", body: [
             "operations": [[
                 "operationType": "create",
                 "record": ["recordType": RemoteTransfer.recordType, "fields": fields]
             ]]
         ])
+        guard let records = response["records"] as? [[String: Any]],
+              let name = records.first?["recordName"] as? String else {
+            throw RemoteTransferError.malformedResponse("no record name")
+        }
+        return name
     }
 }
 

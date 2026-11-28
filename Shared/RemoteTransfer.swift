@@ -9,7 +9,10 @@ import Foundation
 ///
 /// The key ships inside the App Clip, so the public database is treated as untrusted: every
 /// file and all metadata are sealed with AES-GCM under the key printed in the QR. Only someone
-/// who scanned that QR can read them, and the host deletes each record once it is in Photos.
+/// who scanned that QR can read them.
+///
+/// The records of one album are its shared feed. They stay, and every member's app brings in
+/// the ones it hasn't seen yet — so whoever opens the link is a member, with no one to add by hand.
 enum RemoteTransfer {
     static var isConfigured: Bool { CloudKitConfig.isConfigured }
 
@@ -27,8 +30,11 @@ enum RemoteTransfer {
     /// Metadata of one item, sealed into the record's `meta` field.
     struct Meta: Codable, Sendable {
         var uploader: String?
+        /// `DeviceID`s that already have this item and skip it. Optional for older records.
+        var holders: [String]?
         var capturedAt: Date?
         var location: CaptureLocation?
+        /// Empty for the record a member leaves on joining, so the others see their name.
         var resources: [ResourceDescriptor]
     }
 

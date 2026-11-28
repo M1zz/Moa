@@ -2,7 +2,7 @@ import SwiftUI
 import LeeoKit
 
 /// Shown once on first launch, and any time from the "앱 소개" toolbar button.
-/// Explains what the host does with the app before asking for photo and network permissions.
+/// Explains shared albums before asking for photo and network permissions.
 struct OnboardingView: View {
     @Environment(\.dismiss) private var dismiss
     /// 첫 안내의 결과를 한 번만 보낸다. 물음표 단추로 다시 본 안내는 세지 않는다.
@@ -10,29 +10,22 @@ struct OnboardingView: View {
     @State private var page = 0
 
     private var pages: [Page] {
-        // Built as a String so the iCloud sentence is only claimed when remote sending is on.
-        var arrival = (UIDevice.current.userInterfaceIdiom == .pad
-            ? String(localized: "이벤트를 열면 QR이 나오고, 그동안 사진이 들어와요. 같은 Wi-Fi에 있는 사람은 이 iPad로 바로 보내요.")
-            : String(localized: "이벤트를 열면 QR이 나오고, 그동안 사진이 들어와요. 같은 Wi-Fi에 있는 사람은 이 iPhone으로 바로 보내요."))
-        if RemoteTransfer.isConfigured {
-            arrival += " " + String(localized: "멀리 있는 사람이 보낸 사진은 iCloud를 거쳐 들어와요.")
-        }
-        let howItArrives = Page(symbol: "wifi", title: "이 화면을 열어 둔 동안 받아요", body: arrival)
-
-        return [
+        [
             Page(
-                symbol: "qrcode",
-                title: "QR 하나로 사진을 모아요",
-                body: String(localized: "행사에서 QR을 보여주기만 하면 돼요. 사진을 보내는 사람은 앱을 설치하지 않고, 카메라로 QR을 찍어서 바로 보낼 수 있어요.")
+                symbol: "link",
+                title: "링크 하나로 멤버가 돼요",
+                body: String(localized: "공유 앨범마다 사람을 한 명씩 추가할 필요가 없어요. 링크를 보내거나 QR을 보여주면, 연 사람은 바로 멤버가 돼요. 멤버 누구나 다른 사람을 초대할 수 있어요.")
+            ),
+            Page(
+                symbol: "rectangle.stack.badge.person.crop",
+                title: "앨범을 여러 개 두고 써요",
+                body: String(localized: "가족, 여행, 모임마다 앨범을 만들어 두세요. 누가 들어와 있는지 보이고, 언제든 사진을 보탤 수 있어요. 앱이 없는 사람도 카메라로 QR을 찍어 바로 보낼 수 있어요.")
             ),
             Page(
                 symbol: "photo.on.rectangle.angled",
                 title: "원본 그대로, 찍은 시각 그대로",
-                body: UIDevice.current.userInterfaceIdiom == .pad
-                    ? String(localized: "받은 사진은 이 iPad의 사진 앱에 들어가요. 내가 찍은 사진처럼 촬영한 날짜 자리에 놓이고, 이벤트 이름의 앨범에도 정리돼요.")
-                    : String(localized: "받은 사진은 이 iPhone의 사진 앱에 들어가요. 내가 찍은 사진처럼 촬영한 날짜 자리에 놓이고, 이벤트 이름의 앨범에도 정리돼요.")
+                body: String(localized: "멤버가 올린 사진은 각자의 사진 앱에 원본 그대로 들어가요. 내가 찍은 사진처럼 촬영한 날짜 자리에 놓이고, 같은 이름의 앨범에도 정리돼요.")
             ),
-            howItArrives,
         ]
     }
 

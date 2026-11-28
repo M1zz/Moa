@@ -3,8 +3,8 @@ import Network
 import Observation
 import UIKit
 
-/// Listens on the local network and imports whatever the App Clip sends straight into Photos.
-/// No relay, no iCloud API: the photos reach iCloud through the host's own iCloud Photos.
+/// Listens on the local network and imports whatever guests nearby send straight into Photos,
+/// then shares it with the album's other members through its feed (`RemoteSender`).
 @MainActor
 @Observable
 final class DirectReceiver {
@@ -23,6 +23,9 @@ final class DirectReceiver {
     /// Called on the main actor after each item lands in Photos, with the new asset's id and
     /// who sent it, so the host can show the sender next to the photo later.
     var onImport: ((_ assetID: String?, _ uploader: String?) -> Void)?
+    /// Called with the feed record once a received item is shared with the album, so this
+    /// iPhone doesn't bring it in a second time.
+    var onShared: ((_ record: String) -> Void)?
 
     private var listener: NWListener?
     private var albumIdentifier: String?
@@ -118,12 +121,14 @@ final class DirectReceiver {
                 background.end()
             }
             var reply = DirectTransfer.replyFailed
+            var received: ReceivedItem?
+            defer { received?.cleanUp() }
             do {
                 try await connection.startAndWaitUntilReady(on: queue, timeout: .seconds(10))
                 let watchdog = StallWatchdog(connection: connection)
                 defer { watchdog.stop() }
                 let item = try await Self.receiveItem(from: connection, key: key, watchdog: watchdog)
-                defer { item.cleanUp() }
+                received = item
                 let assetID = try await PhotoLibraryService.importAsset(
                     photo: item.files[.photo],
                     pairedVideo: item.files[.pairedVideo],
@@ -156,15 +161,45 @@ final class DirectReceiver {
             }
             // Answers the header on rejection, or reports the import result.
             try? await connection.sendData(Data([reply]))
+            // The guest is done; now the other members get it too.
+            if reply == DirectTransfer.replyOK, let item = received { await share(item) }
+        }
+    }
+
+    /// Best effort: without internet the photo stays in this album only.
+    private func share(_ item: ReceivedItem) async {
+        guard RemoteTransfer.isConfigured, case let .listening(invitation, _) = state else { return }
+        let media = PreparedMedia(
+            resources: item.resources.map {
+                PreparedMedia.Resource(kind: $0.descriptor.kind, url: $0.url,
+                                       contentType: $0.descriptor.contentType, size: $0.descriptor.size)
+            },
+            capturedAt: item.capturedAt,
+            location: item.location,
+            workingDirectory: item.directory
+        )
+        let holders = [item.from, DeviceID.current].compactMap { $0 }
+        do {
+            let record = try await RemoteSender.send(media, uploader: item.uploader, holders: holders, to: invitation)
+            onShared?(record)
+        } catch {
+            #if DEBUG
+            NSLog("[moa] sharing with the album failed: \(error)")
+            #endif
         }
     }
 
     private struct ReceivedItem {
         let uploader: String?
+        let from: String?
         let capturedAt: Date?
         let location: CaptureLocation?
-        let files: [ResourceKind: URL]
+        let resources: [(descriptor: ResourceDescriptor, url: URL)]
         let directory: URL
+
+        var files: [ResourceKind: URL] {
+            Dictionary(resources.map { ($0.descriptor.kind, $0.url) }) { first, _ in first }
+        }
 
         func cleanUp() {
             try? FileManager.default.removeItem(at: directory)
@@ -195,7 +230,7 @@ final class DirectReceiver {
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
 
         do {
-            var files: [ResourceKind: URL] = [:]
+            var files: [(descriptor: ResourceDescriptor, url: URL)] = []
             for resource in header.resources {
                 // Keep only the extension so Photos recognizes the format; never trust the sender's path.
                 let ext = (resource.filename as NSString).pathExtension.filter { $0.isLetter || $0.isNumber }
@@ -213,13 +248,14 @@ final class DirectReceiver {
                     remaining -= chunk.count
                     watchdog.touch()
                 }
-                files[resource.kind] = url
+                files.append((resource, url))
             }
             return ReceivedItem(
                 uploader: header.uploader,
+                from: header.from,
                 capturedAt: header.capturedAt,
                 location: header.location,
-                files: files,
+                resources: files,
                 directory: directory
             )
         } catch {

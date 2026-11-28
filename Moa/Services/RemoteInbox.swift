@@ -1,8 +1,9 @@
 import CryptoKit
 import Foundation
 
-/// The host side of remote sending: lists what guests left in the iCloud mailbox for this
-/// event, decrypts it, hands it to Photos, and deletes the record.
+/// Reads an album's shared feed in iCloud (see `RemoteTransfer`): every item this device
+/// hasn't seen yet is decrypted and put in its own Photos album. Nothing is deleted — the
+/// other members still need it.
 enum RemoteInbox {
     private static let service = CloudKitWebService()
 
@@ -12,6 +13,10 @@ enum RemoteInbox {
         /// Photos asset id and who sent it, for each item imported in this pass.
         var imported: [(assetID: String?, uploader: String?)] = []
         var failed = 0
+        /// Records that are done with for this device: imported, or nothing to import.
+        var seen: [String] = []
+        /// Everyone who has joined or added to the album, oldest first.
+        var members: [String] = []
 
         var lastUploader: String? { imported.last?.uploader }
     }
@@ -19,20 +24,30 @@ enum RemoteInbox {
     static func fetch(
         eventID: String,
         invitationKey: String,
-        albumIdentifier: String?
+        albumIdentifier: String?,
+        skipping seen: Set<String>
     ) async throws -> FetchResult {
         guard RemoteTransfer.isConfigured else { throw RemoteTransferError.notConfigured }
         let key = ItemCrypto.key(fromInvitationKey: invitationKey)
+        let me = DeviceID.current
         var result = FetchResult()
 
         for item in try await list(eventID: eventID, key: key) {
-            // Background time ran out: stop between items, never between import and delete.
-            if Task.isCancelled { break }
+            if let name = item.meta.uploader, !name.isEmpty, !result.members.contains(name) {
+                result.members.append(name)
+            }
+            guard !seen.contains(item.recordName) else { continue }
+            // A join record, or something this device sent or shared itself.
+            if item.meta.resources.isEmpty || item.meta.holders?.contains(me) == true {
+                result.seen.append(item.recordName)
+                continue
+            }
+            // Background time ran out: stop between items, the rest come next time.
+            if Task.isCancelled { continue }
             do {
                 let assetID = try await importItem(item, key: key, albumIdentifier: albumIdentifier)
                 result.imported.append((assetID: assetID, uploader: item.meta.uploader))
-                // Only delete once it is safely in Photos.
-                try? await delete(recordName: item.recordName)
+                result.seen.append(item.recordName)
             } catch {
                 result.failed += 1
                 #if DEBUG
@@ -45,40 +60,50 @@ enum RemoteInbox {
 
     // MARK: Pieces
 
+    /// The whole feed, page by page. Records sealed with another key (or damaged) are skipped.
     private static func list(eventID: String, key: SymmetricKey) async throws -> [RemoteTransfer.RemoteItem] {
-        let response = try await service.post("/records/query", body: [
-            "query": [
-                "recordType": RemoteTransfer.recordType,
-                "filterBy": [[
-                    "fieldName": "eventID",
-                    "comparator": "EQUALS",
-                    "fieldValue": ["value": eventID]
-                ]]
-            ],
-            "resultsLimit": 50
-        ])
+        var items: [RemoteTransfer.RemoteItem] = []
+        var marker: String?
+        repeat {
+            var body: [String: Any] = [
+                "query": [
+                    "recordType": RemoteTransfer.recordType,
+                    "filterBy": [[
+                        "fieldName": "eventID",
+                        "comparator": "EQUALS",
+                        "fieldValue": ["value": eventID]
+                    ]]
+                ],
+                "resultsLimit": 200
+            ]
+            if let marker { body["continuationMarker"] = marker }
+            let response = try await service.post("/records/query", body: body)
+            let records = response["records"] as? [[String: Any]] ?? []
+            items += records.compactMap { item(from: $0, key: key) }
+            marker = response["continuationMarker"] as? String
+        } while marker != nil
+        return items
+    }
 
-        guard let records = response["records"] as? [[String: Any]] else { return [] }
-        return records.compactMap { record in
-            guard let recordName = record["recordName"] as? String,
-                  let fields = record["fields"] as? [String: Any],
-                  let metaField = fields["meta"] as? [String: Any],
-                  let metaBase64 = metaField["value"] as? String,
-                  let sealedMeta = Data(base64Encoded: metaBase64),
-                  let metaData = try? ItemCrypto.open(sealedMeta, with: key),
-                  let meta = try? JSONCoding.decoder.decode(RemoteTransfer.Meta.self, from: metaData)
-            else { return nil }
+    private static func item(from record: [String: Any], key: SymmetricKey) -> RemoteTransfer.RemoteItem? {
+        guard let recordName = record["recordName"] as? String,
+              let fields = record["fields"] as? [String: Any],
+              let metaField = fields["meta"] as? [String: Any],
+              let metaBase64 = metaField["value"] as? String,
+              let sealedMeta = Data(base64Encoded: metaBase64),
+              let metaData = try? ItemCrypto.open(sealedMeta, with: key),
+              let meta = try? JSONCoding.decoder.decode(RemoteTransfer.Meta.self, from: metaData)
+        else { return nil }
 
-            let urls: [URL] = meta.resources.indices.compactMap { index in
-                guard let field = fields["a\(index)"] as? [String: Any],
-                      let value = field["value"] as? [String: Any],
-                      let string = value["downloadURL"] as? String else { return nil }
-                // CloudKit escapes the URL for JS consumers.
-                return URL(string: string.replacingOccurrences(of: "${f}", with: ""))
-            }
-            guard urls.count == meta.resources.count else { return nil }
-            return RemoteTransfer.RemoteItem(recordName: recordName, meta: meta, assetURLs: urls)
+        let urls: [URL] = meta.resources.indices.compactMap { index in
+            guard let field = fields["a\(index)"] as? [String: Any],
+                  let value = field["value"] as? [String: Any],
+                  let string = value["downloadURL"] as? String else { return nil }
+            // CloudKit escapes the URL for JS consumers.
+            return URL(string: string.replacingOccurrences(of: "${f}", with: ""))
         }
+        guard urls.count == meta.resources.count else { return nil }
+        return RemoteTransfer.RemoteItem(recordName: recordName, meta: meta, assetURLs: urls)
     }
 
     private static func importItem(
@@ -112,14 +137,5 @@ enum RemoteInbox {
             location: item.meta.location,
             albumIdentifier: albumIdentifier
         )
-    }
-
-    private static func delete(recordName: String) async throws {
-        _ = try await service.post("/records/modify", body: [
-            "operations": [[
-                "operationType": "forceDelete",
-                "record": ["recordName": recordName]
-            ]]
-        ])
     }
 }

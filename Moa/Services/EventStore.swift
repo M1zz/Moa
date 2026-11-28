@@ -43,10 +43,82 @@ final class EventStore {
         )
         events.insert(event, at: 0)
         save()
+        announce(event)
         return event
     }
 
-    /// Removes the event from this device only. Photos already imported stay in the library.
+    /// Opens someone's link or QR: the album is added here and its photos start coming in.
+    /// Nobody has to add anyone — having the link is being a member.
+    func join(_ invitation: DirectInvitation) async throws -> HostedEvent {
+        if let existing = event(id: invitation.eventID) { return existing }
+        guard await PhotoLibraryService.requestAccess() else { throw PhotoLibraryError.accessDenied }
+        let name = invitation.name ?? String(localized: "공유 앨범")
+        let albumID = try? await PhotoLibraryService.createAlbum(named: name)
+
+        let event = HostedEvent(
+            id: invitation.eventID,
+            name: name,
+            createdAt: .now,
+            albumIdentifier: albumID,
+            receivedCount: 0,
+            lastReceivedAt: nil,
+            uploaders: [:],
+            inviteKey: invitation.key,
+            invitePort: invitation.port,
+            joined: true,
+            inviteHost: invitation.host
+        )
+        events.insert(event, at: 0)
+        save()
+        announce(event)
+        Task { _ = try? await pullRemote(eventID: event.id) }
+        return event
+    }
+
+    /// Leaves a name in the feed so the other members see who is in. Without a name there is
+    /// nothing to show, and the member appears once they add a photo.
+    private func announce(_ event: HostedEvent) {
+        let name = MemberName.current
+        guard !name.isEmpty, RemoteInbox.isConfigured, let key = event.inviteKey else { return }
+        let invitation = DirectInvitation(host: event.inviteHost ?? "-", port: event.invitePort ?? 0,
+                                          key: key, name: event.name, eventID: event.id)
+        Task {
+            if let record = try? await RemoteSender.announceJoin(name: name, to: invitation) {
+                markSynced(record, eventID: event.id)
+            }
+            var members = self.event(id: event.id)?.members ?? []
+            if !members.contains(name) { members.append(name) }
+            update(event.id) { $0.members = members }
+        }
+    }
+
+    /// Photos this device added to the album itself: they are already in the library, so they
+    /// only join the album here, and the feed copy is skipped.
+    func recordOwnAdd(eventID: String, assetIdentifier: String?, record: String?) async {
+        if let record { markSynced(record, eventID: eventID) }
+        guard let event = event(id: eventID) else { return }
+        if let assetIdentifier {
+            await PhotoLibraryService.addExisting(assetIdentifier: assetIdentifier, to: event.albumIdentifier)
+        }
+        recordImport(eventID: eventID, assetID: assetIdentifier, uploader: MemberName.current)
+    }
+
+    func markSynced(_ record: String, eventID: String) {
+        update(eventID) { event in
+            var synced = event.syncedRecords ?? []
+            if !synced.contains(record) { synced.append(record) }
+            event.syncedRecords = synced
+        }
+    }
+
+    private func update(_ eventID: String, _ body: (inout HostedEvent) -> Void) {
+        guard let index = events.firstIndex(where: { $0.id == eventID }) else { return }
+        body(&events[index])
+        save()
+    }
+
+    /// Leaves the album on this device only. Photos already brought in stay in the library,
+    /// and the other members keep theirs.
     func delete(at offsets: IndexSet) {
         events = events.enumerated()
             .filter { !offsets.contains($0.offset) }
@@ -86,8 +158,8 @@ final class EventStore {
 
     private var pulling: Set<String> = []
 
-    /// Brings in what guests left in iCloud for this event. The event screen, app launch and
-    /// background refresh all come through here, one pass per event at a time, so the same
+    /// Brings in what the other members added to this album. The album screen, app launch and
+    /// background refresh all come through here, one pass per album at a time, so the same
     /// record is never imported twice. nil when there is nothing to do or a pass is running.
     func pullRemote(eventID: String) async throws -> RemoteInbox.FetchResult? {
         guard RemoteInbox.isConfigured, !pulling.contains(eventID),
@@ -95,18 +167,26 @@ final class EventStore {
         pulling.insert(eventID)
         defer { pulling.remove(eventID) }
         let result = try await RemoteInbox.fetch(
-            eventID: eventID, invitationKey: key, albumIdentifier: event.albumIdentifier
+            eventID: eventID, invitationKey: key, albumIdentifier: event.albumIdentifier,
+            skipping: Set(event.syncedRecords ?? [])
         )
         for item in result.imported {
             recordImport(eventID: eventID, assetID: item.assetID, uploader: item.uploader)
         }
+        update(eventID) { event in
+            event.syncedRecords = (event.syncedRecords ?? []) + result.seen.filter { !(event.syncedRecords ?? []).contains($0) }
+            if !result.members.isEmpty {
+                let mine = event.members ?? []
+                event.members = result.members + mine.filter { !result.members.contains($0) }
+            }
+        }
         return result
     }
 
-    /// Checks every recent event and returns how many items each brought in.
-    func pullRecentRemote() async -> [(event: HostedEvent, count: Int)] {
+    /// Checks every album and returns how many items each brought in.
+    func pullAllRemote() async -> [(event: HostedEvent, count: Int)] {
         var pulled: [(HostedEvent, Int)] = []
-        for event in events where event.isRecent && event.inviteKey != nil {
+        for event in events where event.inviteKey != nil {
             if let result = try? await pullRemote(eventID: event.id), !result.imported.isEmpty {
                 pulled.append((event, result.imported.count))
             }

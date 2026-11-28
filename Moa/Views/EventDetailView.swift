@@ -1,7 +1,10 @@
 import SwiftUI
 import LeeoKit
 
-/// While this screen is open, guests on the same Wi-Fi send straight to this iPhone.
+/// One shared album: who is in it, how to bring more people in, and every member's photos.
+///
+/// Anyone who scans the QR or opens the link is a member, so there is nobody to add by hand.
+/// On the iPhone that made the album, this screen also receives straight from guests nearby.
 struct EventDetailView: View {
     @Environment(EventStore.self) private var store
     let eventID: String
@@ -10,6 +13,7 @@ struct EventDetailView: View {
     @State private var gallery = AlbumGallery()
     @State private var remoteMessage: String?
     @State private var isCheckingRemote = false
+    @State private var isAdding = false
     /// 아이폰 듀오를 펴면 받은 사진은 옆 판(`FoldEventPhotos`)에 서므로 여기서는 그리지 않는다.
     @Environment(\.foldLayout) private var fold
     @Environment(\.isWidePadPanes) private var widePad
@@ -22,9 +26,12 @@ struct EventDetailView: View {
                     receiver.onImport = { [store] assetID, uploader in
                         store.recordImport(eventID: eventID, assetID: assetID, uploader: uploader)
                     }
+                    receiver.onShared = { [store] record in
+                        store.markSynced(record, eventID: eventID)
+                    }
                     gallery.start(albumIdentifier: event.albumIdentifier)
-                    await startReceiving(event)
-                    // 앱을 닫은 뒤 멀리서 온 사진을 가져와 알려 줄 수 있게 (→ RemoteRefresh)
+                    if !event.isJoined { await startReceiving(event) }
+                    // 앱을 닫은 뒤 멤버들이 보탠 사진을 가져와 알려 줄 수 있게 (→ RemoteRefresh)
                     await RemoteRefresh.askForNotifications()
                     await pollRemote(event: event)
                 }
@@ -39,14 +46,17 @@ struct EventDetailView: View {
                     receiver.stop()
                     Task { await startReceiving(event) }
                 }
-                .onAppear { UIApplication.shared.isIdleTimerDisabled = true }
+                .onAppear { UIApplication.shared.isIdleTimerDisabled = !event.isJoined }
                 .onDisappear {
                     receiver.stop()
                     gallery.stop()
                     UIApplication.shared.isIdleTimerDisabled = false
                 }
+                .sheet(isPresented: $isAdding) {
+                    AddPhotosSheet(event: event, invitation: invitation(for: event))
+                }
         } else {
-            ContentUnavailableView("이벤트를 찾을 수 없어요", systemImage: "questionmark.circle")
+            ContentUnavailableView("앨범을 찾을 수 없어요", systemImage: "questionmark.circle")
         }
     }
 
@@ -61,23 +71,34 @@ struct EventDetailView: View {
         )
     }
 
+    /// The album's link. On the iPhone that made it, the receiver's current address; until it
+    /// is listening, one without a reachable address still works through the feed.
+    private func invitation(for event: HostedEvent) -> DirectInvitation {
+        if let joined = event.joinedInvitation { return joined }
+        if case let .listening(invitation, _) = receiver.state { return invitation }
+        return DirectInvitation(host: "-", port: event.invitePort ?? 0,
+                                key: store.inviteKey(for: event.id) ?? "", name: event.name, eventID: event.id)
+    }
+
     private func content(for event: HostedEvent) -> some View {
         ScrollViewReader { proxy in
         ScrollView {
             VStack(spacing: 24) {
-                switch receiver.state {
-                case .idle, .starting:
-                    ProgressView("받을 준비를 하는 중…")
-                        .padding(.top, 80)
-                case .failed(let message):
-                    ContentUnavailableView(
-                        "받을 준비를 못 했어요",
-                        systemImage: "wifi.exclamationmark",
-                        description: Text(message)
-                    )
-                case let .listening(invitation, interface):
-                    listening(event: event, invitation: invitation, interface: interface)
+                invite(event: event)
+
+                Button {
+                    isAdding = true
+                } label: {
+                    Label("사진 보태기", systemImage: "plus.square.on.square")
+                        .font(.headline)
+                        .frame(maxWidth: 360)
                 }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+
+                MembersView(names: members(of: event))
+
+                status(event: event)
 
                 if !fold.isUnfolded {
                     Divider()
@@ -103,31 +124,68 @@ struct EventDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 
+    /// Everyone the feed has named, plus whoever sent straight to this iPhone.
+    private func members(of event: HostedEvent) -> [String] {
+        var names = event.members ?? []
+        for name in Set((event.uploaders ?? [:]).values).sorted() where !names.contains(name) {
+            names.append(name)
+        }
+        return names
+    }
+
+    // MARK: Invite
+
     @ViewBuilder
-    private func listening(event: HostedEvent, invitation: DirectInvitation, interface: String?) -> some View {
-        let qrImage = QRCodeRenderer.image(for: invitation.url.absoluteString)
-
-        QRCodeView(image: qrImage)
-            // 넓은 아이패드는 행사장 안내판 — 멀리서도 찍히게 크게
-            .frame(maxWidth: widePad ? 440 : 280)
-
-        VStack(spacing: 8) {
-            if let interface {
-                Text(UIDevice.current.userInterfaceIdiom == .pad
-                     ? "같은 \(interface)에서 QR을 찍으면 이 iPad로 바로 와요"
-                     : "같은 \(interface)에서 QR을 찍으면 이 iPhone으로 바로 와요")
-                    .font(.headline)
-            } else {
-                Text("Wi-Fi 네트워크에 연결되어 있지 않아요")
-                    .font(.headline)
+    private func invite(event: HostedEvent) -> some View {
+        if event.isJoined {
+            qrCard(invitation(for: event))
+        } else {
+            switch receiver.state {
+            case .idle, .starting:
+                ProgressView("받을 준비를 하는 중…")
+                    .padding(.vertical, 60)
+            case .failed(let message):
+                ContentUnavailableView(
+                    "받을 준비를 못 했어요",
+                    systemImage: "wifi.exclamationmark",
+                    description: Text(message)
+                )
+            case let .listening(invitation, interface):
+                qrCard(invitation)
+                if let interface {
+                    Text(UIDevice.current.userInterfaceIdiom == .pad
+                         ? "같은 \(interface)에서 QR을 찍으면 이 iPad로 바로 와요"
+                         : "같은 \(interface)에서 QR을 찍으면 이 iPhone으로 바로 와요")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                }
             }
-            // 인터넷 · 공유기 없이도 되는 길 (→ NearbyTransfer)
-            Text("보태줘 앱이 있는 사람은 인터넷이 없어도 앱의 사진 보내기로 이 QR을 찍어 바로 보낼 수 있어요.")
-                .font(.subheadline)
+        }
+    }
+
+    private func qrCard(_ invitation: DirectInvitation) -> some View {
+        VStack(spacing: 12) {
+            QRCodeView(image: QRCodeRenderer.image(for: invitation.url.absoluteString))
+                // 넓은 아이패드는 행사장 안내판 — 멀리서도 찍히게 크게
+                .frame(maxWidth: widePad ? 440 : 240)
+            Text("이 QR을 찍거나 링크를 연 사람은 바로 멤버가 돼요")
+                .font(.headline)
+            Text("한 명씩 추가할 필요가 없어요. 멤버 누구나 다른 사람을 초대할 수 있어요.")
                 .foregroundStyle(.secondary)
+            ShareLink(item: invitation.url,
+                      subject: Text(invitation.name ?? ""),
+                      message: Text("보태줘 공유 앨범에 초대해요. 링크를 열면 바로 함께 사진을 모을 수 있어요.")) {
+                Label("초대 링크 보내기", systemImage: "link")
+            }
+            .buttonStyle(.bordered)
         }
         .multilineTextAlignment(.center)
+    }
 
+    // MARK: Status
+
+    private func status(event: HostedEvent) -> some View {
         GroupBox {
             VStack(alignment: .leading, spacing: 12) {
                 LabeledContent("사진 앱에 넣은 항목", value: String(localized: "\(event.receivedCount)개"))
@@ -136,12 +194,11 @@ struct EventDetailView: View {
                 }
                 if let lastMessage = receiver.lastMessage {
                     Text(lastMessage)
-                        .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
                 if RemoteInbox.isConfigured {
                     Divider()
-                    LabeledContent("멀리서 보낸 사진") {
+                    LabeledContent("멤버들이 보탠 사진") {
                         if isCheckingRemote {
                             ProgressView()
                         } else {
@@ -151,20 +208,10 @@ struct EventDetailView: View {
                 }
             }
         }
-
-        ShareLink(item: invitation.url) {
-            Label("초대 링크 보내기", systemImage: "link")
-        }
-        .buttonStyle(.bordered)
-
-        Text("이 화면이 켜져 있으면 같은 Wi-Fi에서 바로 받아요. 화면은 자동으로 꺼지지 않아요.\n이 QR은 이벤트 내내 그대로예요. 앱을 닫아 두면 멀리서 보낸 사진으로 받아 알려 드려요.")
-            .font(.footnote)
-            .foregroundStyle(.secondary)
-            .multilineTextAlignment(.center)
     }
 
-    /// Guests who weren't on the same Wi-Fi leave their photos in iCloud. Check on open and
-    /// every 30 seconds after that, so they land in the same album as the local ones.
+    /// The other members' photos come through the feed. Check on open and every 30 seconds
+    /// after that, so they land in the same album as everything else.
     private func pollRemote(event: HostedEvent) async {
         guard RemoteInbox.isConfigured else { return }
         while !Task.isCancelled {
@@ -192,5 +239,63 @@ struct EventDetailView: View {
             isCheckingRemote = false
             try? await Task.sleep(for: .seconds(30))
         }
+    }
+}
+
+/// Who is in the album, by the names they chose.
+private struct MembersView: View {
+    let names: [String]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Label("멤버 \(names.count)명", systemImage: "person.2")
+                .font(.headline)
+            Text(names.isEmpty
+                 ? String(localized: "아직 이름을 알린 멤버가 없어요. 링크를 보내 초대해 보세요.")
+                 : names.joined(separator: ", "))
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .accessibilityElement(children: .combine)
+    }
+}
+
+/// Adding my own photos: they go into the album's feed for every member, and into my album
+/// here without a second copy.
+private struct AddPhotosSheet: View {
+    let event: HostedEvent
+    let invitation: DirectInvitation
+
+    @Environment(EventStore.self) private var store
+    @Environment(\.dismiss) private var dismiss
+    @State private var model: UploadModel
+
+    init(event: HostedEvent, invitation: DirectInvitation) {
+        self.event = event
+        self.invitation = invitation
+        _model = State(initialValue: UploadModel(route: .member(isOwner: !event.isJoined)))
+    }
+
+    var body: some View {
+        NavigationStack {
+            UploadView()
+                .environment(model)
+                .navigationTitle("사진 보태기")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button { dismiss() } label: { Label("닫기", systemImage: "xmark") }
+                    }
+                }
+        }
+        // 보내는 중에 닫히지 않게
+        .interactiveDismissDisabled(model.isUploading)
+        .task {
+            model.onSent = { [store, eventID = event.id] assetIdentifier, record in
+                Task { await store.recordOwnAdd(eventID: eventID, assetIdentifier: assetIdentifier, record: record) }
+            }
+            model.handle(url: invitation.url)
+        }
+        .onDisappear { model.stop() }
     }
 }

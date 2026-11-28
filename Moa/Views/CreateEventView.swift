@@ -5,6 +5,7 @@ struct CreateEventView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var name = ""
+    @State private var memberName = MemberName.current
     @State private var isSubmitting = false
     @State private var errorMessage: String?
 
@@ -12,12 +13,19 @@ struct CreateEventView: View {
         NavigationStack {
             Form {
                 Section {
-                    TextField("예: 9월 멘토링 세션", text: $name)
+                    TextField("예: 우리 가족, 제주 여행", text: $name)
                         .submitLabel(.done)
                 } header: {
-                    Text("이벤트 이름")
+                    Text("앨범 이름")
                 } footer: {
-                    Text("사진 앱에 같은 이름의 앨범이 만들어져요.")
+                    Text("사진 앱에 같은 이름의 앨범이 만들어져요. 멤버가 참여하면 그 사람의 사진 앱에도 생겨요.")
+                }
+
+                Section {
+                    TextField("이름", text: $memberName)
+                        .textContentType(.name)
+                } header: {
+                    Text("멤버들에게 보일 이름")
                 }
 
                 if let errorMessage {
@@ -27,7 +35,7 @@ struct CreateEventView: View {
                     }
                 }
             }
-            .navigationTitle("새 이벤트")
+            .navigationTitle("새 공유 앨범")
             .navigationBarTitleDisplayMode(.inline)
             .interactiveDismissDisabled(isSubmitting)
             .toolbar {
@@ -59,6 +67,7 @@ struct CreateEventView: View {
         isSubmitting = true
         errorMessage = nil
         defer { isSubmitting = false }
+        MemberName.set(memberName)
         do {
             _ = try await store.createEvent(name: trimmedName)
             dismiss()

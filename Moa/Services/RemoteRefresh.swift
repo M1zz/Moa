@@ -14,10 +14,10 @@ enum RemoteRefresh {
     /// 알림을 누르면 열 이벤트.
     static let eventIDKey = "moaEventID"
 
-    /// 아직 게스트가 보낼 만한 이벤트가 있을 때만 깨워 달라고 한다.
+    /// 앨범이 하나라도 있으면 깨워 달라고 한다.
     @MainActor
     static func schedule(for store: EventStore) {
-        guard RemoteInbox.isConfigured, store.events.contains(where: \.isRecent) else {
+        guard RemoteInbox.isConfigured, !store.events.isEmpty else {
             BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: taskIdentifier)
             return
         }
@@ -35,7 +35,7 @@ enum RemoteRefresh {
     /// iOS 가 깨웠을 때. 가져온 것을 이벤트마다 한 번 알리고 다음을 예약한다.
     @MainActor
     static func run(store: EventStore) async {
-        for (event, count) in await store.pullRecentRemote() {
+        for (event, count) in await store.pullAllRemote() {
             await notify(event: event, count: count)
         }
         schedule(for: store)
@@ -50,8 +50,8 @@ enum RemoteRefresh {
     private static func notify(event: HostedEvent, count: Int) async {
         let content = UNMutableNotificationContent()
         content.title = event.name
-        content.body = String(localized: "멀리서 보낸 사진 \(count)개를 사진 앱에 넣었어요",
-                              comment: "Notification after photos left in iCloud were imported in the background")
+        content.body = String(localized: "멤버들이 보탠 사진 \(count)개를 사진 앱에 넣었어요",
+                              comment: "Notification after photos other album members added were imported in the background")
         content.sound = .default
         content.threadIdentifier = event.id
         content.userInfo = [eventIDKey: event.id]

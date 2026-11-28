@@ -36,16 +36,37 @@ final class UploadModel {
     private(set) var items: [UploadItem] = []
     var uploaderName: String
 
+    /// How one photo travels.
+    enum Route {
+        /// A guest (the App Clip): straight to the iPhone that made the album when it is
+        /// nearby, which then shares it with everyone; otherwise into the album's feed.
+        case guest
+        /// A member's own app adding to their album: into the feed first, so every member gets
+        /// it; the album's iPhone nearby only when there is no internet (not when this is it).
+        case member(isOwner: Bool)
+    }
+
     private var invitation: DirectInvitation?
+    let route: Route
+    /// The app picks from the library so a photo it adds can join its own album without a copy.
+    var picksFromLibrary: Bool { if case .member = route { true } else { false } }
+    /// Called after each photo reaches the album, with its library id (member route only)
+    /// and the feed record it went into, if any.
+    var onSent: ((_ assetIdentifier: String?, _ record: String?) -> Void)?
     /// nil until checked. Whether this guest can reach the host's iCloud mailbox.
     private(set) var canSendRemotely: Bool?
-    private static let uploaderNameKey = "uploaderName"
     /// The app looks for the host nearby (no network needed); the App Clip can't use Bonjour.
     private let nearby: NearbyHostFinder?
 
-    init(searchesNearby: Bool = false) {
-        uploaderName = UserDefaults.standard.string(forKey: Self.uploaderNameKey) ?? ""
-        nearby = searchesNearby ? NearbyHostFinder() : nil
+    init(route: Route = .guest) {
+        self.route = route
+        uploaderName = MemberName.current
+        // The App Clip can't use Bonjour; the app finds the album's iPhone nearby with no network.
+        if case .member(isOwner: false) = route {
+            nearby = NearbyHostFinder()
+        } else {
+            nearby = nil
+        }
     }
 
     func stop() {
@@ -63,10 +84,6 @@ final class UploadModel {
 
     var doneCount: Int {
         items.filter { if case .done = $0.status { return true } else { return false } }.count
-    }
-
-    var sentRemotelyCount: Int {
-        items.filter { $0.status == .done(remote: true) }.count
     }
 
     // MARK: Invocation
@@ -121,28 +138,34 @@ final class UploadModel {
     func upload(_ results: [PHPickerResult]) {
         guard let invitation, !results.isEmpty else { return }
 
-        let trimmedName = uploaderName.trimmingCharacters(in: .whitespacesAndNewlines)
-        UserDefaults.standard.set(trimmedName, forKey: Self.uploaderNameKey)
+        MemberName.set(uploaderName)
+        let trimmedName = MemberName.current
 
-        let providers = results.map(\.itemProvider)
-        let newItems = providers.map { _ in UploadItem() }
+        let newItems = results.map { _ in UploadItem() }
         items.append(contentsOf: newItems)
 
-        let jobs = Array(zip(providers, newItems.map(\.id)))
+        let jobs = zip(results, newItems).map { Job(provider: $0.itemProvider, assetIdentifier: $0.assetIdentifier, localID: $1.id) }
         Task {
             await run(jobs, to: invitation, uploader: trimmedName.isEmpty ? nil : trimmedName)
         }
     }
 
-    private func run(_ jobs: [(NSItemProvider, UUID)], to invitation: DirectInvitation, uploader: String?) async {
+    private struct Job {
+        let provider: NSItemProvider
+        let assetIdentifier: String?
+        let localID: UUID
+    }
+
+    private func run(_ jobs: [Job], to invitation: DirectInvitation, uploader: String?) async {
         // Uploads die if the screen locks, so keep it awake while anything is in flight.
         UIApplication.shared.isIdleTimerDisabled = true
         defer { UIApplication.shared.isIdleTimerDisabled = isUploading }
 
-        for (provider, localID) in jobs {
+        for job in jobs {
+            let localID = job.localID
             setStatus(.preparing, for: localID)
             do {
-                let media = try await MediaExporter.export(provider)
+                let media = try await MediaExporter.export(job.provider)
                 defer { media.cleanUp() }
                 let preview = await MediaExporter.preview(for: media)
                 update(localID) {
@@ -151,19 +174,46 @@ final class UploadModel {
                     $0.capturedAt = media.capturedAt
                 }
                 setStatus(.uploading, for: localID)
-                do {
-                    let nearbyHost = await nearby?.waitForEndpoint()
-                    try await DirectSender.send(media, uploader: uploader, to: invitation, nearby: nearbyHost)
-                    setStatus(.done(remote: false), for: localID)
-                } catch let directError {
-                    // Not on the same network, or the host closed the screen: try iCloud.
-                    guard RemoteTransfer.isConfigured, canSendRemotely != false else { throw directError }
-                    setStatus(.uploadingRemotely, for: localID)
-                    try await RemoteSender.send(media, uploader: uploader, to: invitation)
-                    setStatus(.done(remote: true), for: localID)
-                }
+                let record = try await send(media, uploader: uploader, to: invitation, localID: localID)
+                onSent?(job.assetIdentifier, record)
             } catch {
                 setStatus(.failed(error.localizedDescription), for: localID)
+            }
+        }
+    }
+
+    /// Returns the feed record when it went into the feed.
+    private func send(_ media: PreparedMedia, uploader: String?, to invitation: DirectInvitation,
+                      localID: UUID) async throws -> String? {
+        let me = [DeviceID.current]
+        switch route {
+        case .guest:
+            do {
+                try await DirectSender.send(media, uploader: uploader, from: DeviceID.current, to: invitation)
+                setStatus(.done(remote: false), for: localID)
+                return nil
+            } catch let directError {
+                // Not on the same network, or the album's iPhone closed the screen: use the feed.
+                guard RemoteTransfer.isConfigured, canSendRemotely != false else { throw directError }
+                setStatus(.uploadingRemotely, for: localID)
+                let record = try await RemoteSender.send(media, uploader: uploader, holders: me, to: invitation)
+                setStatus(.done(remote: true), for: localID)
+                return record
+            }
+        case .member(let isOwner):
+            do {
+                guard RemoteTransfer.isConfigured else { throw RemoteTransferError.notConfigured }
+                let record = try await RemoteSender.send(media, uploader: uploader, holders: me, to: invitation)
+                setStatus(.done(remote: true), for: localID)
+                return record
+            } catch let remoteError {
+                // No internet: hand it to the album's iPhone nearby, which shares it later.
+                guard !isOwner else { throw remoteError }
+                let nearbyHost = await nearby?.waitForEndpoint()
+                try await DirectSender.send(media, uploader: uploader, from: DeviceID.current,
+                                            to: invitation, nearby: nearbyHost)
+                setStatus(.done(remote: false), for: localID)
+                return nil
             }
         }
     }

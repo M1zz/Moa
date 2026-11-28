@@ -39,8 +39,8 @@ struct MoaApp: App {
                         Task { await store.reindex() }
                         RemoteRefresh.schedule(for: store)
                     case .active:
-                        // 닫아 둔 동안 멀리서 온 사진을 바로 들인다 (알림은 없이 — 보고 있으니까)
-                        Task { _ = await store.pullRecentRemote() }
+                        // 닫아 둔 동안 멤버들이 보탠 사진을 바로 들인다 (알림은 없이 — 보고 있으니까)
+                        Task { _ = await store.pullAllRemote() }
                     default:
                         break
                     }

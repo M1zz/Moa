@@ -1,3 +1,4 @@
+import PhotosUI
 import SwiftUI
 
 /// Name, picker and what was sent. The App Clip and the app's "send photos" sheet both show it
@@ -14,7 +15,7 @@ struct UploadView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(model.eventName ?? "")
                         .font(.title2.bold())
-                    Text("고른 사진과 동영상이 원본 그대로, 찍은 시각 그대로 호스트의 사진 앱에 들어가요.")
+                    Text("고른 사진과 동영상이 원본 그대로, 찍은 시각 그대로 앨범 멤버 모두의 사진 앱에 들어가요.")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
@@ -53,17 +54,13 @@ struct UploadView: View {
                     if model.isUploading {
                         Text("다 보낼 때까지 이 화면을 켜 두세요.")
                     } else if model.doneCount == model.items.count {
-                        if model.sentRemotelyCount > 0 {
-                            Text("모두 보냈어요. 고마워요! 가까이 있지 않아서 iCloud로 전달했고, 호스트가 앱을 열면 사진 앱에 들어가요.")
-                        } else {
-                            Text("모두 보냈어요. 고마워요!")
-                        }
+                        Text("모두 보냈어요. 고마워요! 멤버들이 앱을 열면 각자의 사진 앱에 들어가요.")
                     }
                 }
             }
         }
         .sheet(isPresented: $isPicking) {
-            MediaPicker { results in
+            MediaPicker(library: model.picksFromLibrary ? .shared() : nil) { results in
                 model.upload(results)
             }
             .ignoresSafeArea()

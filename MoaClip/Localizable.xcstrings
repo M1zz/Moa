@@ -711,144 +711,144 @@
         }
       }
     },
-    "고른 사진과 동영상이 원본 그대로, 찍은 시각 그대로 호스트의 사진 앱에 들어가요." : {
+    "고른 사진과 동영상이 원본 그대로, 찍은 시각 그대로 앨범 멤버 모두의 사진 앱에 들어가요." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The photos and videos you pick go into the host's Photos app as originals, at the time they were taken."
+            "value" : "The photos and videos you pick go to every album member’s Photos app in full quality, at the time they were taken."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The photos and videos you choose go into the host's Photos app as originals, with their original time taken."
+            "value" : "The photos and videos you pick go to every album member’s Photos app in full quality, at the time they were taken."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "所选的照片和视频会保持原画质和拍摄时间，存入接收方的“照片”App。"
+            "value" : "你选的照片和视频会以原图、按拍摄时间进入相簿所有成员的“照片”App。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "所選的照片和影片會維持原畫質與拍攝時間，存入接收方的「照片」App。"
+            "value" : "你選的照片和影片會以原檔、按拍攝時間進入相簿所有成員的「照片」App。"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "選んだ写真と動画は、オリジナルのまま撮影時刻も保ったまま、ホストの写真アプリに入ります。"
+            "value" : "選んだ写真とビデオは、オリジナルのまま撮影日時どおりに、アルバムのメンバー全員の写真アプリに入ります。"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выбранные фото и видео попадут в «Фото» организатора в оригинале и с исходным временем съёмки."
+            "value" : "Выбранные фото и видео попадут в «Фото» всех участников альбома в оригинальном качестве и с исходной датой съемки."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las fotos y los vídeos que elijas llegan a la app Fotos del anfitrión como originales, con la hora a la que se hicieron."
+            "value" : "Las fotos y vídeos que elijas llegan a la app Fotos de todos los miembros del álbum en calidad original y con su hora de captura."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die ausgewählten Fotos und Videos landen als Originale mit ihrem Aufnahmezeitpunkt in der Fotos-App des Gastgebers."
+            "value" : "Die ausgewählten Fotos und Videos landen in Originalqualität und mit Aufnahmezeit in der Fotos‑App aller Albummitglieder."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les photos et vidéos choisies arrivent en originaux, à l’heure de prise de vue, dans l’app Photos de l’hôte."
+            "value" : "Les photos et vidéos choisies arrivent en qualité originale, à leur heure de prise de vue, dans l’app Photos de tous les membres de l’album."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le foto e i video scelti arrivano nell'app Foto dell'host come originali, con l'ora di scatto."
+            "value" : "Le foto e i video che scegli arrivano in qualità originale, con l’ora dello scatto, nell’app Foto di tutti i membri dell’album."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As fotos e os vídeos escolhidos vão para o app Fotos do anfitrião como originais, no horário em que foram feitos."
+            "value" : "As fotos e os vídeos escolhidos chegam ao app Fotos de todos os membros do álbum em qualidade original, no horário em que foram feitos."
           }
         },
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "รูปและวิดีโอที่เลือกจะเข้าแอปรูปภาพของเจ้าของอีเวนต์เป็นไฟล์ต้นฉบับ ตรงตามเวลาที่ถ่าย"
+            "value" : "รูปและวิดีโอที่เลือกจะเข้าแอปรูปภาพของสมาชิกทุกคนในอัลบั้มแบบต้นฉบับ ตรงตามเวลาที่ถ่าย"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ảnh và video đã chọn vào ứng dụng Ảnh của chủ sự kiện dưới dạng bản gốc, đúng thời điểm chụp."
+            "value" : "Ảnh và video bạn chọn sẽ vào ứng dụng Ảnh của mọi thành viên album với chất lượng gốc, đúng thời điểm chụp."
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vybrané fotky a videa se uloží do Fotek hostitele jako originály, s časem pořízení."
+            "value" : "Vybrané fotky a videa dorazí v původní kvalitě a s časem pořízení do Fotek všech členů alba."
           }
         },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De billeder og videoer, du vælger, lægges som originaler i værtens Fotos med det tidspunkt, de blev taget."
+            "value" : "De billeder og videoer, du vælger, kommer i original kvalitet og med optagelsestidspunktet i alle albummedlemmers Fotos-app."
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Οι φωτογραφίες και τα βίντεο που επιλέγετε μπαίνουν στις Φωτογραφίες του διοργανωτή ως πρωτότυπα, στη στιγμή της λήψης."
+            "value" : "Οι φωτογραφίες και τα βίντεο που επιλέγετε φτάνουν σε αρχική ποιότητα, με την ώρα λήψης, στις Φωτογραφίες όλων των μελών του άλμπουμ."
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Valitsemasi kuvat ja videot siirtyvät isännän Kuvat-appiin alkuperäisinä ottohetkensä mukaan."
+            "value" : "Valitsemasi kuvat ja videot tulevat alkuperäislaatuisina ja kuvausajan mukaan kaikkien albumin jäsenten Kuvat-appiin."
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Foto dan video yang kamu pilih masuk ke app Foto host sebagai file asli, sesuai waktu pengambilannya."
+            "value" : "Foto dan video yang kamu pilih masuk ke app Foto semua anggota album dalam kualitas asli, sesuai waktu pengambilannya."
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bildene og videoene du velger havner som originaler i vertens Bilder-app, med opptakstidspunktet i behold."
+            "value" : "Bildene og videoene du velger, kommer i originalkvalitet og med opptakstidspunkt i Bilder-appen til alle albummedlemmene."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De foto's en video's die je kiest komen als originelen, met het moment van opname, in de Foto's-app van de host."
+            "value" : "De foto’s en video’s die je kiest, komen in originele kwaliteit en met hun opnametijd in de Foto’s-app van alle albumleden."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wybrane zdjęcia i filmy trafią do aplikacji Zdjęcia organizatora jako oryginały, z godziną wykonania."
+            "value" : "Wybrane zdjęcia i filmy trafią w oryginalnej jakości, z czasem wykonania, do aplikacji Zdjęcia wszystkich członków albumu."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bilderna och videorna du väljer hamnar som original i värdens Bilder, med tagningstiden intakt."
+            "value" : "Bilderna och videorna du väljer hamnar i originalkvalitet, med tidpunkten de togs, i alla albummedlemmars Bilder-app."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seçtiğiniz fotoğraf ve videolar orijinal haliyle, çekildiği saatle alıcının Fotoğraflar uygulamasına girer."
+            "value" : "Seçtiğiniz fotoğraf ve videolar orijinal kalitesiyle, çekildikleri saatle albümdeki tüm üyelerin Fotoğraflar uygulamasına gelir."
           }
         }
       }
@@ -1279,286 +1279,144 @@
         }
       }
     },
-    "모두 보냈어요. 고마워요!" : {
+    "모두 보냈어요. 고마워요! 멤버들이 앱을 열면 각자의 사진 앱에 들어가요." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All sent. Thank you!"
+            "value" : "All sent. Thank you! They’ll arrive in each member’s Photos app when they open the app."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All sent. Thanks!"
+            "value" : "All sent. Thank you! They’ll arrive in each member’s Photos app when they open the app."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "全部发送完成，谢谢！"
+            "value" : "全部发送完毕，谢谢！成员打开 App 时会进入各自的“照片”。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "全部傳送完成，謝謝！"
+            "value" : "全部傳送完畢，謝謝！成員打開 App 時會進入各自的「照片」。"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "すべて送信しました。ありがとうございます！"
+            "value" : "すべて送りました。ありがとう！メンバーがアプリを開くと、それぞれの写真アプリに入ります。"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Всё отправлено. Спасибо!"
+            "value" : "Всё отправлено. Спасибо! Фото попадут в «Фото» каждого участника, когда он откроет приложение."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Todo enviado. ¡Gracias!"
+            "value" : "Todo enviado. ¡Gracias! Llegarán a la app Fotos de cada miembro cuando abra la app."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alles gesendet. Danke!"
+            "value" : "Alles gesendet. Danke! Sie landen in der Fotos‑App jedes Mitglieds, sobald es die App öffnet."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tout est envoyé. Merci !"
+            "value" : "Tout est envoyé. Merci ! Elles arriveront dans l’app Photos de chaque membre à l’ouverture de l’app."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inviato tutto. Grazie!"
+            "value" : "Tutto inviato. Grazie! Arriveranno nell’app Foto di ogni membro quando apre l’app."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tudo enviado. Obrigado!"
+            "value" : "Tudo enviado. Obrigado! Elas chegam ao app Fotos de cada membro quando ele abrir o app."
           }
         },
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ส่งครบแล้ว ขอบคุณ!"
+            "value" : "ส่งครบแล้ว ขอบคุณนะ! รูปจะเข้าแอปรูปภาพของสมาชิกแต่ละคนเมื่อเขาเปิดแอป"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Đã gửi hết. Cảm ơn bạn!"
+            "value" : "Đã gửi hết. Cảm ơn bạn! Ảnh sẽ vào ứng dụng Ảnh của từng thành viên khi họ mở ứng dụng."
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vše odesláno. Děkujeme!"
+            "value" : "Vše odesláno. Děkujeme! Do Fotek každého člena dorazí, až otevře aplikaci."
           }
         },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alt er sendt. Tak!"
+            "value" : "Alt er sendt. Tak! De kommer i hvert medlems Fotos-app, når de åbner appen."
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Στάλθηκαν όλα. Ευχαριστούμε!"
+            "value" : "Στάλθηκαν όλα. Ευχαριστούμε! Θα φτάσουν στις Φωτογραφίες κάθε μέλους όταν ανοίξει την εφαρμογή."
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kaikki lähetetty. Kiitos!"
+            "value" : "Kaikki lähetetty. Kiitos! Ne tulevat jokaisen jäsenen Kuviin, kun hän avaa apin."
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Semua terkirim. Terima kasih!"
+            "value" : "Semua terkirim. Terima kasih! Foto akan masuk ke app Foto setiap anggota saat mereka membuka app."
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alt er sendt. Takk!"
+            "value" : "Alt er sendt. Takk! De kommer i Bilder-appen til hvert medlem når de åpner appen."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alles verstuurd. Bedankt!"
+            "value" : "Alles verstuurd. Dank je! Ze komen in de Foto’s-app van elk lid zodra die de app opent."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wszystko wysłane. Dziękujemy!"
+            "value" : "Wszystko wysłane. Dziękujemy! Trafią do Zdjęć każdego członka, gdy otworzy aplikację."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allt är skickat. Tack!"
+            "value" : "Allt är skickat. Tack! De hamnar i varje medlems Bilder-app när de öppnar appen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hepsi gönderildi. Teşekkürler!"
-          }
-        }
-      }
-    },
-    "모두 보냈어요. 고마워요! 가까이 있지 않아서 iCloud로 전달했고, 호스트가 앱을 열면 사진 앱에 들어가요." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "All sent. Thank you! You weren't nearby, so they went through iCloud and will reach Photos when the host opens the app."
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "All sent. Thanks! You weren't nearby, so they went via iCloud and will arrive in Photos once the host opens the app."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "全部发送完成，谢谢！由于不在附近，照片已通过 iCloud 传送，接收方打开 App 后就会存入“照片”。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "全部傳送完成，謝謝！由於不在附近，照片已透過 iCloud 傳送，接收方開啟 App 後就會存入「照片」。"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "すべて送信しました。ありがとうございます！近くにいなかったためiCloud経由で送信しました。ホストがアプリを開くと写真アプリに入ります。"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Всё отправлено. Спасибо! Организатор был не рядом, поэтому файлы ушли через iCloud и попадут в «Фото», когда он откроет приложение."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Todo enviado. ¡Gracias! No estabas cerca, así que se enviaron por iCloud y llegarán a Fotos cuando el anfitrión abra la app."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alles gesendet. Danke! Du warst nicht in der Nähe, deshalb lief es über iCloud. Die Fotos landen in Fotos, sobald der Gastgeber die App öffnet."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tout est envoyé. Merci ! Vous n’étiez pas à proximité : l’envoi est passé par iCloud et les photos arriveront dans Photos quand l’hôte ouvrira l’app."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inviato tutto. Grazie! Non eravate vicini, quindi è passato da iCloud e arriverà in Foto quando l'host aprirà l'app."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tudo enviado. Obrigado! Vocês não estavam perto, então foi pelo iCloud, e as fotos entram no app Fotos quando o anfitrião abrir o app."
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ส่งครบแล้ว ขอบคุณ! เนื่องจากอยู่ไม่ใกล้กัน จึงส่งผ่าน iCloud และรูปจะเข้าแอปรูปภาพเมื่อเจ้าของอีเวนต์เปิดแอป"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Đã gửi hết. Cảm ơn bạn! Vì không ở gần nhau nên ảnh đi qua iCloud và sẽ vào Ảnh khi chủ sự kiện mở ứng dụng."
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vše odesláno. Děkujeme! Nebyli jste poblíž, proto to šlo přes iCloud a do Fotek se to dostane, až hostitel otevře aplikaci."
-          }
-        },
-        "da" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alt er sendt. Tak! Du var ikke i nærheden, så det gik via iCloud og lander i Fotos, når værten åbner appen."
-          }
-        },
-        "el" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Στάλθηκαν όλα. Ευχαριστούμε! Δεν ήσασταν κοντά, γι' αυτό πέρασαν από το iCloud και θα μπουν στις Φωτογραφίες όταν ο διοργανωτής ανοίξει την εφαρμογή."
-          }
-        },
-        "fi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kaikki lähetetty. Kiitos! Et ollut lähellä, joten kuvat kulkivat iCloudin kautta ja siirtyvät Kuvat-appiin, kun isäntä avaa sovelluksen."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Semua terkirim. Terima kasih! Karena tidak berdekatan, file dikirim lewat iCloud dan akan masuk ke Foto saat host membuka app."
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alt er sendt. Takk! Du var ikke i nærheten, så det gikk via iCloud og havner i Bilder når verten åpner appen."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alles verstuurd. Bedankt! Je was niet in de buurt, dus het ging via iCloud en komt in Foto's zodra de host de app opent."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wszystko wysłane. Dziękujemy! Organizator był daleko, więc zdjęcia poszły przez iCloud i trafią do aplikacji Zdjęcia, gdy otworzy on aplikację."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Allt är skickat. Tack! Du var inte i närheten, så det gick via iCloud och hamnar i Bilder när värden öppnar appen."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hepsi gönderildi. Teşekkürler! Yakında olmadığınız için iCloud üzerinden iletildi; alıcı uygulamayı açınca Fotoğraflar'a girecek."
+            "value" : "Hepsi gönderildi. Teşekkürler! Her üye uygulamayı açtığında kendi Fotoğraflar uygulamasına gelir."
           }
         }
       }

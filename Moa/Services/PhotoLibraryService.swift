@@ -91,6 +91,16 @@ enum PhotoLibraryService {
 }
 
 extension PhotoLibraryService {
+    /// Puts a photo already in the library into the album, without copying it.
+    static func addExisting(assetIdentifier: String, to albumIdentifier: String?) async {
+        guard let albumIdentifier,
+              let album = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [albumIdentifier], options: nil).firstObject,
+              let asset = PHAsset.fetchAssets(withLocalIdentifiers: [assetIdentifier], options: nil).firstObject else { return }
+        try? await PHPhotoLibrary.shared().performChanges {
+            PHAssetCollectionChangeRequest(for: album)?.addAssets([asset] as NSArray)
+        }
+    }
+
     /// Photos shows its own confirmation. Returns false when the user cancels it.
     static func delete(assets: [PHAsset]) async -> Bool {
         do {

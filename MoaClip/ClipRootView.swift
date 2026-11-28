@@ -1,7 +1,10 @@
+import StoreKit
 import SwiftUI
 
 struct ClipRootView: View {
     @Environment(UploadModel.self) private var model
+    /// 다 보낸 뒤 앱을 권한다 — 앱으로 이 앨범에 참여하면 모두의 사진이 내 사진 앱에도 모인다.
+    @State private var isOfferingApp = false
 
     var body: some View {
         NavigationStack {
@@ -15,6 +18,12 @@ struct ClipRootView: View {
             }
             .navigationTitle("보태줘")
             .navigationBarTitleDisplayMode(.inline)
+        }
+        .onChange(of: model.doneCount) { _, done in
+            if done > 0, !model.isUploading { isOfferingApp = true }
+        }
+        .appStoreOverlay(isPresented: $isOfferingApp) {
+            SKOverlay.AppClipConfiguration(position: .bottom)
         }
     }
 }

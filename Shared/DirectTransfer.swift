@@ -26,6 +26,9 @@ enum DirectTransfer {
 struct DirectHeader: Codable, Sendable {
     let key: String
     let uploader: String?
+    /// The sender's `DeviceID`. The host passes it on when it shares the item with the album,
+    /// so the sender's own app doesn't download its photo back. Optional for older senders.
+    var from: String? = nil
     /// Read from the files by the App Clip. The host sets them on the asset explicitly so it lands
     /// at its real place in the timeline even when Photos can't read the file's own metadata.
     let capturedAt: Date?

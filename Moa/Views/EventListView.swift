@@ -5,7 +5,7 @@ import LeeoKit
 struct EventListView: View {
     @Environment(EventStore.self) private var store
     @State private var isCreating = false
-    @State private var isSending = false
+    @State private var isJoining = false
     /// Siri 로 들어온 새 모으기 (→ EventIntents.swift)
     @Bindable private var eventRouter = EventRouter.shared
     @State private var path: [String] = []
@@ -28,16 +28,14 @@ struct EventListView: View {
             Group {
                 if store.events.isEmpty {
                     ContentUnavailableView {
-                        Label("아직 이벤트가 없어요", systemImage: "qrcode")
+                        Label("아직 공유 앨범이 없어요", systemImage: "rectangle.stack.badge.person.crop")
                     } description: {
-                        Text(UIDevice.current.userInterfaceIdiom == .pad
-                             ? "이벤트를 만들고 QR을 보여주면, 같은 Wi-Fi에 있는 사람이 앱 설치 없이 이 iPad로 사진을 보낼 수 있어요. 받은 사진은 촬영 시각 그대로 사진 앱에 들어가요."
-                             : "이벤트를 만들고 QR을 보여주면, 같은 Wi-Fi에 있는 사람이 앱 설치 없이 이 iPhone으로 사진을 보낼 수 있어요. 받은 사진은 촬영 시각 그대로 사진 앱에 들어가요.")
+                        Text("가족, 친구, 모임마다 앨범을 만들어 두세요. 링크나 QR 하나만 보내면 연 사람은 바로 멤버가 되고, 모두의 사진이 원본 그대로 각자의 사진 앱에 모여요. 한 명씩 추가할 필요가 없어요.")
                     } actions: {
-                        Button("이벤트 만들기") { isCreating = true }
+                        Button("앨범 만들기") { isCreating = true }
                             .buttonStyle(.borderedProminent)
-                        // 받는 사람이 아니라 보내는 사람으로 설치했을 때
-                        Button("사진 보내기") { isSending = true }
+                        // 초대받은 사람으로 설치했을 때
+                        Button("받은 앨범에 참여") { isJoining = true }
                             .buttonStyle(.bordered)
                     }
                 } else {
@@ -78,13 +76,13 @@ struct EventListView: View {
                     }
                 }
                 ToolbarItem(placement: .primaryAction) {
-                    // 다른 사람의 QR 을 찍어 보낸다 — 근처면 인터넷 없이 (→ SendPhotosView)
+                    // 다른 사람의 앨범 QR 을 찍거나 링크를 붙여 넣어 들어간다 (→ JoinAlbumView)
                     Button {
-                        isSending = true
+                        isJoining = true
                     } label: {
-                        Image(systemName: "paperplane")
+                        Image(systemName: "qrcode.viewfinder")
                     }
-                    .accessibilityLabel("사진 보내기")
+                    .accessibilityLabel("앨범 참여")
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button {
@@ -94,7 +92,7 @@ struct EventListView: View {
                     } label: {
                         Image(systemName: "plus")
                     }
-                    .accessibilityLabel("이벤트 만들기")
+                    .accessibilityLabel("앨범 만들기")
                 }
             }
             .onChange(of: eventRouter.createRequest, initial: true) { _, request in
@@ -109,8 +107,8 @@ struct EventListView: View {
             .sheet(isPresented: $isCreating) {
                 CreateEventView()
             }
-            .sheet(isPresented: $isSending) {
-                SendPhotosView()
+            .sheet(isPresented: $isJoining) {
+                JoinAlbumView { id in path = [id] }
             }
             .fullScreenCover(isPresented: $isShowingOnboarding) {
                 OnboardingView()
@@ -206,7 +204,8 @@ private struct EventRow: View {
     }
 
     private var subtitle: String {
-        let count = String(localized: "받은 사진 \(event.receivedCount)개")
+        let members = Set((event.members ?? []) + (event.uploaders ?? [:]).values).count
+        let count = String(localized: "멤버 \(members)명 · 사진 \(event.receivedCount)개")
         guard let last = event.lastReceivedAt else { return count }
         return String(localized: "\(count) · 마지막 \(last.formatted(date: .abbreviated, time: .shortened))")
     }

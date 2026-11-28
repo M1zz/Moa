@@ -4,10 +4,12 @@ import SwiftUI
 /// PHPicker runs out of process and needs no photo-library permission,
 /// which makes it the right picker for an App Clip.
 struct MediaPicker: UIViewControllerRepresentable {
+    /// The app passes the library so each result carries its asset id. The App Clip has none.
+    var library: PHPhotoLibrary?
     var onPick: ([PHPickerResult]) -> Void
 
     func makeUIViewController(context: Context) -> PHPickerViewController {
-        var configuration = PHPickerConfiguration()
+        var configuration = library.map(PHPickerConfiguration.init(photoLibrary:)) ?? PHPickerConfiguration()
         configuration.selectionLimit = 0
         configuration.selection = .ordered
         configuration.filter = .any(of: [.images, .livePhotos, .videos])

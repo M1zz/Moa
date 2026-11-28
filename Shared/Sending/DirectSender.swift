@@ -10,6 +10,7 @@ enum DirectSender {
     static func send(
         _ media: PreparedMedia,
         uploader: String?,
+        from: String? = nil,
         to invitation: DirectInvitation,
         nearby: NWEndpoint? = nil
     ) async throws {
@@ -29,6 +30,7 @@ enum DirectSender {
         let header = DirectHeader(
             key: invitation.key,
             uploader: uploader,
+            from: from,
             capturedAt: media.capturedAt,
             location: media.location,
             resources: media.resources.map {
